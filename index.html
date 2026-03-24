@@ -300,45 +300,179 @@ input,textarea{font-family:inherit;}
 /* Email detail toolbar */
 .email-toolbar{
   height:40px;min-height:40px;
-  display:flex;align-items:center;gap:2px;
-  padding:0 10px;
+  display:flex;align-items:center;gap:1px;
+  padding:0 8px;
   border-bottom:1px solid #e0e0e0;
-  flex-shrink:0;
+  flex-shrink:0;background:#fff;
 }
 .etb-btn{
   display:flex;align-items:center;gap:4px;
-  padding:4px 8px;font-size:12px;color:#242424;
+  padding:4px 7px;font-size:12px;color:#242424;
   border:1px solid transparent;border-radius:3px;
   background:none;cursor:pointer;white-space:nowrap;
 }
 .etb-btn:hover{background:#f5f5f5;border-color:#e0e0e0;}
 .etb-btn svg{width:13px;height:13px;}
-.etb-sep{width:1px;height:18px;background:#e0e0e0;margin:0 2px;}
+.etb-sep{width:1px;height:18px;background:#e0e0e0;margin:0 3px;}
 .etb-spacer{flex:1;}
-.etb-btn.primary{background:#0f6cbd;color:#fff;border-color:#0f6cbd;}
+.etb-btn.primary{
+  background:#0f6cbd;color:#fff;border-color:#0f6cbd;
+  padding:4px 12px;border-radius:2px;font-size:12px;
+  display:flex;align-items:center;gap:4px;
+}
 .etb-btn.primary:hover{background:#115ea3;}
-/* Email subject bar */
-.email-subject-bar{
-  padding:10px 16px 6px;
-  border-bottom:1px solid #e0e0e0;
+/* Scheduling hint bar */
+.ed-hint-bar{
+  display:flex;align-items:center;gap:8px;
+  padding:5px 12px;
+  background:#f0f6ff;
+  border-bottom:1px solid #d0e4ff;
+  font-size:11.5px;color:#1e3a5f;
   flex-shrink:0;
 }
-.email-subject-title{font-size:17px;font-weight:600;color:#242424;margin-bottom:4px;}
-.email-subject-meta{display:flex;align-items:center;gap:16px;font-size:11px;color:#616161;}
-.esm-item{display:flex;flex-direction:column;gap:1px;}
-.esm-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.3px;}
-.esm-val{font-size:12px;color:#242424;font-weight:500;}
-/* Email body */
-.email-body-wrap{flex:1;overflow-y:auto;padding:16px;}
-.email-from-row{
-  display:flex;align-items:center;gap:10px;
-  margin-bottom:12px;
+.ed-hint-bar svg{width:14px;height:14px;color:#0f6cbd;flex-shrink:0;}
+.ed-hint-bar-text{flex:1;}
+.ed-hint-btn{
+  padding:3px 10px;font-size:11px;
+  background:#0f6cbd;color:#fff;border:none;border-radius:2px;cursor:pointer;
+  white-space:nowrap;
 }
-.efr-av{
-  width:32px;height:32px;min-width:32px;border-radius:50%;
+.ed-hint-btn:hover{background:#115ea3;}
+/* Email record header */
+.ed-rec-hdr{
+  padding:8px 14px 0;
+  border-bottom:1px solid #e0e0e0;
+  flex-shrink:0;background:#fff;
+}
+.ed-rec-title-row{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:6px;
+}
+.ed-rec-title-left{}
+.ed-rec-title{font-size:16px;font-weight:600;color:#242424;line-height:1.3;}
+.ed-rec-saved{font-size:12px;font-weight:400;color:#616161;margin-left:6px;}
+.ed-rec-breadcrumb{font-size:11px;color:#616161;margin-top:2px;}
+.ed-rec-breadcrumb a{color:#0f6cbd;font-size:11px;}
+.ed-rec-meta{
+  display:flex;align-items:center;gap:20px;
+  font-size:11px;flex-shrink:0;
+}
+.erm-item{display:flex;flex-direction:column;gap:1px;min-width:56px;}
+.erm-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.3px;}
+.erm-val{font-size:12px;color:#242424;font-weight:500;}
+.erm-owner{display:flex;align-items:center;gap:5px;}
+.erm-av{
+  width:22px;height:22px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:#fff;
+  font-size:9px;font-weight:700;color:#fff;flex-shrink:0;
 }
+/* Email record tabs */
+.ed-tabs{display:flex;margin-top:4px;}
+.ed-tab{
+  padding:6px 14px;font-size:13px;color:#616161;
+  border-bottom:2px solid transparent;cursor:pointer;
+  white-space:nowrap;
+}
+.ed-tab:hover{color:#242424;}
+.ed-tab.active{color:#0f6cbd;border-bottom-color:#0f6cbd;}
+.ed-tab-related{display:flex;align-items:center;gap:3px;}
+.ed-tab-related svg{width:10px;height:10px;}
+/* Email body area (center + rhs) */
+.ed-body-wrap{
+  display:flex;flex:1;overflow:hidden;
+}
+/* Center compose pane */
+.ed-center{
+  flex:1;display:flex;flex-direction:column;overflow:hidden;
+  border-right:1px solid #e0e0e0;
+}
+.ed-subject-row{
+  display:flex;align-items:center;
+  padding:6px 14px;
+  border-bottom:1px solid #e0e0e0;
+  flex-shrink:0;background:#fff;
+}
+.ed-subject-label{
+  font-size:12px;color:#616161;width:70px;flex-shrink:0;
+}
+.ed-subject-input{
+  flex:1;border:none;outline:none;
+  font-size:13px;color:#242424;background:transparent;
+}
+/* Email compose card */
+.ed-compose-wrap{
+  flex:1;overflow-y:auto;
+  padding:12px 14px;
+  background:#f5f5f5;
+}
+.ed-compose-card{
+  background:#fff;
+  border:1px solid #e0e0e0;
+  border-radius:2px;
+  min-height:300px;
+  display:flex;flex-direction:column;
+}
+.ed-compose-toolbar{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 10px;
+  border-bottom:1px solid #f0f0f0;
+  flex-shrink:0;
+}
+.ed-compose-tbtn{
+  display:flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:3px;
+  cursor:pointer;color:#616161;border:none;background:none;
+}
+.ed-compose-tbtn:hover{background:#f5f5f5;}
+.ed-compose-tbtn svg{width:13px;height:13px;}
+.ed-compose-body{
+  flex:1;padding:12px 14px;
+  font-size:13px;color:#242424;line-height:1.6;
+  outline:none;
+}
+.ed-compose-body p{margin-bottom:8px;}
+.ed-compose-body .orig-blk{
+  border-top:1px solid #e8e8e8;
+  padding-top:10px;margin-top:10px;
+  color:#616161;font-size:12px;
+}
+.ed-compose-expand{
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  position:absolute;top:6px;right:8px;cursor:pointer;color:#888;
+}
+.ed-compose-expand svg{width:14px;height:14px;}
+/* RHS engagement panel */
+.ed-rhs{
+  width:230px;min-width:210px;
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+  background:#fff;
+  flex-shrink:0;
+}
+.ed-engage-hdr{
+  font-size:12px;font-weight:600;color:#242424;
+  padding:10px 12px 6px;
+  border-bottom:1px solid #e0e0e0;
+}
+.ed-engage-item{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:10px 12px;
+  border-bottom:1px solid #f0f0f0;
+}
+.ed-engage-icon{
+  width:22px;height:22px;min-width:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;flex-shrink:0;
+  margin-top:1px;
+}
+.ed-engage-body{flex:1;}
+.ed-engage-title{font-size:12px;color:#242424;line-height:1.4;}
+.ed-engage-link{font-size:12px;color:#0f6cbd;cursor:pointer;margin-top:2px;display:block;}
+.ed-engage-link:hover{text-decoration:underline;}
+/* legacy compat */
+.email-body-wrap{flex:1;overflow-y:auto;padding:16px;}
+.email-from-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.efr-av{width:32px;height:32px;min-width:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
 .efr-info{flex:1;}
 .efr-name{font-size:13px;font-weight:600;color:#242424;}
 .efr-to{font-size:11px;color:#888;}
@@ -346,13 +480,7 @@ input,textarea{font-family:inherit;}
 .email-divider{border:none;border-top:1px solid #e8e8e8;margin:10px 0;}
 .email-body-text{font-size:13px;color:#242424;line-height:1.6;}
 .email-body-text p{margin-bottom:8px;}
-.email-body-text .orig-msg{
-  border-left:3px solid #e0e0e0;
-  padding:8px 12px;
-  color:#616161;
-  font-size:12px;
-  margin-top:10px;
-}
+.email-body-text .orig-msg{border-left:3px solid #e0e0e0;padding:8px 12px;color:#616161;font-size:12px;margin-top:10px;}
 .email-body-text .orig-label{font-size:11px;color:#888;margin-bottom:4px;font-style:italic;}
 </style>
 </head>
@@ -1566,33 +1694,167 @@ kbd{
             <p>Double-click an email to open it</p>
           </div>
           <div id="inboxDetailContent" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
+
+            <!-- Scheduling hint bar -->
+            <div class="ed-hint-bar" id="edHintBar">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6.5"/><line x1="8" y1="5" x2="8" y2="8.5"/><circle cx="8" cy="11" r=".8" fill="currentColor" stroke="none"/></svg>
+              <span class="ed-hint-bar-text" id="edHintText">The customer will most likely view this email during business hours. Consider scheduling for the best time.</span>
+              <button class="ed-hint-btn">Schedule email</button>
+            </div>
+
             <!-- Toolbar -->
             <div class="email-toolbar">
-              <button class="etb-btn"><svg><use href="#ic-mail"/></svg> Reply</button>
-              <button class="etb-btn"><svg><use href="#ic-mail"/></svg> Reply All</button>
-              <button class="etb-btn"><svg><use href="#ic-share"/></svg> Forward</button>
+              <!-- back arrow -->
+              <button class="etb-btn" style="padding:4px 5px;" title="Back">
+                <svg width="14" height="14" viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </button>
               <div class="etb-sep"></div>
+              <button class="etb-btn">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" width="13" height="13"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9,3 14,8 9,13"/></svg>
+                Send
+              </button>
               <button class="etb-btn"><svg><use href="#ic-save"/></svg> Save</button>
               <button class="etb-btn"><svg><use href="#ic-save"/></svg> Save &amp; Close</button>
               <button class="etb-btn"><svg><use href="#ic-refresh"/></svg> Refresh</button>
               <div class="etb-sep"></div>
-              <button class="etb-btn"><svg><use href="#ic-cases"/></svg> Create Case</button>
+              <button class="etb-btn">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" width="13" height="13"><circle cx="8" cy="8" r="6.5"/><line x1="8" y1="5" x2="8" y2="11"/><line x1="5" y1="8" x2="11" y2="8"/></svg>
+                Check Access
+              </button>
+              <button class="etb-btn">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" width="13" height="13"><circle cx="5" cy="8" r="2.5"/><circle cx="11" cy="4" r="2.5"/><circle cx="11" cy="12" r="2.5"/><line x1="7.4" y1="6.8" x2="8.8" y2="5.5"/><line x1="7.4" y1="9.2" x2="8.8" y2="10.5"/></svg>
+                Collaborate
+              </button>
+              <button class="etb-btn">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" width="13" height="13"><rect x="2" y="3" width="9" height="11" rx="1"/><path d="M5 3V2h8v10h-1"/></svg>
+                Attach File
+              </button>
+              <button class="etb-btn" style="padding:4px 5px;">
+                <svg viewBox="0 0 16 16" width="14" height="14"><circle cx="4" cy="8" r="1.2" fill="currentColor"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><circle cx="12" cy="8" r="1.2" fill="currentColor"/></svg>
+              </button>
               <div class="etb-spacer"></div>
-              <button class="etb-btn primary"><svg><use href="#ic-share"/></svg> Share</button>
+              <button class="etb-btn primary">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" width="13" height="13"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h10a1 1 0 001-1V9"/><polyline points="10,2 14,2 14,6"/><line x1="14" y1="2" x2="7" y2="9"/></svg>
+                Share
+                <svg viewBox="0 0 10 10" width="10" height="10"><polyline points="2,3 5,7 8,3" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+              </button>
             </div>
-            <!-- Subject + meta -->
-            <div class="email-subject-bar">
-              <div class="email-subject-title" id="edSubject">Subject</div>
-              <div class="email-subject-meta">
-                <div class="esm-item"><span class="esm-label">Priority</span><span class="esm-val" id="edPriority">Normal</span></div>
-                <div class="esm-item"><span class="esm-label">Status</span><span class="esm-val" id="edStatus">Open</span></div>
-                <div class="esm-item"><span class="esm-label">CIN</span><span class="esm-val" id="edCin">&mdash;</span></div>
-                <div class="esm-item"><span class="esm-label">Case</span><span class="esm-val" id="edCase" style="color:#0f6cbd;">&mdash;</span></div>
+
+            <!-- Record header: title + meta -->
+            <div class="ed-rec-hdr">
+              <div class="ed-rec-title-row">
+                <div class="ed-rec-title-left">
+                  <div>
+                    <span class="ed-rec-title" id="edSubject">Subject</span>
+                    <span class="ed-rec-saved">&ndash; Saved</span>
+                  </div>
+                  <div class="ed-rec-breadcrumb">Email &middot; <a href="#">Email</a> <svg width="10" height="10" viewBox="0 0 10 10" style="vertical-align:middle;"><polyline points="3,2 7,5 3,8" fill="none" stroke="#888" stroke-width="1.3"/></svg></div>
+                </div>
+                <div class="ed-rec-meta">
+                  <div class="erm-item">
+                    <span class="erm-label">Priority</span>
+                    <span class="erm-val" id="edPriority">Normal</span>
+                  </div>
+                  <div class="erm-item">
+                    <span class="erm-label">Due</span>
+                    <span class="erm-val" style="color:#888;">&mdash;&mdash;&mdash;</span>
+                  </div>
+                  <div class="erm-item">
+                    <span class="erm-label">Status Reason</span>
+                    <span class="erm-val" id="edStatus">Open</span>
+                  </div>
+                  <div class="erm-item">
+                    <span class="erm-label">Owner</span>
+                    <div class="erm-owner">
+                      <div class="erm-av" id="edOwnerAv" style="background:#db0011;">SK</div>
+                      <div>
+                        <div class="erm-val" id="edOwnerName">Sarah Khan</div>
+                      </div>
+                      <svg width="12" height="12" viewBox="0 0 12 12" style="color:#888;"><polyline points="2,4 6,8 10,4" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Tab strip -->
+              <div class="ed-tabs">
+                <div class="ed-tab active">Email</div>
+                <div class="ed-tab ed-tab-related">
+                  Related
+                  <svg viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+                </div>
               </div>
             </div>
-            <!-- Body scroll area -->
-            <div class="email-body-wrap" id="edBody">
-            </div>
+
+            <!-- Body area: center compose + RHS panel -->
+            <div class="ed-body-wrap">
+
+              <!-- Center compose pane -->
+              <div class="ed-center">
+                <!-- Subject row -->
+                <div class="ed-subject-row">
+                  <span class="ed-subject-label">Subject</span>
+                  <input class="ed-subject-input" id="edSubjectInput" type="text" readonly/>
+                </div>
+                <!-- Compose card -->
+                <div class="ed-compose-wrap">
+                  <div class="ed-compose-card" style="position:relative;">
+                    <!-- expand icon top-right -->
+                    <div class="ed-compose-expand">
+                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><polyline points="10,2 14,2 14,6"/><polyline points="6,14 2,14 2,10"/><line x1="14" y1="2" x2="9" y2="7"/><line x1="2" y1="14" x2="7" y2="9"/></svg>
+                    </div>
+                    <!-- mini format toolbar -->
+                    <div class="ed-compose-toolbar">
+                      <button class="ed-compose-tbtn" title="Bold"><svg viewBox="0 0 14 14"><text x="2" y="11" font-size="11" font-weight="bold" fill="currentColor">B</text></svg></button>
+                      <button class="ed-compose-tbtn" title="Italic"><svg viewBox="0 0 14 14"><text x="4" y="11" font-size="11" font-style="italic" fill="currentColor">I</text></svg></button>
+                      <button class="ed-compose-tbtn" title="Underline"><svg viewBox="0 0 14 14"><text x="2" y="10" font-size="10" fill="currentColor" text-decoration="underline">U</text></svg></button>
+                      <div style="width:1px;height:14px;background:#e0e0e0;margin:0 3px;"></div>
+                      <button class="ed-compose-tbtn" title="Bullet list">
+                        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="2.5" cy="4" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="4" x2="12" y2="4"/><circle cx="2.5" cy="8" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="8" x2="12" y2="8"/><circle cx="2.5" cy="12" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="12" x2="12" y2="12"/></svg>
+                      </button>
+                      <button class="ed-compose-tbtn" title="Undo">
+                        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 7 a5 5 0 1 1 .5 3.5"/><polyline points="2,4 2,8 6,8"/></svg>
+                      </button>
+                    </div>
+                    <!-- Body -->
+                    <div class="ed-compose-body" id="edBody" contenteditable="true"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RHS engagement panel -->
+              <div class="ed-rhs">
+                <div class="ed-engage-hdr">Email Engagement</div>
+                <div class="ed-engage-item">
+                  <div class="ed-engage-icon" style="background:#db0011;">
+                    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" width="12" height="12"><rect x="1" y="2" width="12" height="10" rx="1"/><polyline points="1,2 7,8 13,2"/></svg>
+                  </div>
+                  <div class="ed-engage-body">
+                    <div class="ed-engage-title">Recipient Activity will not be followed.</div>
+                    <a class="ed-engage-link">Follow</a>
+                  </div>
+                </div>
+                <div class="ed-engage-item" id="edEngageBizHours">
+                  <div class="ed-engage-icon" style="background:#107c10;">
+                    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" width="12" height="12"><circle cx="7" cy="7" r="5.5"/><polyline points="7,4 7,7 9.5,9"/></svg>
+                  </div>
+                  <div class="ed-engage-body">
+                    <div class="ed-engage-title" id="edEngageBizText">It is outside business hours for the customer. We suggest you schedule this email for the best time.</div>
+                    <a class="ed-engage-link">Delay Send</a>
+                  </div>
+                </div>
+                <div class="ed-engage-item">
+                  <div class="ed-engage-icon" style="background:#8a8a8a;">
+                    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" width="12" height="12"><circle cx="7" cy="7" r="5.5"/><line x1="7" y1="4" x2="7" y2="7"/><circle cx="7" cy="9.5" r=".8" fill="currentColor" stroke="none"/></svg>
+                  </div>
+                  <div class="ed-engage-body">
+                    <div class="ed-engage-title">Set a reminder to follow up on this email.</div>
+                    <a class="ed-engage-link">Set a Reminder</a>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /ed-body-wrap -->
+
           </div>
         </div><!-- /inbox-detail -->
 
@@ -1914,23 +2176,39 @@ function selectEmailRow(row, id) {
 function openEmailDetail(id) {
   const d = EMAIL_DATA[id];
   if (!d) return;
+  // Show detail panel
   document.getElementById('inboxDetailEmpty').style.display = 'none';
   const cont = document.getElementById('inboxDetailContent');
   cont.style.display = 'flex';
+  // Populate subject (header title + subject input)
   document.getElementById('edSubject').textContent = d.subject;
+  if (document.getElementById('edSubjectInput'))
+    document.getElementById('edSubjectInput').value = d.subject;
+  // Priority / status
   document.getElementById('edPriority').textContent = d.priority;
   document.getElementById('edStatus').textContent = d.status;
-  document.getElementById('edCin').textContent = d.cin;
-  document.getElementById('edCase').textContent = d.caseNo;
+  // Owner (use sender as a proxy for assigned agent)
+  if (document.getElementById('edOwnerName'))
+    document.getElementById('edOwnerName').textContent = 'Sarah Khan';
+  if (document.getElementById('edOwnerAv'))
+    document.getElementById('edOwnerAv').textContent = 'SK';
+  // Hint bar: show sender name
+  const hintText = document.getElementById('edHintText');
+  if (hintText)
+    hintText.textContent = d.from + ' will most likely view this email during business hours. Consider scheduling for the best time.';
+  // Engagement: business hours note with CIN
+  const bizText = document.getElementById('edEngageBizText');
+  if (bizText)
+    bizText.textContent = 'It is outside business hours for ' + d.from + '. We suggest you schedule this email for the best time.';
+  // Compose body: from header + original message
   document.getElementById('edBody').innerHTML =
-    '<div class="email-from-row">' +
-    '<div class="efr-av" style="background:' + d.avBg + ';">' + d.avInit + '</div>' +
-    '<div class="efr-info">' +
-    '<div class="efr-name">' + d.from + ' <span style="font-weight:400;color:#888;">&lt;' + d.fromEmail + '&gt;</span></div>' +
-    '<div class="efr-to">To: ' + d.to + '</div>' +
-    '</div>' +
-    '<div class="efr-time">' + d.time + '</div>' +
-    '</div><hr class="email-divider"/><div class="email-body-text">' + d.body + '</div>';
+    '<p style="color:#888;font-size:11px;border-bottom:1px solid #e8e8e8;padding-bottom:8px;margin-bottom:10px;">' +
+    '<strong style="color:#242424;">' + d.from + '</strong>' +
+    ' &lt;' + d.fromEmail + '&gt;' +
+    '<br/>To: <span style="color:#616161;">' + d.to + '</span>' +
+    '<br/><span style="float:right;">' + d.time + '</span>' +
+    '</p>' +
+    d.body;
 }
 
 function updateCinBadges() {
