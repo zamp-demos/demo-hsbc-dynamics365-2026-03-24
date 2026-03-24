@@ -3298,6 +3298,11 @@ function closeCaseTab(e) {
 
 // ── INBOX ─────────────────────────────────────────────────────────────────────
 function showInbox() {
+  // Close cases: hide cases session tab
+  const casesTab = document.getElementById('casesListSessionTab');
+  if (casesTab) { casesTab.classList.add('hidden'); casesTab.classList.remove('active'); }
+  const clv = document.getElementById('casesListView');
+  if (clv) { clv.style.display = 'none'; clv.classList.add('hidden'); }
   // Hide all views
   ['homePlaceholder','contactView','caseView','emailView'].forEach(function(vid) {
     const el = document.getElementById(vid);
@@ -3307,6 +3312,9 @@ function showInbox() {
   const iv = document.getElementById('inboxView');
   iv.style.display = 'flex';
   iv.classList.remove('hidden');
+  // Show + activate inbox session tab
+  const inboxTab = document.getElementById('inboxSessionTab');
+  if (inboxTab) { inboxTab.classList.remove('hidden'); }
   // Update active tab
   document.querySelectorAll('.sb-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('inboxSessionTab').classList.add('active');
@@ -3472,6 +3480,11 @@ function toggleAssistMenu() {
 // ── CASES VIEW ─────────────────────────────────────────────────
 
 function showCasesView() {
+  // Close inbox: hide inbox session tab, close inline email if open
+  const inboxTab = document.getElementById('inboxSessionTab');
+  if (inboxTab) { inboxTab.classList.remove('active'); inboxTab.classList.add('hidden'); }
+  const emailTab = document.getElementById('emailSessionTab');
+  if (emailTab) emailTab.remove();
   // Show Cases session tab
   const clt = document.getElementById('casesListSessionTab');
   if (clt) { clt.classList.remove('hidden'); clt.style.display=''; }
