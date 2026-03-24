@@ -720,72 +720,129 @@ input,textarea{font-family:inherit;}
 <style>
 /* ── COPILOT RIGHT PANEL ──────────────────────────────── */
 .copilot-panel{
-  width:288px; min-width:288px;
+  width:290px; min-width:290px;
   background:#fff;
   border-left:1px solid #e0e0e0;
   display:flex; flex-direction:column;
   overflow:hidden;
-  transition:width .2s ease, min-width .2s ease;
+  transition:width .22s ease, min-width .22s ease, border .22s ease;
   flex-shrink:0;
 }
-/* COLLAPSED — panel hidden, icon rail stays */
-.copilot-panel.collapsed{ width:0; min-width:0; border-left:none; }
+.copilot-panel.collapsed{
+  width:0; min-width:0; border-left:none;
+}
+/* Prevent body flash during collapse */
+.copilot-panel.collapsed > *{ opacity:0; pointer-events:none; }
+.copilot-panel > *{ transition:opacity .15s ease; }
 
 /* HEADER */
-.cp-header{ padding:12px 14px 8px; border-bottom:1px solid #e8e8e8; flex-shrink:0; }
-.cp-title-row{ display:flex; align-items:center; gap:8px; margin-bottom:4px; }
-.cp-title-text{ font-size:15px; font-weight:700; color:#242424; }
-.cp-sub{ font-size:12px; color:#616161; line-height:1.4; }
+.cp-header{
+  padding:14px 14px 10px;
+  border-bottom:1px solid #ebebeb;
+  flex-shrink:0;
+}
+.cp-title-row{
+  display:flex; align-items:center; gap:8px; margin-bottom:5px;
+}
+.cp-title-text{
+  font-size:15px; font-weight:700; color:#242424; letter-spacing:-.01em;
+}
+.cp-sub{
+  font-size:12px; color:#616161; line-height:1.45;
+}
 
 /* TABS */
-.cp-tabs{ display:flex; border-bottom:1px solid #e0e0e0; flex-shrink:0; }
-.cp-tab{ flex:1; padding:9px 4px; text-align:center; font-size:13px; color:#616161; cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; }
-.cp-tab.active{ color:#0f6cbd; border-bottom-color:#0f6cbd; font-weight:600; }
+.cp-tabs{
+  display:flex; border-bottom:1px solid #e0e0e0; flex-shrink:0;
+}
+.cp-tab{
+  flex:1; padding:9px 8px; text-align:center;
+  font-size:13px; color:#616161; cursor:pointer;
+  border-bottom:2px solid transparent;
+  white-space:nowrap; user-select:none;
+  transition:color .15s;
+}
+.cp-tab.active{
+  color:#0f6cbd; border-bottom-color:#0f6cbd; font-weight:600;
+}
+.cp-tab:hover:not(.active){ color:#424242; }
 
-/* BODY */
-.cp-body{ flex:1; overflow-y:auto; padding:16px 14px 8px; }
+/* SCROLLABLE BODY */
+.cp-body{
+  flex:1; overflow-y:auto; padding:14px 14px 8px;
+  scrollbar-width:thin; scrollbar-color:#d0d0d0 transparent;
+}
 
 /* ILLUSTRATION */
-.cp-illus{ display:flex; flex-direction:column; align-items:center; padding:8px 0 20px; }
-.cp-greeting{ font-size:14px; font-weight:700; color:#0f6cbd; text-align:center; margin-top:12px; margin-bottom:4px; }
-.cp-greeting-sub{ font-size:12px; color:#616161; text-align:center; line-height:1.4; }
+.cp-illus{
+  display:flex; flex-direction:column; align-items:center;
+  padding:4px 0 16px;
+}
+.cp-greeting{
+  font-size:14px; font-weight:700; color:#0f6cbd;
+  text-align:center; margin-top:10px; margin-bottom:4px;
+}
+.cp-greeting-sub{
+  font-size:12px; color:#616161; text-align:center; line-height:1.45;
+}
 
 /* TIPS */
-.cp-tip{ display:flex; align-items:flex-start; gap:9px; font-size:12px; color:#424242; margin-bottom:12px; line-height:1.5; }
-.cp-tip-svg{ width:16px; height:16px; flex-shrink:0; margin-top:1px; }
-.cp-link{ color:#0f6cbd; font-size:12px; text-decoration:none; }
+.cp-tip{
+  display:flex; align-items:flex-start; gap:9px;
+  font-size:12px; color:#424242; margin-bottom:11px; line-height:1.5;
+}
+.cp-tip-svg{
+  width:16px; height:16px; flex-shrink:0; margin-top:1px;
+}
+.cp-link{
+  color:#0f6cbd; font-size:12px; text-decoration:none;
+}
 .cp-link:hover{ text-decoration:underline; }
 
-/* SUGGESTION PILLS */
+/* SUGGESTION PILL */
 .cp-suggestion{
-  border:1px solid #d0d0d0; border-radius:16px;
-  padding:8px 14px; font-size:12px; color:#242424;
+  border:1px solid #d4d4d4; border-radius:16px;
+  padding:9px 14px; font-size:12px; color:#242424;
   cursor:pointer; margin-bottom:8px; line-height:1.4;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  transition:background .15s;
 }
 .cp-suggestion:hover{ background:#f5f5f5; }
 
 /* INPUT ROW */
 .cp-input-row{
   display:flex; align-items:center; gap:8px;
-  padding:10px 14px; border-top:1px solid #e8e8e8; flex-shrink:0;
+  padding:10px 12px; border-top:1px solid #ebebeb; flex-shrink:0;
+}
+.cp-avatar{
+  width:26px; height:26px; min-width:26px;
+  border-radius:50%; background:#7b2fb5;
+  color:#fff; font-size:11px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
 }
 .cp-input-row input{
-  flex:1; border:1px solid #d0d0d0; border-radius:20px;
-  padding:7px 14px; font-size:12px; outline:none; color:#242424;
-  background:#fafafa;
+  flex:1; border:1px solid #d4d4d4; border-radius:20px;
+  padding:7px 13px; font-size:12px; outline:none; color:#242424;
+  background:#fafafa; font-family:inherit;
 }
-.cp-input-row input:focus{ border-color:#0f6cbd; background:#fff; }
+.cp-input-row input:focus{
+  border-color:#0f6cbd; background:#fff;
+}
 .cp-send{
-  background:none; border:none; cursor:pointer; padding:4px;
-  display:flex; align-items:center; flex-shrink:0;
+  background:none; border:none; cursor:pointer; padding:5px;
+  display:flex; align-items:center; flex-shrink:0; border-radius:50%;
+  transition:background .15s;
 }
-.cp-send:hover opacity{ .8; }
+.cp-send:hover{ background:#f0f0f0; }
 
 /* DISCLAIMER */
-.cp-disclaimer{ font-size:10px; color:#888; padding:4px 14px 10px; line-height:1.5; }
+.cp-disclaimer{
+  font-size:10.5px; color:#888;
+  padding:4px 14px 10px; line-height:1.5;
+}
 
-/* ── ICON RAIL/* ── ICON RAIL/* ── ICON RAIL (far right) ────────────────────────────── */
+/* ── ICON RAIL (far right) ────────────────────────────── */
 .icon-rail{
   width:40px;min-width:40px;
   background:#fff;border-left:1px solid #e0e0e0;
@@ -2000,82 +2057,163 @@ kbd{
 
   </div><!-- /mainArea -->
 
-  <!-- ══ COPILOT RIGHT PANEL ════─────────────────────── -->
+  <!-- ══ COPILOT RIGHT PANEL ══════════════════════════════ -->
   <div class="copilot-panel" id="copilotPanel">
+
+    <!-- Header -->
     <div class="cp-header">
       <div class="cp-title-row">
+        <!-- Copilot sparkle icon (purple→blue gradient square with star) -->
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;">
-          <rect width="20" height="20" rx="4" fill="url(#cpGrad)"/>
-          <defs><linearGradient id="cpGrad" x1="0" y1="0" x2="20" y2="20"><stop offset="0%" stop-color="#7b2fb5"/><stop offset="100%" stop-color="#4f8ef7"/></linearGradient></defs>
-          <path d="M10 4l1.2 3.8L15 9l-3.8 1.2L10 14l-1.2-3.8L5 9l3.8-1.2Z" fill="#fff"/>
+          <defs>
+            <linearGradient id="cpG" x1="0" y1="0" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#7b2fb5"/>
+              <stop offset="100%" stop-color="#4488ee"/>
+            </linearGradient>
+          </defs>
+          <rect width="20" height="20" rx="4" fill="url(#cpG)"/>
+          <path d="M10 4.5l1.1 3.4L14.5 9l-3.4 1.1L10 13.5l-1.1-3.4L5.5 9l3.4-1.1Z" fill="white"/>
+          <circle cx="14.5" cy="5.5" r="1" fill="white" opacity=".7"/>
         </svg>
         <span class="cp-title-text">Copilot</span>
       </div>
       <div class="cp-sub">Get AI-powered help with solving customer issues.</div>
     </div>
+
+    <!-- Tabs -->
     <div class="cp-tabs">
-      <div class="cp-tab active">Ask a question</div>
-      <div class="cp-tab">Write an email</div>
+      <div class="cp-tab active" onclick="cpTabSwitch(this)">Ask a question</div>
+      <div class="cp-tab" onclick="cpTabSwitch(this)">Write an email</div>
     </div>
+
+    <!-- Body -->
     <div class="cp-body">
+
+      <!-- Illustration -->
       <div class="cp-illus">
-        <svg width="110" height="88" viewBox="0 0 110 88" fill="none">
-          <rect x="8" y="8" width="72" height="52" rx="10" fill="#ede9f8"/>
-          <rect x="18" y="22" width="42" height="5" rx="2.5" fill="#b8a9e8"/>
-          <rect x="18" y="32" width="34" height="5" rx="2.5" fill="#c8baf0"/>
-          <path d="M76 10l1.5 4.5L82 16l-4.5 1.5L76 22l-1.5-4.5L70 16l4.5-1.5Z" fill="#7b4fcf"/>
-          <path d="M84 6l.8 2.4L87.2 9l-2.4.8L84 12.2l-.8-2.4L80.8 9l2.4-.8Z" fill="#4f8ef7" opacity=".8"/>
-          <circle cx="74" cy="62" r="20" fill="#6b3fc7"/>
-          <circle cx="66" cy="62" r="3" fill="#fff"/>
-          <circle cx="74" cy="62" r="3" fill="#fff"/>
-          <circle cx="82" cy="62" r="3" fill="#fff"/>
-          <path d="M58 78L68 70L60 68Z" fill="#6b3fc7"/>
+        <svg width="120" height="96" viewBox="0 0 120 96" fill="none">
+          <!-- Chat bubble card background -->
+          <rect x="6" y="6" width="76" height="56" rx="10" fill="#ece8f9"/>
+          <!-- Lines on card -->
+          <rect x="16" y="20" width="46" height="5" rx="2.5" fill="#c0b0e8"/>
+          <rect x="16" y="30" width="36" height="5" rx="2.5" fill="#cec0f0"/>
+          <rect x="16" y="40" width="24" height="5" rx="2.5" fill="#d8d0f4"/>
+          <!-- Sparkle big -->
+          <path d="M79 8l1.6 5L86 14.6l-5.4 1.6L79 21.2l-1.6-5.6L72.2 14l5.2-1.6Z" fill="#7b3fcf"/>
+          <!-- Sparkle small -->
+          <path d="M90 4l.9 2.8L93.7 7.7l-2.8.9L90 11.4l-.9-2.8L86.3 7.7l2.8-.9Z" fill="#4f8ef7" opacity=".85"/>
+          <!-- Purple chat bubble -->
+          <circle cx="80" cy="66" r="22" fill="#6b3fc7"/>
+          <!-- Three dots -->
+          <circle cx="71" cy="66" r="3.2" fill="white"/>
+          <circle cx="80" cy="66" r="3.2" fill="white"/>
+          <circle cx="89" cy="66" r="3.2" fill="white"/>
+          <!-- Tail -->
+          <path d="M62 80 L74 72 L65 70 Z" fill="#6b3fc7"/>
         </svg>
         <div class="cp-greeting">Hi Sarah, what do you need?</div>
         <div class="cp-greeting-sub">Describe it and get an answer generated by AI.</div>
       </div>
+
+      <!-- Tips -->
       <div class="cp-tip">
-        <svg class="cp-tip-svg" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="#888" stroke-width="1.3"/><polyline points="6,9 8.5,11.5 13,6.5" fill="none" stroke="#888" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="cp-tip-svg" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="7.5" stroke="#888" stroke-width="1.3"/>
+          <polyline points="6,9.5 8.2,11.8 12.5,6.5" fill="none" stroke="#888" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
         The more specific you are, the better responses you'll get from Copilot.
       </div>
       <div class="cp-tip">
-        <svg class="cp-tip-svg" viewBox="0 0 18 18" fill="none"><path d="M15 9A6 6 0 1 1 9 3" stroke="#888" stroke-width="1.3" stroke-linecap="round"/><polyline points="9,1.5 9,4.5 12,3" fill="none" stroke="#888" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="cp-tip-svg" viewBox="0 0 18 18" fill="none">
+          <path d="M15.5 9A6.5 6.5 0 1 1 9 2.5" stroke="#888" stroke-width="1.3" stroke-linecap="round"/>
+          <polyline points="9,1 9,4.5 12.5,2.5" fill="none" stroke="#888" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
         Try using Copilot to translate, rephrase your responses, summarize, and change tone.
       </div>
       <div class="cp-tip">
-        <svg class="cp-tip-svg" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="#888" stroke-width="1.3"/><line x1="9" y1="6" x2="9" y2="9.5" stroke="#888" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="12" r=".9" fill="#888"/></svg>
+        <svg class="cp-tip-svg" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="7.5" stroke="#888" stroke-width="1.3"/>
+          <line x1="9" y1="6" x2="9" y2="10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="9" cy="12.5" r=".9" fill="#888"/>
+        </svg>
         AI-generated content can have mistakes. Make sure it's accurate and appropriate. <a href="#" class="cp-link">Read terms</a>
       </div>
-      <div style="margin-top:16px;">
-        <div class="cp-suggestion">How to handle an unauthorised transaction?</div>
-        <div class="cp-suggestion">Draft holding email for HART-CAS-2026-0112</div>
+
+      <!-- Suggestion pill -->
+      <div style="margin-top:14px;">
+        <div class="cp-suggestion" onclick="fillCpInput(this)">How to request an exception for mineral deposits in a S...</div>
       </div>
-    </div>
+    </div><!-- /cp-body -->
+
+    <!-- Input row -->
     <div class="cp-input-row">
-      <input type="text" placeholder="Describe what you need"/>
-      <button class="cp-send">
-        <svg viewBox="0 0 20 20" width="15" height="15" fill="none">
-          <path d="M2.5 10.5L17 3L10.5 17.5L9 11L2.5 10.5Z" fill="#0f6cbd"/>
+      <!-- Avatar -->
+      <div class="cp-avatar">S</div>
+      <input type="text" id="cpInput" placeholder="Describe what you need" onkeydown="cpSend(event)"/>
+      <button class="cp-send" onclick="cpSend({key:'Enter'})">
+        <svg viewBox="0 0 20 20" width="14" height="14" fill="none">
+          <path d="M2.5 10.5L17.5 3L11 17.5L9.2 11.2L2.5 10.5Z" fill="#0f6cbd"/>
         </svg>
       </button>
     </div>
-    <div class="cp-disclaimer">Make sure AI-generated content is accurate and appropriate before using. <a href="#" class="cp-link">Read terms</a></div>
-  </div>
 
-  <!-- ICON RAIL -->
+    <!-- Disclaimer -->
+    <div class="cp-disclaimer">
+      Make sure AI-generated content is accurate and appropriate before using.
+      <a href="#" class="cp-link">Read terms</a>
+    </div>
+
+  </div><!-- /copilot-panel -->
+
+  <!-- ICON RAIL (far right vertical bar) -->
   <div class="icon-rail">
+    <!-- Copilot toggle — active when panel open -->
     <div class="ir-btn ir-copilot active" id="irCopilotBtn" onclick="toggleCopilot()" title="Copilot">
       <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
-        <rect width="20" height="20" rx="4" fill="url(#irCpGrad)"/>
-        <defs><linearGradient id="irCpGrad" x1="0" y1="0" x2="20" y2="20"><stop offset="0%" stop-color="#7b2fb5"/><stop offset="100%" stop-color="#4f8ef7"/></linearGradient></defs>
-        <path d="M10 4l1.2 3.8L15 9l-3.8 1.2L10 14l-1.2-3.8L5 9l3.8-1.2Z" fill="#fff"/>
+        <defs>
+          <linearGradient id="irCpG" x1="0" y1="0" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#7b2fb5"/>
+            <stop offset="100%" stop-color="#4488ee"/>
+          </linearGradient>
+        </defs>
+        <rect width="20" height="20" rx="4" fill="url(#irCpG)"/>
+        <path d="M10 4.5l1.1 3.4L14.5 9l-3.4 1.1L10 13.5l-1.1-3.4L5.5 9l3.4-1.1Z" fill="white"/>
+        <circle cx="14.5" cy="5.5" r="1" fill="white" opacity=".7"/>
       </svg>
     </div>
-    <div class="ir-btn"><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="8" r="3.5"/><path d="M4 18c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></div>
-    <div class="ir-btn"><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="6" x2="16" y2="6"/><line x1="4" y1="10" x2="16" y2="10"/><line x1="4" y1="14" x2="12" y2="14"/></svg></div>
-    <div class="ir-btn"><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="14" height="17" rx="1.5"/><line x1="7" y1="7" x2="13" y2="7"/><line x1="7" y1="10" x2="13" y2="10"/><line x1="7" y1="13" x2="11" y2="13"/></svg></div>
-    <div class="ir-btn"><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="16" height="12" rx="2"/><polyline points="2,4 10,12 18,4"/></svg></div>
-  </div>
+    <!-- Knowledge / Agent icon -->
+    <div class="ir-btn" title="Agent scripts">
+      <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="10" cy="7.5" r="3.2"/>
+        <path d="M4 18c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <!-- Notes icon -->
+    <div class="ir-btn" title="Notes">
+      <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="5" y1="6" x2="15" y2="6" stroke-linecap="round"/>
+        <line x1="5" y1="10" x2="15" y2="10" stroke-linecap="round"/>
+        <line x1="5" y1="14" x2="11" y2="14" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <!-- Knowledge base icon -->
+    <div class="ir-btn" title="Knowledge base">
+      <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="2" width="14" height="16" rx="2"/>
+        <line x1="7" y1="7" x2="13" y2="7" stroke-linecap="round"/>
+        <line x1="7" y1="10" x2="13" y2="10" stroke-linecap="round"/>
+        <line x1="7" y1="13" x2="11" y2="13" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <!-- Video/camera icon -->
+    <div class="ir-btn" title="Screen recording">
+      <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="5" width="12" height="10" rx="2"/>
+        <polyline points="14,8.5 18,6 18,14 14,11.5" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div><!-- /icon-rail -->
+
 </div><!-- /workspace -->
 
 <!-- ══ SEARCH OVERLAY ════════════════════════════════════ -->
@@ -2399,8 +2537,28 @@ function toggleCopilot() {
   const btn   = document.getElementById('irCopilotBtn');
   if (!panel) return;
   const isCollapsed = panel.classList.toggle('collapsed');
-  // Keep icon rail button highlighted only when panel is open
   if (btn) btn.classList.toggle('active', !isCollapsed);
+}
+
+function cpTabSwitch(el) {
+  document.querySelectorAll('.cp-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function fillCpInput(el) {
+  const input = document.getElementById('cpInput');
+  if (input) {
+    input.value = el.textContent.replace(/…$/, '').trim();
+    input.focus();
+  }
+}
+
+function cpSend(e) {
+  if (e.key !== 'Enter') return;
+  const input = document.getElementById('cpInput');
+  if (!input || !input.value.trim()) return;
+  // Visual feedback — clear input
+  input.value = '';
 }
 
 function closeEmailView(e) {
