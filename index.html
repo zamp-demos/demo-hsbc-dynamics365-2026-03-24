@@ -720,77 +720,39 @@ input,textarea{font-family:inherit;}
 <style>
 /* ── COPILOT RIGHT PANEL ──────────────────────────────── */
 .copilot-panel{
-  width:292px; min-width:292px;
+  width:292px; min-width:292px; max-width:292px;
   background:#fff;
   border-left:1px solid #e0e0e0;
   display:flex; flex-direction:column;
   overflow:hidden;
-  transition:width .22s ease, min-width .22s ease;
+  transition:width .2s ease, min-width .2s ease, max-width .2s ease;
   flex-shrink:0;
 }
-/* ---- COLLAPSE TAB (left-edge handle) ---- */
-.cp-collapse-tab{
-  position:absolute;
-  left:-14px; top:50%;
-  transform:translateY(-50%);
-  width:14px; height:44px;
-  background:#f3f3f3;
-  border:1px solid #d0d0d0;
-  border-right:none;
-  border-radius:4px 0 0 4px;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;
-  color:#555;
-  z-index:10;
-  flex-shrink:0;
-}
-.cp-collapse-tab:hover{ background:#e8e8e8; }
-.copilot-panel{ position:relative; }
-.copilot-panel.collapsed .cp-collapse-tab svg{
-  transform:rotate(180deg);
-}
-/* ---- COLLAPSED STATE ---- */
 .copilot-panel.collapsed{
-  width:44px; min-width:44px;
+  width:48px !important; min-width:48px !important; max-width:48px !important;
 }
+/* Hide all content except icon when collapsed */
+.copilot-panel.collapsed .cp-sub,
+.copilot-panel.collapsed .cp-title-text,
 .copilot-panel.collapsed .cp-tabs,
 .copilot-panel.collapsed .cp-body,
 .copilot-panel.collapsed .cp-input-row,
-.copilot-panel.collapsed .cp-disclaimer,
-.copilot-panel.collapsed .cp-sub,
-.copilot-panel.collapsed .cp-title-text{
-  display:none !important;
-}
-.copilot-panel.collapsed .cp-header{
-  display:flex;align-items:center;justify-content:center;
-  padding:12px 0;
-  border-bottom:none;
-}
-.copilot-panel.collapsed .cp-title{
-  justify-content:center;
-  margin-bottom:0;
-}
-/* ---- HEADER ---- */
+.copilot-panel.collapsed .cp-disclaimer { display:none !important; }
+/* flip arrow when collapsed */
+.copilot-panel.collapsed .cp-collapse-btn svg { transform:rotate(180deg); }
+.copilot-panel.collapsed .cp-header { border-bottom:none; justify-content:center; }
+.copilot-panel.collapsed .cp-title { justify-content:center; }
+.copilot-panel.collapsed .cp-collapse-btn { margin-left:0; }
+
+/* HEADER */
 .cp-header{
   padding:10px 12px 8px;
   border-bottom:1px solid #e0e0e0;
   flex-shrink:0;
 }
-.copilot-panel.collapsed .cp-header{
-  padding:10px 0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-bottom:none;
-}
-/* ---- TITLE ROW ---- */
 .cp-title{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:14px;
-  font-weight:600;
-  margin-bottom:4px;
+  display:flex; align-items:center; gap:6px;
+  font-size:14px; font-weight:600; margin-bottom:4px;
 }
 .cp-icon{
   width:22px; height:22px; border-radius:50%;
@@ -798,17 +760,17 @@ input,textarea{font-family:inherit;}
   display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
 .cp-icon svg{ width:12px; height:12px; color:#fff; }
-/* ---- COLLAPSE TOGGLE ---- */
-.cp-toggle{
+/* COLLAPSE BUTTON */
+.cp-collapse-btn{
   margin-left:auto;
-  cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  width:22px; height:22px; border-radius:4px;
-  color:#616161; flex-shrink:0;
+  background:none; border:none; padding:4px 6px;
+  cursor:pointer; border-radius:4px;
+  color:#555; display:flex; align-items:center;
+  flex-shrink:0;
 }
-.cp-toggle:hover{ background:#f0f0f0; }
-.cp-toggle svg{ transition:transform .22s ease; }
-/* ---- REST ---- */
+.cp-collapse-btn:hover{ background:#f0f0f0; }
+.cp-collapse-btn svg{ transition:transform .2s ease; display:block; }
+/* REST */
 .cp-sub{ font-size:11px; color:#616161; }
 .cp-tabs{ display:flex; border-bottom:1px solid #e0e0e0; }
 .cp-tab{
@@ -2038,17 +2000,16 @@ kbd{
   </div><!-- /mainArea -->
 
   <!-- ══ COPILOT RIGHT PANEL ══════════════════════════════ -->
-  <div class="copilot-panel">
-    <!-- Collapse handle tab (always visible on left edge) -->
-    <div class="cp-collapse-tab" onclick="toggleCopilot()" title="Collapse Copilot">
-      <svg id="cpCollapseIcon" viewBox="0 0 10 16" width="10" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="7,2 3,8 7,14"/>
-      </svg>
-    </div>
+  <div class="copilot-panel" id="copilotPanel">
     <div class="cp-header">
       <div class="cp-title">
         <div class="cp-icon"><svg><use href="#ic-sparkle"/></svg></div>
         <span class="cp-title-text">Copilot</span>
+        <button class="cp-collapse-btn" onclick="toggleCopilot()" title="Collapse">
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <polyline points="10,4 6,8 10,12"/>
+          </svg>
+        </button>
       </div>
       <div class="cp-sub">Get AI-powered help with solving customer issues.</div>
     </div>
