@@ -629,6 +629,186 @@ input,textarea{font-family:inherit;}
 .email-body-text p{margin-bottom:8px;}
 .email-body-text .orig-msg{border-left:3px solid #e0e0e0;padding:8px 12px;color:#616161;font-size:12px;margin-top:10px;}
 .email-body-text .orig-label{font-size:11px;color:#888;margin-bottom:4px;font-style:italic;}
+
+/* ── CASES LIST PANEL ─────────────────────────────────────────── */
+.cases-list-panel{
+  width:310px; min-width:310px; flex-shrink:0;
+  background:#fff; border-right:1px solid #e0e0e0;
+  display:flex; flex-direction:column; overflow:hidden;
+}
+.cases-list-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 10px; border-bottom:1px solid #e8e8e8; flex-shrink:0;
+}
+.cases-list-title{ font-size:13px; font-weight:600; color:#242424; }
+.cases-list-icons{ display:flex; gap:2px; }
+.cli-icon{
+  width:24px; height:24px; border-radius:3px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:#616161;
+}
+.cli-icon svg{ width:13px; height:13px; }
+.cli-icon:hover{ background:#f0f0f0; }
+.cases-list-body{ flex:1; overflow-y:auto; scrollbar-width:thin; }
+
+/* Group headers */
+.cl-group-hdr{
+  display:flex; align-items:center; gap:6px;
+  padding:6px 10px; cursor:pointer;
+  font-size:11.5px; font-weight:600; color:#424242;
+  border-bottom:1px solid #f0f0f0;
+  background:#fafafa; user-select:none;
+}
+.cl-group-hdr:hover{ background:#f5f5f5; }
+.cl-chev{
+  width:12px; height:12px; flex-shrink:0;
+  transition:transform .15s; color:#616161;
+}
+.cl-chev.open{ transform:rotate(0deg); }
+.cl-chev.closed{ transform:rotate(-90deg); }
+.cl-count{
+  margin-left:auto; background:#e0e0e0;
+  border-radius:10px; padding:1px 7px;
+  font-size:10px; font-weight:600; color:#424242;
+}
+.cl-group-rows{ overflow:hidden; }
+
+/* Case rows */
+.cl-case-row{
+  display:flex; align-items:flex-start; gap:8px;
+  padding:8px 10px; border-bottom:1px solid #f4f4f4;
+  cursor:pointer;
+}
+.cl-case-row:hover{ background:#f5f5f5; }
+.cl-case-row.active{ background:#eff6fc; border-left:2px solid #0f6cbd; }
+.cl-case-av{
+  width:28px; height:28px; min-width:28px; border-radius:50%;
+  color:#fff; font-size:10px; font-weight:700;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  margin-top:1px;
+}
+.cl-case-body{ flex:1; min-width:0; }
+.cl-case-title{
+  font-size:12px; font-weight:600; color:#242424;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.cl-case-num{ font-size:10.5px; color:#0f6cbd; margin-top:1px; }
+.cl-case-meta{ font-size:10.5px; color:#616161; margin-top:2px; display:flex; align-items:center; gap:4px; }
+.cl-status-dot{
+  width:6px; height:6px; border-radius:50%; flex-shrink:0;
+  background:#107c10; display:inline-block;
+}
+.cl-status-dot.resolved{ background:#888; }
+
+/* Cases detail area */
+.cases-detail-area{
+  flex:1; display:flex; flex-direction:column; overflow:hidden;
+  background:#f5f5f5;
+}
+
+/* ── MODAL OVERLAYS ───────────────────────────────────────────── */
+.modal-overlay{
+  position:fixed; inset:0; z-index:600;
+  background:rgba(0,0,0,0.38);
+  display:flex; align-items:center; justify-content:center;
+}
+.modal-box{
+  background:#fff; border-radius:6px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.22);
+  overflow:hidden; display:flex; flex-direction:column;
+  max-height:90vh;
+}
+.modal-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 18px 12px; border-bottom:1px solid #e8e8e8;
+  flex-shrink:0;
+}
+.modal-title{ font-size:15px; font-weight:700; color:#242424; }
+.modal-close{
+  background:none; border:none; font-size:18px; cursor:pointer;
+  color:#616161; padding:0 4px; line-height:1;
+}
+.modal-close:hover{ color:#242424; }
+.modal-body{
+  padding:16px 18px; overflow-y:auto; flex:1;
+  display:flex; flex-direction:column; gap:12px;
+}
+.modal-row2{ display:flex; gap:12px; }
+.modal-row2 .modal-field{ flex:1; }
+.modal-field{ display:flex; flex-direction:column; gap:4px; }
+.modal-label{
+  font-size:12px; font-weight:600; color:#424242;
+}
+.modal-label .req{ color:#c50f1f; margin-right:2px; }
+.modal-input{
+  border:1px solid #d4d4d4; border-radius:3px;
+  padding:7px 10px; font-size:12px; font-family:inherit;
+  color:#242424; outline:none; background:#fff;
+  width:100%; box-sizing:border-box;
+}
+.modal-input:focus{ border-color:#0f6cbd; }
+.modal-footer{
+  display:flex; gap:8px; padding:12px 18px;
+  border-top:1px solid #e8e8e8; flex-shrink:0;
+}
+.modal-btn{
+  padding:7px 16px; border-radius:3px; font-size:13px;
+  font-weight:600; cursor:pointer; border:1px solid #d4d4d4;
+  background:#fff; color:#242424; font-family:inherit;
+}
+.modal-btn:hover{ background:#f5f5f5; }
+.modal-btn.primary{
+  background:#0f6cbd; color:#fff; border-color:#0f6cbd;
+}
+.modal-btn.primary:hover{ background:#0e5ba8; }
+
+/* Resolve confirmed toast */
+.resolve-toast{
+  position:fixed; top:52px; left:50%; transform:translateX(-50%);
+  background:#107c10; color:#fff; font-size:13px; font-weight:600;
+  padding:10px 20px; border-radius:4px; z-index:700;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  animation:fadeInDown .3s ease;
+}
+@keyframes fadeInDown{
+  from{opacity:0;transform:translateX(-50%) translateY(-10px);}
+  to{opacity:1;transform:translateX(-50%) translateY(0);}
+}
+
+/* accent button for Resolve Case */
+.cmdbtn.accent{ color:#0f6cbd; font-weight:600; }
+
+/* .form-input styling for editable case fields */
+.form-input-wrap{ flex:1; }
+.form-input{
+  width:100%; border:1px solid #d4d4d4; border-radius:3px;
+  padding:5px 8px; font-size:12px; font-family:inherit;
+  color:#242424; outline:none; background:#fff; box-sizing:border-box;
+}
+.form-input:focus{ border-color:#0f6cbd; }
+.form-input[readonly]{ background:#fafafa; color:#888; }
+
+
+/* ── INBOX NAV PANEL ──────────────────────────────────────────── */
+.inbox-nav-panel{
+  width:160px; min-width:160px; flex-shrink:0;
+  background:#fff; border-right:1px solid #e0e0e0;
+  display:flex; flex-direction:column;
+}
+.inbox-nav-header{
+  padding:10px 12px 6px; font-size:11px; font-weight:600;
+  color:#616161; text-transform:uppercase; letter-spacing:.4px;
+}
+.inbox-nav-item{
+  padding:8px 12px; font-size:12.5px; color:#242424;
+  cursor:pointer; border-left:2px solid transparent;
+}
+.inbox-nav-item:hover{ background:#f5f5f5; }
+.inbox-nav-item.active{
+  background:#eff6fc; color:#0f6cbd;
+  border-left-color:#0f6cbd; font-weight:600;
+}
+
 </style>
 </head>
 <style>
@@ -1221,6 +1401,11 @@ kbd{
     HART-CAS-2026-0112
     <div class="sb-tab-close" onclick="closeCaseTab(event)">&#x2715;</div>
   </div>
+  <div class="sb-tab hidden" id="casesListSessionTab" onclick="showCasesView()">
+    <div class="sb-tab-icon"><svg><use href="#ic-cases"/></svg></div>
+    Cases
+    <div class="sb-tab-close" onclick="closeCasesListTab(event)">&#x2715;</div>
+  </div>
 </div>
 
 <!-- ══ WORKSPACE ═════════════════════════════════════════ -->
@@ -1720,8 +1905,8 @@ kbd{
         <button class="cmdbtn"><svg><use href="#ic-save"/></svg> Save &amp; Close</button>
         <button class="cmdbtn"><svg><use href="#ic-route"/></svg> Save &amp; Route</button>
         <button class="cmdbtn"><svg><use href="#ic-refresh"/></svg> Refresh</button>
-        <button class="cmdbtn"><svg><use href="#ic-new"/></svg> New</button>
-        <button class="cmdbtn"><svg><use href="#ic-check"/></svg> Resolve Case</button>
+        <button class="cmdbtn" onclick="openNewCaseModal()"><svg><use href="#ic-new"/></svg> New</button>
+        <button class="cmdbtn accent" onclick="openResolveCaseModal()"><svg><use href="#ic-check"/></svg> Resolve Case</button>
         <button class="cmdbtn"><svg><use href="#ic-cancel"/></svg> Cancel Case</button>
         <button class="cmdbtn"><svg><use href="#ic-assign"/></svg> Assign</button>
         <button class="cmdbtn"><svg><use href="#ic-queue"/></svg> Add to Queue</button>
@@ -1858,6 +2043,17 @@ kbd{
     <!-- ══ INBOX VIEW ══════════════════════════════════════════════ -->
     <div id="inboxView" class="hidden" style="display:none;flex:1;overflow:hidden;">
       <div class="inbox-wrap">
+
+        <!-- Far-left nav panel (Inbox views) -->
+        <div class="inbox-nav-panel">
+          <div class="inbox-nav-header">
+            Inbox views
+          </div>
+          <div class="inbox-nav-item" onclick="void(0)">Assigned conversations</div>
+          <div class="inbox-nav-item active" onclick="showCasesView()">Cases</div>
+          <div class="inbox-nav-item" onclick="void(0)">Resolved conversations</div>
+          <div class="inbox-nav-item" onclick="void(0)">Unassigned conversations</div>
+        </div>
 
         <!-- Left: email list grouped by CIN -->
         <div class="inbox-list">
@@ -2332,6 +2528,392 @@ kbd{
       </div><!-- /ed-body-wrap -->
 
     </div><!-- /emailView -->
+
+
+    <!-- ══ CASES LIST VIEW ═══════════════════════════════════════ -->
+    <div id="casesListView" class="hidden" style="display:none;flex:1;overflow:hidden;flex-direction:column;">
+      <!-- Command bar -->
+      <div class="cmdbar">
+        <button class="cmdbtn primary" onclick="openNewCaseModal()">
+          <svg width="11" height="11" viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          New Case
+        </button>
+        <div class="cmdsep"></div>
+        <button class="cmdbtn"><svg><use href="#ic-refresh"/></svg> Refresh</button>
+        <button class="cmdbtn"><svg><use href="#ic-filter"/></svg> Filter</button>
+        <div class="cmdspacer"></div>
+        <span style="font-size:11px;color:#888;padding:0 8px;">7 Items &nbsp;|&nbsp; Last updated at 11:12 PM</span>
+      </div>
+
+      <!-- Cases list container: left panel + detail -->
+      <div style="display:flex;flex:1;overflow:hidden;">
+
+        <!-- Cases list panel (left) -->
+        <div class="cases-list-panel" id="casesListPanel">
+          <div class="cases-list-header">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <svg width="14" height="14"><use href="#ic-cases"/></svg>
+              <span class="cases-list-title">Cases</span>
+            </div>
+            <div class="cases-list-icons">
+              <div class="cli-icon" title="Search"><svg><use href="#ic-search"/></svg></div>
+              <div class="cli-icon" title="Refresh"><svg><use href="#ic-refresh"/></svg></div>
+              <div class="cli-icon" title="Filter"><svg><use href="#ic-filter"/></svg></div>
+            </div>
+          </div>
+
+          <div class="cases-list-body" id="casesListBody">
+
+            <!-- This week -->
+            <div class="cl-group-hdr" onclick="toggleClGroup(this)">
+              <svg class="cl-chev open" viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span>This week</span>
+              <span class="cl-count">1</span>
+            </div>
+            <div class="cl-group-rows">
+              <div class="cl-case-row active" onclick="openCaseFromList('CAS-47732-V4V6K6','A Mineral Build Up in Water Supply','Claudia Mazzanti','Normal','Active')">
+                <div class="cl-case-av" style="background:#5c2d91;">CM</div>
+                <div class="cl-case-body">
+                  <div class="cl-case-title">A Mineral Build Up in Water Supply</div>
+                  <div class="cl-case-num">CAS-47732-V4V6K6</div>
+                  <div class="cl-case-meta">
+                    <span>Customer: Claudia Mazzanti</span>
+                  </div>
+                  <div class="cl-case-meta">
+                    <span class="cl-status-dot active"></span>Active &bull; Normal &bull; Tue 6:13 AM
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Last week -->
+            <div class="cl-group-hdr" onclick="toggleClGroup(this)">
+              <svg class="cl-chev open" viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span>Last week</span>
+              <span class="cl-count">1</span>
+            </div>
+            <div class="cl-group-rows">
+              <div class="cl-case-row" onclick="openCaseFromList('CAS-47201-Z0Q1R9','Cafe BG-1 dispenses weak coffee','Fourth Coffee','Normal','Active')">
+                <div class="cl-case-av" style="background:#107c10;">FC</div>
+                <div class="cl-case-body">
+                  <div class="cl-case-title">Cafe BG-1 dispenses weak coffee</div>
+                  <div class="cl-case-num">CAS-47201-Z0Q1R9</div>
+                  <div class="cl-case-meta">Customer: Fourth Coffee</div>
+                  <div class="cl-case-meta">
+                    <span class="cl-status-dot active"></span>Active &bull; Normal &bull; Thu 9/12
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- This month -->
+            <div class="cl-group-hdr" onclick="toggleClGroup(this)">
+              <svg class="cl-chev open" viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span>This month</span>
+              <span class="cl-count">5</span>
+            </div>
+            <div class="cl-group-rows">
+              <div class="cl-case-row" onclick="openCaseFromList('CAS-47209-Z0D0H0','Cafe BG-1 stuck on preheating mode','Graphic Design Institute','Low','Active')">
+                <div class="cl-case-av" style="background:#d83b01;">GD</div>
+                <div class="cl-case-body">
+                  <div class="cl-case-title">Cafe BG-1 stuck on preheating mode</div>
+                  <div class="cl-case-num">CAS-47209-Z0D0H0</div>
+                  <div class="cl-case-meta">Customer: Graphic Design Institute</div>
+                  <div class="cl-case-meta">
+                    <span class="cl-status-dot active"></span>Active &bull; Low &bull; Wed 9/4
+                  </div>
+                </div>
+              </div>
+              <div class="cl-case-row" onclick="openCaseFromList('CAS-47282-N1G6J5','Cafe Lite has air bubbles in the lines','Fourth Coffee','Normal','Active')">
+                <div class="cl-case-av" style="background:#107c10;">FC</div>
+                <div class="cl-case-body">
+                  <div class="cl-case-title">Cafe Lite has air bubbles in the lines</div>
+                  <div class="cl-case-num">CAS-47282-N1G6J5</div>
+                  <div class="cl-case-meta">Customer: Fourth Coffee</div>
+                  <div class="cl-case-meta">
+                    <span class="cl-status-dot active"></span>Active &bull; Normal &bull; Wed 9/4
+                  </div>
+                </div>
+              </div>
+              <div class="cl-case-row" onclick="openCaseFromList('CAS-47758-F7T8M1','Boiler plates are leaking regularly','Fourth Coffee','Normal','Active')">
+                <div class="cl-case-av" style="background:#107c10;">FC</div>
+                <div class="cl-case-body">
+                  <div class="cl-case-title">Boiler plates are leaking regularly</div>
+                  <div class="cl-case-num">CAS-47758-F7T8M1</div>
+                  <div class="cl-case-meta">Customer: Fourth Coffee</div>
+                  <div class="cl-case-meta">
+                    <span class="cl-status-dot active"></span>Active &bull; Normal &bull; Wed 9/4
+                  </div>
+                </div>
+              </div>
+              <div class="cl-case-row" onclick="openCaseFromList('CAS-47108-C1L9T7','Airpot Duo won\'t Heat or not hot enough','Trey Research','Normal','Active')">
+                <div class="cl-case-av" style="background:#0078d4;">TR</div>
+                <div class="cl-case-body">
+                  <div class="cl-case-title">Airpot Duo won't Heat or not hot e...</div>
+                  <div class="cl-case-num">CAS-47108-C1L9T7</div>
+                  <div class="cl-case-meta">Customer: <a href="#" style="color:#0f6cbd;">Trey Research</a></div>
+                  <div class="cl-case-meta">
+                    <span class="cl-status-dot active"></span>Active &bull; Normal &bull; Wed 9/4
+                  </div>
+                </div>
+              </div>
+              <div class="cl-case-row" onclick="openCaseFromList('CAS-47777-S7P4N9','Airpot Duo keeps shutting down','Trey Research','Normal','Active')">
+                <div class="cl-case-av" style="background:#0078d4;">TR</div>
+                <div class="cl-case-body">
+                  <div class="cl-case-title">Airpot Duo keeps shutting down</div>
+                  <div class="cl-case-num">CAS-47777-S7P4N9</div>
+                  <div class="cl-case-meta">Customer: <a href="#" style="color:#0f6cbd;">Trey Research</a></div>
+                  <div class="cl-case-meta">
+                    <span class="cl-status-dot active"></span>Active &bull; Normal &bull; Wed 9/4
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /cases-list-body -->
+        </div><!-- /cases-list-panel -->
+
+        <!-- Case detail (right side of cases view) -->
+        <div class="cases-detail-area" id="casesDetailArea">
+
+          <!-- Empty state (no case selected) -->
+          <div id="casesDetailEmpty" style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#888;background:#f5f5f5;">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#bbb" stroke-width="1.5">
+              <rect x="6" y="10" width="28" height="24" rx="3"/>
+              <path d="M14 10V8a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+              <line x1="14" y1="20" x2="26" y2="20"/>
+              <line x1="14" y1="25" x2="22" y2="25"/>
+            </svg>
+            <div style="font-size:13px;">Select a case to view details</div>
+          </div>
+
+          <!-- Case detail content (populated dynamically) -->
+          <div id="casesDetailContent" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
+
+            <!-- Command bar for selected case -->
+            <div class="cmdbar">
+              <button class="cmdbtn"><svg><use href="#ic-save"/></svg> Save</button>
+              <button class="cmdbtn"><svg><use href="#ic-save"/></svg> Save &amp; Close</button>
+              <button class="cmdbtn"><svg><use href="#ic-route"/></svg> Save &amp; Route</button>
+              <button class="cmdbtn"><svg><use href="#ic-refresh"/></svg> Refresh</button>
+              <button class="cmdbtn" onclick="openNewCaseModal()"><svg><use href="#ic-new"/></svg> New</button>
+              <button class="cmdbtn accent" onclick="openResolveCaseModal()"><svg><use href="#ic-check"/></svg> Resolve Case</button>
+              <button class="cmdbtn"><svg><use href="#ic-cancel"/></svg> Cancel Case</button>
+              <button class="cmdbtn"><svg><use href="#ic-assign"/></svg> Assign</button>
+              <button class="cmdbtn"><svg><use href="#ic-queue"/></svg> Add to Queue</button>
+              <div class="cmdsep"></div>
+              <button class="cmdbtn" style="padding:4px 6px;"><svg><use href="#ic-tl-more"/></svg></button>
+              <div class="cmdspacer"></div>
+              <button class="cmdbtn primary"><svg><use href="#ic-share"/></svg> Share</button>
+            </div>
+
+            <!-- Case record header -->
+            <div class="rec-header">
+              <div class="rec-title-row">
+                <div style="flex:1;">
+                  <div class="rec-title" id="cld-title">A Mineral Build Up in Water Supply <span style="font-size:13px;color:#888;font-weight:400;">- Saved</span></div>
+                  <div class="rec-subtitle">Case &middot; <a href="#">Case for Multisession experience</a>
+                    <svg width="10" height="10" style="vertical-align:middle;"><use href="#ic-chevron-down"/></svg>
+                  </div>
+                </div>
+                <!-- Case meta strip -->
+                <div class="rec-meta">
+                  <div class="rec-meta-item">
+                    <span class="rec-meta-label">Case Number</span>
+                    <span class="rec-meta-val" id="cld-num">CAS-47732-V4V6K6</span>
+                  </div>
+                  <div class="rec-meta-item">
+                    <span class="rec-meta-label">Origin</span>
+                    <span class="rec-meta-val">Email</span>
+                  </div>
+                  <div class="rec-meta-item">
+                    <span class="rec-meta-label">Created On</span>
+                    <span class="rec-meta-val">8/15/2024 11:03 PM</span>
+                  </div>
+                  <div class="rec-meta-item">
+                    <span class="rec-meta-label">Owner</span>
+                    <div style="display:flex;align-items:center;gap:4px;margin-top:2px;">
+                      <div class="tl-av av-blue" style="width:18px;height:18px;font-size:9px;">EC</div>
+                      <span class="rec-meta-val">Enrico Cattaneo</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rec-tabs">
+                <div class="rec-tab active" onclick="switchCasesTab(this,'summary')">Summary</div>
+                <div class="rec-tab" onclick="switchCasesTab(this,'details')">Details</div>
+                <div class="rec-tab" onclick="switchCasesTab(this,'related')">Related
+                  <svg width="10" height="10" style="vertical-align:middle;"><use href="#ic-chevron-down"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary tab -->
+            <div id="cld-tab-summary" class="rec-body fade-in" style="background:#f5f5f5;overflow-y:auto;">
+              <div class="form-grid">
+                <!-- Left: Case form fields -->
+                <div class="form-card">
+                  <div class="form-card-header"><div class="fch-left">Case Information</div></div>
+                  <div class="form-row">
+                    <span class="form-label"><span class="req">*</span>Case Title</span>
+                    <div class="form-input-wrap"><input class="form-input" id="cld-field-title" value="A Mineral Build Up in Water Supply"/></div>
+                  </div>
+                  <div class="form-row">
+                    <span class="form-label"><span class="req">*</span>Customer</span>
+                    <div class="form-input-wrap" style="display:flex;align-items:center;gap:4px;">
+                      <svg width="12" height="12" style="color:#888;flex-shrink:0;"><use href="#ic-person"/></svg>
+                      <a href="#" style="font-size:12px;color:#0f6cbd;" id="cld-customer">Claudia Mazzanti</a>
+                      <span style="color:#888;cursor:pointer;">&times;</span>
+                      <svg width="12" height="12" style="color:#888;cursor:pointer;margin-left:auto;"><use href="#ic-search"/></svg>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <span class="form-label">Subject</span>
+                    <div class="form-input-wrap"><input class="form-input" value="Water supply"/></div>
+                  </div>
+                  <div class="form-row">
+                    <span class="form-label">Priority</span>
+                    <div class="form-input-wrap">
+                      <select class="form-input" id="cld-priority">
+                        <option>Normal</option>
+                        <option>High</option>
+                        <option>Low</option>
+                        <option>Critical</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <span class="form-label">Case Status</span>
+                    <div class="form-input-wrap">
+                      <select class="form-input" id="cld-status">
+                        <option>In Progress</option>
+                        <option>On Hold</option>
+                        <option>Resolved</option>
+                        <option>Cancelled</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <span class="form-label">Product</span>
+                    <div class="form-input-wrap" style="display:flex;align-items:center;gap:4px;">
+                      <svg width="12" height="12" style="color:#0f6cbd;flex-shrink:0;"><use href="#ic-sparkle"/></svg>
+                      <a href="#" style="font-size:12px;color:#0f6cbd;">Smart Brew 300</a>
+                      <span style="color:#888;cursor:pointer;">&times;</span>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <span class="form-label">Description</span>
+                    <div class="form-input-wrap"><textarea class="form-input" rows="3" style="resize:none;">---</textarea></div>
+                  </div>
+                </div>
+
+                <!-- Right: AI Summary + Timeline -->
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                  <div class="summary-panel">
+                    <h4>
+                      <span><span class="sum-icon"><svg><use href="#ic-sparkle"/></svg></span> Summary</span>
+                      <svg width="12" height="12"><use href="#ic-chevron-down"/></svg>
+                    </h4>
+                    <p>Claudia Mazzanti reported issues with their Smart Brew system, experiencing inconsistent water flow affecting coffee quality. Enrico Cattaneo from customer service engaged with Claudia to address the problem, suggesting a service warranty replacement and providing cleaning instructions for the water tank. Claudia expressed willingness to speak with Enrico and confirmed availability for a call. The last activity involved Enrico ensuring Claudia's issue would be handled by a colleague during their upcoming vacation, with a follow-up planned upon return to confirm issue resolution.</p>
+                    <div class="sum-actions">
+                      <button class="sum-btn">Copy</button>
+                      <button class="sum-btn"><svg width="12" height="12"><use href="#ic-refresh"/></svg></button>
+                    </div>
+                    <div class="sum-note">AI-generated content may be incorrect. Make sure it's accurate and appropriate before using. <a href="#">See terms</a></div>
+                  </div>
+
+                  <!-- Timeline -->
+                  <div class="form-card">
+                    <div class="tl-header" style="padding:7px 12px;">
+                      <span class="tl-title-text" style="font-size:12px;">Timeline</span>
+                      <div class="tl-hdr-actions">
+                        <button class="tl-hbtn" style="width:24px;height:24px;"><svg><use href="#ic-plus"/></svg></button>
+                        <button class="tl-hbtn" style="width:24px;height:24px;"><svg><use href="#ic-filter"/></svg></button>
+                        <button class="tl-hbtn" style="width:24px;height:24px;"><svg><use href="#ic-tl-list"/></svg></button>
+                        <button class="tl-hbtn" style="width:24px;height:24px;"><svg><use href="#ic-tl-more"/></svg></button>
+                      </div>
+                    </div>
+                    <!-- Search timeline -->
+                    <div style="padding:6px 12px;border-bottom:1px solid #f0f0f0;">
+                      <div style="display:flex;align-items:center;gap:6px;border:1px solid #d4d4d4;border-radius:3px;padding:5px 8px;background:#fff;">
+                        <svg width="12" height="12" style="color:#888;"><use href="#ic-search"/></svg>
+                        <input type="text" placeholder="Search timeline" style="border:none;outline:none;font-size:11px;flex:1;color:#424242;background:transparent;"/>
+                      </div>
+                    </div>
+                    <!-- Enter note -->
+                    <div style="padding:6px 12px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;gap:8px;">
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#888" stroke-width="1.4"><path d="M3 13l1.5-4L11 3l2 2-6.5 6.5L3 13z"/></svg>
+                      <span style="font-size:11px;color:#aaa;">Enter a note...</span>
+                      <div style="margin-left:auto;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#888" stroke-width="1.4"><path d="M3 17l2-6 9-9 4 4-9 9-6 2z"/><line x1="12" y1="4" x2="16" y2="8"/></svg></div>
+                    </div>
+
+                    <!-- AI Highlights -->
+                    <div style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">
+                      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+                        <span class="sum-icon" style="width:16px;height:16px;"><svg><use href="#ic-sparkle"/></svg></span>
+                        <span style="font-size:12px;font-weight:600;color:#424242;">Highlights</span>
+                        <svg width="10" height="10" style="margin-left:auto;color:#888;"><use href="#ic-chevron-up"/></svg>
+                      </div>
+                      <div>
+                        <ul style="margin:0;padding-left:16px;font-size:11px;color:#424242;line-height:1.7;">
+                          <li>Customer inquired about the return policy for Smart Brew products, specifically due to mineral deposits in the coffee machine. Support agents explained the 30-day return policy for items purchased from physical stores and offered cleaning instructions to resolve the issue.</li>
+                          <li>The customer expressed dissatisfaction with mineral deposits in the Smart Brew coffee machine and requested assistance. Support agents assured the customer of help, emphasizing regular maintenance to prevent future build-up and offering cleaning instructions for the water tank.</li>
+                          <li>Support agents detailed the return policy for Smart Brew products, including conditions for returns and exceptions for damaged or defective items. Customers requested exceptions due to mineral deposits, leading to transfers to other support agents for further assistance.</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <!-- Recent entries -->
+                    <div style="padding:4px 12px;font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.3px;">Recent</div>
+                    <div class="tl-entry" style="padding:6px 12px;">
+                      <div class="tl-av av-blue" style="width:22px;height:22px;font-size:9px;margin-top:1px;">EC</div>
+                      <div class="tl-body">
+                        <div class="tl-meta" style="font-size:10px;">Modified on: 9/17/2024 6:15 AM</div>
+                        <div class="tl-item-title" style="font-size:11px;"> Email from: <a href="#" style="color:#0f6cbd;">Enrico Cattaneo</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Details tab (hidden by default) -->
+            <div id="cld-tab-details" style="display:none;flex:1;overflow-y:auto;background:#f5f5f5;padding:16px;">
+              <div class="form-card" style="max-width:480px;">
+                <div class="form-card-header"><div class="fch-left">Additional Details</div></div>
+                <div class="form-row">
+                  <span class="form-label">Origin</span>
+                  <div class="form-input-wrap"><select class="form-input"><option>Email</option><option>Phone</option><option>Web</option><option>Chat</option></select></div>
+                </div>
+                <div class="form-row">
+                  <span class="form-label">Severity</span>
+                  <div class="form-input-wrap"><select class="form-input"><option>Default Value</option><option>Low</option><option>Medium</option><option>High</option></select></div>
+                </div>
+                <div class="form-row">
+                  <span class="form-label">Support Contact</span>
+                  <div class="form-input-wrap"><input class="form-input" value="Enrico Cattaneo"/></div>
+                </div>
+                <div class="form-row">
+                  <span class="form-label">SLA Status</span>
+                  <div class="form-input-wrap"><input class="form-input" value="In Progress" readonly/></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Related tab (hidden by default) -->
+            <div id="cld-tab-related" style="display:none;flex:1;overflow-y:auto;background:#f5f5f5;padding:16px;">
+              <div class="form-card">
+                <div class="form-card-header"><div class="fch-left">Related Records</div></div>
+                <div style="padding:16px;font-size:12px;color:#888;">No related records found.</div>
+              </div>
+            </div>
+
+          </div><!-- /casesDetailContent -->
+        </div><!-- /cases-detail-area -->
+
+      </div><!-- flex row -->
+    </div><!-- /casesListView -->
+
 
   </div><!-- /mainArea -->
 
@@ -2821,6 +3403,217 @@ function toggleAssistMenu() {
   if (!menu) return;
   menu.classList.toggle('open');
 }
+
+// ── CASES VIEW ─────────────────────────────────────────────────
+
+function showCasesView() {
+  // Show Cases session tab
+  const clt = document.getElementById('casesListSessionTab');
+  if (clt) { clt.classList.remove('hidden'); clt.style.display=''; }
+  // Activate it
+  document.querySelectorAll('.sb-tab').forEach(t => t.classList.remove('active'));
+  if (clt) clt.classList.add('active');
+  // Hide all main views
+  ['homePlaceholder','contactView','caseView','inboxView','emailView'].forEach(function(vid) {
+    const el = document.getElementById(vid);
+    if (el) { el.style.display = 'none'; el.classList.add('hidden'); }
+  });
+  const clv = document.getElementById('casesListView');
+  if (clv) { clv.style.display = 'flex'; clv.classList.remove('hidden'); }
+}
+
+function closeCasesListTab(event) {
+  event.stopPropagation();
+  const clv = document.getElementById('casesListView');
+  if (clv) { clv.style.display = 'none'; clv.classList.add('hidden'); }
+  const clt = document.getElementById('casesListSessionTab');
+  if (clt) { clt.classList.add('hidden'); }
+  // Return to home
+  document.getElementById('homePlaceholder').style.display = 'flex';
+}
+
+function openCaseFromList(caseNum, caseTitle, customer, priority, status) {
+  // Highlight the row
+  document.querySelectorAll('.cl-case-row').forEach(r => r.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+
+  // Update detail panel fields
+  const titleEl = document.getElementById('cld-title');
+  if (titleEl) titleEl.innerHTML = caseTitle + ' <span style="font-size:13px;color:#888;font-weight:400;">- Saved</span>';
+  const numEl = document.getElementById('cld-num');
+  if (numEl) numEl.textContent = caseNum;
+  const fieldTitle = document.getElementById('cld-field-title');
+  if (fieldTitle) fieldTitle.value = caseTitle;
+  const custEl = document.getElementById('cld-customer');
+  if (custEl) custEl.textContent = customer;
+  const priEl = document.getElementById('cld-priority');
+  if (priEl) priEl.value = priority;
+  const statEl = document.getElementById('cld-status');
+  if (statEl) statEl.value = status === 'Active' ? 'In Progress' : status;
+
+  // Switch to summary tab
+  switchCasesTab(document.querySelector('#casesDetailContent .rec-tab'), 'summary');
+
+  // Show detail
+  document.getElementById('casesDetailEmpty').style.display = 'none';
+  const dc = document.getElementById('casesDetailContent');
+  dc.style.display = 'flex';
+}
+
+function switchCasesTab(el, tabName) {
+  // Active tab style
+  if (el) {
+    document.querySelectorAll('#casesDetailContent .rec-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+  // Show/hide tab content
+  ['summary','details','related'].forEach(function(t) {
+    const panel = document.getElementById('cld-tab-'+t);
+    if (panel) panel.style.display = (t === tabName) ? 'flex' : 'none';
+  });
+  // summary uses flex, others use block
+  const active = document.getElementById('cld-tab-'+tabName);
+  if (active) active.style.display = tabName === 'summary' ? 'block' : 'flex';
+}
+
+function toggleClGroup(hdr) {
+  const rows = hdr.nextElementSibling;
+  const chev = hdr.querySelector('.cl-chev');
+  if (!rows) return;
+  const isOpen = chev.classList.contains('open');
+  chev.classList.toggle('open', !isOpen);
+  chev.classList.toggle('closed', isOpen);
+  rows.style.display = isOpen ? 'none' : '';
+}
+
+// ── CASES: "Cases" link in Inbox nav ───────────────────────────
+// Wire up the left nav "Cases" item to open cases view
+document.addEventListener('DOMContentLoaded', function() {
+  // Fix: if inbox view nav has "Cases" item, wire it up
+  document.querySelectorAll('.nav-item').forEach(function(item) {
+    if (item.textContent.trim() === 'Cases') {
+      item.addEventListener('click', showCasesView);
+    }
+  });
+  // Also wire the "Inbox" tab in session bar
+  const inboxTab = document.getElementById('inboxSessionTab');
+  if (inboxTab) inboxTab.onclick = showInbox;
+});
+
+// ── NEW CASE MODAL ─────────────────────────────────────────────
+
+function openNewCaseModal() {
+  document.getElementById('nc-title').value = '';
+  document.getElementById('nc-customer').value = '';
+  document.getElementById('nc-subject').value = '';
+  document.getElementById('nc-priority').value = 'Normal';
+  document.getElementById('nc-origin').value = 'Email';
+  document.getElementById('nc-product').value = '';
+  document.getElementById('nc-desc').value = '';
+  document.getElementById('newCaseModal').style.display = 'flex';
+  setTimeout(() => document.getElementById('nc-title').focus(), 50);
+}
+function closeNewCaseModal(e) {
+  if (e.target === document.getElementById('newCaseModal')) {
+    document.getElementById('newCaseModal').style.display = 'none';
+  }
+}
+function closeNewCaseModalBtn() {
+  document.getElementById('newCaseModal').style.display = 'none';
+}
+function submitNewCase() {
+  const title = document.getElementById('nc-title').value.trim();
+  const customer = document.getElementById('nc-customer').value.trim();
+  if (!title) { document.getElementById('nc-title').focus(); return; }
+  if (!customer) { document.getElementById('nc-customer').focus(); return; }
+
+  // Generate case number
+  const caseNum = 'CAS-' + Math.floor(40000 + Math.random()*9999) + '-' + Math.random().toString(36).substring(2,7).toUpperCase();
+  const priority = document.getElementById('nc-priority').value;
+
+  // Add to cases list (This week group)
+  const rows = document.querySelector('.cl-group-rows');
+  if (rows) {
+    const initials = customer.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    const colors = ['#0f6cbd','#5c2d91','#107c10','#d83b01','#004e8c'];
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    const div = document.createElement('div');
+    div.className = 'cl-case-row';
+    div.setAttribute('onclick', `openCaseFromList('${caseNum}','${title}','${customer}','${priority}','Active')`);
+    div.innerHTML = `
+      <div class="cl-case-av" style="background:${color};">${initials}</div>
+      <div class="cl-case-body">
+        <div class="cl-case-title">${title}</div>
+        <div class="cl-case-num">${caseNum}</div>
+        <div class="cl-case-meta">Customer: ${customer}</div>
+        <div class="cl-case-meta"><span class="cl-status-dot active"></span>Active &bull; ${priority} &bull; Just now</div>
+      </div>`;
+    rows.insertBefore(div, rows.firstChild);
+    // Update count
+    const countEl = rows.previousElementSibling.querySelector('.cl-count');
+    if (countEl) countEl.textContent = parseInt(countEl.textContent||0) + 1;
+  }
+
+  closeNewCaseModalBtn();
+  // Open the new case in detail view
+  showCasesView();
+  setTimeout(() => {
+    const newRow = document.querySelector('.cl-group-rows .cl-case-row:first-child');
+    if (newRow) newRow.click();
+  }, 50);
+  showToast('Case ' + caseNum + ' created successfully', '#107c10');
+}
+
+// ── RESOLVE CASE MODAL ─────────────────────────────────────────
+
+function openResolveCaseModal() {
+  document.getElementById('resolveCaseModal').style.display = 'flex';
+}
+function closeResolveCaseModal(e) {
+  if (e.target === document.getElementById('resolveCaseModal')) {
+    document.getElementById('resolveCaseModal').style.display = 'none';
+  }
+}
+function closeResolveCaseModalBtn() {
+  document.getElementById('resolveCaseModal').style.display = 'none';
+}
+function submitResolveCase() {
+  const type = document.getElementById('rc-type').value.trim();
+  const res  = document.getElementById('rc-resolution').value.trim();
+  if (!type || !res) return;
+
+  // Update case status
+  const statEl = document.getElementById('cld-status');
+  if (statEl) statEl.value = 'Resolved';
+  const titleEl = document.getElementById('cld-title');
+  if (titleEl) {
+    const t = titleEl.innerHTML.replace('- Saved','- Resolved');
+    titleEl.innerHTML = t;
+  }
+  // Update active case row
+  const activeRow = document.querySelector('.cl-case-row.active');
+  if (activeRow) {
+    const metaEl = activeRow.querySelectorAll('.cl-case-meta')[1];
+    if (metaEl) metaEl.innerHTML = '<span class="cl-status-dot resolved"></span>Resolved &bull; Just now';
+    const dot = activeRow.querySelector('.cl-status-dot');
+    if (dot) { dot.classList.remove('active'); dot.classList.add('resolved'); }
+  }
+
+  closeResolveCaseModalBtn();
+  showToast('Case resolved successfully', '#107c10');
+}
+
+// ── TOAST HELPER ───────────────────────────────────────────────
+function showToast(msg, color) {
+  const t = document.createElement('div');
+  t.className = 'resolve-toast';
+  t.textContent = msg;
+  if (color) t.style.background = color;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity .4s'; setTimeout(()=>t.remove(),400); }, 2800);
+}
+
+
 // Close assist menu when clicking outside
 document.addEventListener('click', function(e) {
   const menu = document.getElementById('assistMenu');
@@ -2883,5 +3676,86 @@ function updateCinBadges() {
 
 setStep(0);
 </script>
+
+<!-- ══ NEW CASE MODAL ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="newCaseModal" style="display:none;" onclick="closeNewCaseModal(event)">
+  <div class="modal-box" style="width:520px;">
+    <div class="modal-header">
+      <span class="modal-title">New Case</span>
+      <button class="modal-close" onclick="closeNewCaseModalBtn()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label class="modal-label"><span class="req">*</span> Case Title</label>
+        <input class="modal-input" id="nc-title" placeholder="Enter case title..." autocomplete="off"/>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label"><span class="req">*</span> Customer</label>
+        <input class="modal-input" id="nc-customer" placeholder="Search customer..." autocomplete="off"/>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Subject</label>
+        <input class="modal-input" id="nc-subject" placeholder="Enter subject..." autocomplete="off"/>
+      </div>
+      <div class="modal-row2">
+        <div class="modal-field">
+          <label class="modal-label">Priority</label>
+          <select class="modal-input" id="nc-priority">
+            <option value="Normal">Normal</option>
+            <option value="High">High</option>
+            <option value="Low">Low</option>
+            <option value="Critical">Critical</option>
+          </select>
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Origin</label>
+          <select class="modal-input" id="nc-origin">
+            <option value="Email">Email</option>
+            <option value="Phone">Phone</option>
+            <option value="Web">Web</option>
+            <option value="Chat">Chat</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Product</label>
+        <input class="modal-input" id="nc-product" placeholder="Search product..." autocomplete="off"/>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Description</label>
+        <textarea class="modal-input" id="nc-desc" rows="3" placeholder="Describe the issue..." style="resize:none;"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn primary" onclick="submitNewCase()">Save &amp; Open</button>
+      <button class="modal-btn" onclick="closeNewCaseModalBtn()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESOLVE CASE MODAL ══════════════════════════════════════ -->
+<div class="modal-overlay" id="resolveCaseModal" style="display:none;" onclick="closeResolveCaseModal(event)">
+  <div class="modal-box" style="width:420px;">
+    <div class="modal-header">
+      <span class="modal-title">Resolve Case</span>
+      <button class="modal-close" onclick="closeResolveCaseModalBtn()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label class="modal-label"><span class="req">*</span> Resolution Type</label>
+        <input class="modal-input" id="rc-type" value="Information Provided"/>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label"><span class="req">*</span> Resolution</label>
+        <input class="modal-input" id="rc-resolution" value="Customer confirmed solu"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn primary" onclick="submitResolveCase()">Resolve</button>
+      <button class="modal-btn" onclick="closeResolveCaseModalBtn()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
