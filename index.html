@@ -2049,10 +2049,10 @@ kbd{
           <div class="inbox-nav-header">
             Inbox views
           </div>
-          <div class="inbox-nav-item" onclick="void(0)">Assigned conversations</div>
-          <div class="inbox-nav-item active" onclick="showCasesView()">Cases</div>
-          <div class="inbox-nav-item" onclick="void(0)">Resolved conversations</div>
-          <div class="inbox-nav-item" onclick="void(0)">Unassigned conversations</div>
+          <div class="inbox-nav-item active" id="navAssigned" onclick="showAssignedConversations(this)">Assigned conversations</div>
+          <div class="inbox-nav-item" id="navCases" onclick="showCasesViewFromNav(this)">Cases</div>
+          <div class="inbox-nav-item" onclick="switchInboxView(this,'resolved')">Resolved conversations</div>
+          <div class="inbox-nav-item" onclick="switchInboxView(this,'unassigned')">Unassigned conversations</div>
         </div>
 
         <!-- Left: email list grouped by CIN -->
@@ -2074,7 +2074,7 @@ kbd{
               <span class="cin-group-count unread">3</span>
             </div>
             <div class="cin-group-rows">
-              <div class="inbox-email-row unread" ondblclick="openEmailDetail('e1')" onclick="selectEmailRow(this,'e1')" title="Double-click to open">
+              <div class="inbox-email-row unread" ondblclick="openEmailInline('e1')" onclick="selectEmailRow(this,'e1')" title="Double-click to open">
                 <div class="unread-dot"></div>
                 <div class="ier-av" style="background:#2b579a;">JH</div>
                 <div class="ier-body">
@@ -2091,7 +2091,7 @@ kbd{
                   </div>
                 </div>
               </div>
-              <div class="inbox-email-row unread" ondblclick="openEmailDetail('e2')" onclick="selectEmailRow(this,'e2')" title="Double-click to open">
+              <div class="inbox-email-row unread" ondblclick="openEmailInline('e2')" onclick="selectEmailRow(this,'e2')" title="Double-click to open">
                 <div class="unread-dot"></div>
                 <div class="ier-av" style="background:#2b579a;">JH</div>
                 <div class="ier-body">
@@ -2107,7 +2107,7 @@ kbd{
                   </div>
                 </div>
               </div>
-              <div class="inbox-email-row" ondblclick="openEmailDetail('e3')" onclick="selectEmailRow(this,'e3')" title="Double-click to open">
+              <div class="inbox-email-row" ondblclick="openEmailInline('e3')" onclick="selectEmailRow(this,'e3')" title="Double-click to open">
                 <div class="ier-av" style="background:#107c10;">PN</div>
                 <div class="ier-body">
                   <div class="ier-top">
@@ -2131,7 +2131,7 @@ kbd{
               <span class="cin-group-count unread">2</span>
             </div>
             <div class="cin-group-rows">
-              <div class="inbox-email-row unread" ondblclick="openEmailDetail('e4')" onclick="selectEmailRow(this,'e4')" title="Double-click to open">
+              <div class="inbox-email-row unread" ondblclick="openEmailInline('e4')" onclick="selectEmailRow(this,'e4')" title="Double-click to open">
                 <div class="unread-dot"></div>
                 <div class="ier-av" style="background:#5c2d91;">DM</div>
                 <div class="ier-body">
@@ -2147,7 +2147,7 @@ kbd{
                   </div>
                 </div>
               </div>
-              <div class="inbox-email-row unread" ondblclick="openEmailDetail('e5')" onclick="selectEmailRow(this,'e5')" title="Double-click to open">
+              <div class="inbox-email-row unread" ondblclick="openEmailInline('e5')" onclick="selectEmailRow(this,'e5')" title="Double-click to open">
                 <div class="unread-dot"></div>
                 <div class="ier-av" style="background:#5c2d91;">DM</div>
                 <div class="ier-body">
@@ -2173,7 +2173,7 @@ kbd{
               <span class="cin-group-count">1</span>
             </div>
             <div class="cin-group-rows">
-              <div class="inbox-email-row" ondblclick="openEmailDetail('e6')" onclick="selectEmailRow(this,'e6')" title="Double-click to open">
+              <div class="inbox-email-row" ondblclick="openEmailInline('e6')" onclick="selectEmailRow(this,'e6')" title="Double-click to open">
                 <div class="ier-av" style="background:#d47500;">SR</div>
                 <div class="ier-body">
                   <div class="ier-top">
@@ -2205,7 +2205,7 @@ kbd{
           <div id="inboxDetailContent" style="display:none;">
 
             <!-- Scheduling hint bar -->
-            <div class="ed-hint-bar" id="edHintBar">
+            <div class="ed-hint-bar" id="edHintBar" style="flex-shrink:0;">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6.5"/><line x1="8" y1="5" x2="8" y2="8.5"/><circle cx="8" cy="11" r=".8" fill="currentColor" stroke="none"/></svg>
               <span class="ed-hint-bar-text" id="edHintText">The customer will most likely view this email during business hours. Consider scheduling for the best time.</span>
               <button class="ed-hint-btn">Schedule email</button>
@@ -2214,7 +2214,7 @@ kbd{
             <!-- Toolbar -->
             <div class="email-toolbar">
               <!-- back arrow -->
-              <button class="etb-btn" style="padding:4px 5px;" title="Back">
+              <button class="etb-btn" style="padding:4px 5px;" title="Back" onclick="closeEmailInline(event)">
                 <svg width="14" height="14" viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
               </button>
               <div class="etb-sep"></div>
@@ -3675,6 +3675,108 @@ function updateCinBadges() {
 }
 
 setStep(0);
+
+// ── INBOX NAV: switch between inbox views ──────────────────────
+function showAssignedConversations(el) {
+  // Mark nav item active
+  document.querySelectorAll('.inbox-nav-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+  // Update list header title
+  const titleEl = document.querySelector('#inboxView .inbox-list-title');
+  if (titleEl) titleEl.textContent = 'Assigned conversations';
+  // Close inline email pane if open
+  document.getElementById('inboxDetailEmpty').style.display = 'flex';
+  document.getElementById('inboxDetailContent').style.display = 'none';
+}
+
+function showCasesViewFromNav(el) {
+  document.querySelectorAll('.inbox-nav-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+  showCasesView();
+}
+
+function switchInboxView(el, view) {
+  document.querySelectorAll('.inbox-nav-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const titles = {resolved:'Resolved conversations', unassigned:'Unassigned conversations'};
+  const titleEl = document.querySelector('#inboxView .inbox-list-title');
+  if (titleEl && titles[view]) titleEl.textContent = titles[view];
+  // Close inline pane
+  document.getElementById('inboxDetailEmpty').style.display = 'flex';
+  document.getElementById('inboxDetailContent').style.display = 'none';
+}
+
+// ── EMAIL: open inline inside inbox (keeps list visible) ───────
+function openEmailInline(id) {
+  const d = EMAIL_DATA[id];
+  if (!d) return;
+
+  // Mark row as read
+  const row = event ? event.currentTarget : null;
+  if (row) {
+    row.classList.remove('unread');
+    const dot = row.querySelector('.unread-dot');
+    if (dot) dot.style.display = 'none';
+  }
+  updateCinBadges();
+
+  // Show the detail pane (right side of inbox)
+  document.getElementById('inboxDetailEmpty').style.display = 'none';
+  document.getElementById('inboxDetailContent').style.display = 'flex';
+  document.getElementById('inboxDetailContent').style.flexDirection = 'column';
+
+  // Populate subject/meta
+  document.getElementById('edSubject').textContent = d.subject;
+  document.getElementById('edSubjectInput').value = d.subject;
+  document.getElementById('edPriority').textContent = d.priority;
+  document.getElementById('edStatus').textContent = d.status;
+
+  const hint = document.getElementById('edHintText');
+  if (hint) hint.textContent = d.from + ' will most likely view this email during business hours. Consider scheduling for the best time.';
+  const biz = document.getElementById('edEngageBizText');
+  if (biz) biz.textContent = 'It is outside business hours for ' + d.from + '. We suggest you schedule this email for the best time.';
+
+  // Compose body
+  document.getElementById('edBody').innerHTML =
+    '<div style="font-size:12px;color:#616161;border-bottom:1px solid #e8e8e8;padding-bottom:10px;margin-bottom:12px;">' +
+    '<strong style="color:#242424;font-size:13px;">' + d.from + '</strong>' +
+    ' <span style="color:#888;">&lt;' + d.fromEmail + '&gt;</span>' +
+    '<span style="float:right;color:#888;">' + d.time + '</span>' +
+    '<br/>To: ' + d.to + '</div>' +
+    d.body;
+
+  // Add a session tab for the email (can open as full view later)
+  let tab = document.getElementById('emailSessionTab');
+  if (!tab) {
+    tab = document.createElement('div');
+    tab.className = 'sb-tab';
+    tab.id = 'emailSessionTab';
+    const lbl = d.subject.length > 28 ? d.subject.slice(0, 27) + '\u2026' : d.subject;
+    tab.innerHTML =
+      '<div class="sb-tab-icon"><svg><use href="#ic-mail"/></svg></div>' +
+      '<span id="emailSessionLabel">' + lbl + '</span>' +
+      '<div class="sb-tab-close" onclick="closeEmailInline(event)">&#x2715;</div>';
+    const inboxTab = document.getElementById('inboxSessionTab');
+    inboxTab.parentNode.insertBefore(tab, inboxTab.nextSibling);
+  } else {
+    const lbl = d.subject.length > 28 ? d.subject.slice(0, 27) + '\u2026' : d.subject;
+    const lbl_el = document.getElementById('emailSessionLabel');
+    if (lbl_el) lbl_el.textContent = lbl;
+  }
+  // Keep inbox tab active (not the email tab) since email is inline
+  document.querySelectorAll('.sb-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('inboxSessionTab').classList.add('active');
+}
+
+function closeEmailInline(e) {
+  if (e) e.stopPropagation();
+  const tab = document.getElementById('emailSessionTab');
+  if (tab) tab.remove();
+  document.getElementById('inboxDetailEmpty').style.display = 'flex';
+  document.getElementById('inboxDetailContent').style.display = 'none';
+  if (_activeEmailRow) { _activeEmailRow.classList.remove('active'); _activeEmailRow = null; }
+}
+
 </script>
 
 <!-- ══ NEW CASE MODAL ══════════════════════════════════════════ -->
