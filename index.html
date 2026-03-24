@@ -122,6 +122,153 @@ input,textarea{font-family:inherit;}
 }
 .sb-tab-close:hover{background:#d1d1d1;color:#242424;}
 
+/* ── COMMUNICATION PANEL (LHS) ──────────────────────── */
+.comm-panel{
+  width:324px; min-width:324px; flex-shrink:0;
+  background:#fff; border-right:1px solid #e0e0e0;
+  display:flex; flex-direction:column; overflow:hidden;
+  position:relative;
+}
+
+/* HEADER */
+.cp2-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 12px; border-bottom:1px solid #e8e8e8; flex-shrink:0;
+  background:#fff;
+}
+.cp2-header-title{ font-size:12px; font-weight:600; color:#242424; }
+.cp2-header-icons{ display:flex; gap:2px; }
+.cp2-hicon{
+  width:22px; height:22px; border-radius:3px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:#616161;
+}
+.cp2-hicon:hover{ background:#f0f0f0; }
+
+/* ACTIVE CONTACT BAR */
+.cp2-contact-bar{
+  display:flex; align-items:center; gap:8px;
+  padding:7px 10px; border-bottom:1px solid #e8e8e8; flex-shrink:0;
+  background:#fff;
+}
+.cp2-contact-av{
+  width:30px; height:30px; min-width:30px; border-radius:50%;
+  background:#0f6cbd; color:#fff; font-size:10px; font-weight:700;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.cp2-contact-info{ flex:1; min-width:0; }
+.cp2-contact-name{ font-size:12px; font-weight:600; color:#242424; }
+.cp2-contact-meta{
+  display:flex; align-items:center; gap:4px; margin-top:1px;
+}
+.cp2-timer{ font-size:10.5px; color:#424242; font-weight:500; }
+.cp2-sentiment{ font-size:10.5px; color:#107c10; }
+.cp2-end-btn{
+  padding:4px 10px; background:#d13438; color:#fff;
+  border:none; border-radius:3px; font-size:11px; font-weight:600;
+  cursor:pointer; flex-shrink:0;
+}
+.cp2-end-btn:hover{ background:#b52e31; }
+
+/* CHAT TRANSCRIPT */
+.cp2-chat{
+  flex:1; overflow-y:auto; padding:10px 10px 6px;
+  display:flex; flex-direction:column; gap:10px;
+  scrollbar-width:thin; scrollbar-color:#d0d0d0 transparent;
+}
+.cp2-msg-row{
+  display:flex; align-items:flex-start; gap:7px;
+}
+.cp2-row-cc{ flex-direction:row; }
+.cp2-row-cu{ flex-direction:row-reverse; }
+
+/* Avatars */
+.cp2-av{
+  width:28px; height:28px; min-width:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:700; color:#fff; flex-shrink:0;
+  margin-top:2px;
+}
+.cp2-av.cc{ background:#0f6cbd; }
+.cp2-av.cu{ background:#107c10; }
+
+/* Bubbles */
+.cp2-bubble{
+  max-width:210px; font-size:11.5px; color:#242424;
+  line-height:1.5; border-radius:6px; padding:8px 10px;
+  position:relative;
+}
+.cp2-bubble.cc{ background:#f5f5f5; }
+.cp2-bubble.cu{ background:#e8f4fd; }
+.cp2-ts{
+  font-size:9.5px; color:#888; margin-top:4px; white-space:nowrap;
+}
+
+/* Action pill (Talk to an agent) */
+.cp2-action-pill{
+  display:inline-block;
+  background:#fde8c8; color:#7a4800;
+  border:1px solid #f0c080; border-radius:12px;
+  padding:4px 12px; font-size:11px; font-weight:600;
+  margin-bottom:2px;
+}
+
+/* ASSIST MENU */
+.cp2-assist-menu{
+  display:none; position:absolute;
+  background:#fff; border:1px solid #e0e0e0;
+  border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,.15);
+  z-index:200; width:200px;
+  bottom:52px; left:10px;
+}
+.cp2-assist-item{
+  padding:10px 14px; font-size:12px; color:#242424;
+  cursor:pointer;
+}
+.cp2-assist-item:hover{ background:#f5f5f5; }
+.cp2-assist-menu.open{ display:block; }
+
+/* INPUT AREA */
+.cp2-input-area{
+  flex-shrink:0; border-top:1px solid #e8e8e8;
+  background:#fff; position:relative;
+}
+.cp2-input-row{
+  display:flex; align-items:center; gap:6px;
+  padding:8px 10px;
+}
+.cp2-input-icon{
+  background:none; border:none; cursor:pointer; padding:4px;
+  color:#616161; display:flex; align-items:center; flex-shrink:0;
+  border-radius:3px;
+}
+.cp2-input-icon:hover{ background:#f0f0f0; }
+.cp2-input{
+  flex:1; border:1px solid #d4d4d4; border-radius:3px;
+  padding:6px 10px; font-size:11.5px; outline:none;
+  color:#242424; font-family:inherit; background:#fafafa;
+}
+.cp2-input:focus{ border-color:#0f6cbd; background:#fff; }
+.cp2-input::placeholder{ color:#aaa; }
+.cp2-send-btn{
+  background:none; border:none; cursor:pointer; padding:4px;
+  display:flex; align-items:center; flex-shrink:0; border-radius:3px;
+}
+.cp2-send-btn:hover{ background:#f0f0f0; }
+
+/* BOTTOM ICON BAR */
+.cp2-bottom-bar{
+  display:flex; align-items:center; gap:2px;
+  padding:4px 10px 8px; border-top:1px solid #f0f0f0;
+}
+.cp2-bicon{
+  display:flex; align-items:center;
+  padding:5px 6px; border-radius:3px;
+  cursor:pointer; color:#616161; font-size:11px;
+}
+.cp2-bicon:hover{ background:#f0f0f0; }
+.cp2-bicon-active{ color:#7b2fb5; }
+
 /* ── WORKSPACE LAYOUT ─────────────────────────────────── */
 .workspace{display:flex;flex:1;overflow:hidden;}
 
@@ -1080,28 +1227,159 @@ kbd{
 <div class="workspace">
 
   <!-- LEFT NAV PANEL -->
-  <div class="left-panel">
-    <div class="left-panel-header">
-      Inbox views
-      <div class="left-panel-header-icons">
-        <div class="lph-icon"><svg><use href="#ic-search"/></svg></div>
-        <div class="lph-icon"><svg><use href="#ic-refresh"/></svg></div>
-        <div class="lph-icon"><svg><use href="#ic-filter"/></svg></div>
+  <!-- COMMUNICATION PANEL (LHS) -->
+  <div class="comm-panel" id="commPanel">
+
+    <!-- Panel header -->
+    <div class="cp2-header">
+      <span class="cp2-header-title">Communication Panel</span>
+      <div class="cp2-header-icons">
+        <!-- Pop-out icon -->
+        <div class="cp2-hicon" title="Pop out">
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4">
+            <rect x="1.5" y="3.5" width="9" height="9" rx="1"/>
+            <polyline points="8,1.5 14.5,1.5 14.5,8"/>
+            <line x1="9" y1="7" x2="14.5" y2="1.5"/>
+          </svg>
+        </div>
+        <!-- Minimize icon -->
+        <div class="cp2-hicon" title="Minimize">
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="3" y1="8" x2="13" y2="8"/>
+          </svg>
+        </div>
       </div>
     </div>
-    <div class="nav-item"><svg><use href="#ic-chat-bubble"/></svg> Assigned conversations</div>
-    <div class="nav-item active"><svg><use href="#ic-cases"/></svg> Cases</div>
-    <div class="nav-item"><svg><use href="#ic-check"/></svg> Resolved conversations</div>
-    <div class="nav-item"><svg><use href="#ic-queue"/></svg> Unassigned conversations</div>
-    <div style="border-top:1px solid #e0e0e0;margin-top:8px;padding-top:6px;">
-      <div style="font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.4px;padding:4px 12px;">Recent</div>
-      <div class="nav-item" style="flex-direction:column;align-items:flex-start;gap:1px;padding:6px 12px;">
-        <span style="font-weight:500;font-size:12px;">James Hartley</span>
-        <span style="font-size:10px;color:#888;">HART-CAS-2026-0112</span>
-        <span style="font-size:10px;color:#888;">Active &bull; High</span>
+
+    <!-- Active contact bar -->
+    <div class="cp2-contact-bar">
+      <div class="cp2-contact-av">CM</div>
+      <div class="cp2-contact-info">
+        <div class="cp2-contact-name">Claudia Mazzanti</div>
+        <div class="cp2-contact-meta">
+          <span class="cp2-timer">01:25</span>
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="#107c10"><circle cx="4" cy="4" r="3.5"/></svg>
+          <span class="cp2-sentiment">Slightly positive</span>
+        </div>
       </div>
+      <button class="cp2-end-btn" onclick="void(0)">End</button>
     </div>
-  </div>
+
+    <!-- Chat transcript -->
+    <div class="cp2-chat" id="commChat">
+
+      <!-- Copilot message (long text, scrolled past top) -->
+      <div class="cp2-msg-row cp2-row-cc">
+        <div class="cp2-av cc">CC</div>
+        <div class="cp2-bubble cc">
+          unless damaged or defective. All merchandise for return must be in new condition with original packaging, manuals, and supplies. Incomplete or less than original condition returns may incur a 10% service charge. Follow the return instructions provided by the return representative and return the package within 7 days to the Indiana facility using a prepaid, insured, traceable method. Contoso covers the cost of return shipping for damaged, defective, or incorrect products
+          <div class="cp2-ts">Contoso Copilot &middot; 4:41 PM</div>
+        </div>
+      </div>
+
+      <!-- Copilot: Anything else -->
+      <div class="cp2-msg-row cp2-row-cc">
+        <div class="cp2-av cc">CC</div>
+        <div class="cp2-bubble cc">
+          Anything else I can help with?
+          <div class="cp2-ts">Contoso Copilot &middot; 4:41 PM</div>
+        </div>
+      </div>
+
+      <!-- Customer message -->
+      <div class="cp2-msg-row cp2-row-cu">
+        <div class="cp2-bubble cu">
+          I need an exception. Mineral deposits in my Smart Brew coffee machine are unacceptable &ndash; could I speak to someone?
+          <div class="cp2-ts">Customer &middot; 4:45 PM</div>
+        </div>
+        <div class="cp2-av cu">CU</div>
+      </div>
+
+      <!-- Copilot: An agent -->
+      <div class="cp2-msg-row cp2-row-cc">
+        <div class="cp2-av cc">CC</div>
+        <div class="cp2-bubble cc">
+          An agent will be with you in a moment.
+          <div class="cp2-ts">Contoso Copilot &middot; 4:45 PM</div>
+        </div>
+      </div>
+
+      <!-- Copilot: Talk to an agent pill -->
+      <div class="cp2-msg-row cp2-row-cc">
+        <div class="cp2-av cc">CC</div>
+        <div class="cp2-bubble cc">
+          <div class="cp2-action-pill">Talk to an agent</div>
+          <div class="cp2-ts">Internal message &middot; Contoso Copilot &middot; 4:45 PM</div>
+        </div>
+      </div>
+
+    </div><!-- /cp2-chat -->
+
+    <!-- Copilot AI assist popup (hover menu) -->
+    <div class="cp2-assist-menu" id="assistMenu">
+      <div class="cp2-assist-item" onclick="void(0)">Suggest a response</div>
+      <div class="cp2-assist-item" onclick="void(0)">Summarize conversation</div>
+    </div>
+
+    <!-- Input toolbar -->
+    <div class="cp2-input-area">
+      <div class="cp2-input-row">
+        <button class="cp2-input-icon" title="Attachment">
+          <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M16.5 10.5L9 18A5.5 5.5 0 1 1 1 10l8-8a3.5 3.5 0 0 1 4.95 4.95L6.5 14.5A1.5 1.5 0 0 1 4.38 12.4L11 5.75" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <input class="cp2-input" type="text" id="commInput" placeholder="Type your public message..."/>
+        <button class="cp2-send-btn" title="Send">
+          <svg viewBox="0 0 20 20" width="14" height="14" fill="none">
+            <path d="M2.5 10.5L17.5 3L11 17.5L9.2 11.2L2.5 10.5Z" fill="#0f6cbd"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Bottom icon bar -->
+      <div class="cp2-bottom-bar">
+        <div class="cp2-bicon" title="Quick replies">
+          <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M3 5h14M3 10h10M3 15h7" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="cp2-bicon" title="Knowledge articles">
+          <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4">
+            <circle cx="10" cy="9" r="4"/><path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="cp2-bicon" title="Email">
+          <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4">
+            <rect x="2" y="5" width="16" height="12" rx="2"/>
+            <polyline points="2,5 10,13 18,5"/>
+          </svg>
+        </div>
+        <div class="cp2-bicon cp2-bicon-active" title="Copilot assist" onclick="toggleAssistMenu()">
+          <svg viewBox="0 0 20 20" width="14" height="14" fill="none">
+            <defs>
+              <linearGradient id="cp2G" x1="0" y1="0" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#7b2fb5"/>
+                <stop offset="100%" stop-color="#4488ee"/>
+              </linearGradient>
+            </defs>
+            <rect width="20" height="20" rx="4" fill="url(#cp2G)"/>
+            <path d="M10 4.5l1.1 3.4L14.5 9l-3.4 1.1L10 13.5l-1.1-3.4L5.5 9l3.4-1.1Z" fill="white"/>
+          </svg>
+          <svg viewBox="0 0 10 6" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.4" style="margin-left:2px;">
+            <polyline points="1,1 5,5 9,1"/>
+          </svg>
+        </div>
+        <div class="cp2-bicon" title="More">
+          <svg viewBox="0 0 20 20" width="14" height="14" fill="none">
+            <circle cx="4" cy="10" r="1.5" fill="currentColor"/>
+            <circle cx="10" cy="10" r="1.5" fill="currentColor"/>
+            <circle cx="16" cy="10" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+    </div><!-- /cp2-input-area -->
+
+  </div><!-- /comm-panel -->
 
   <!-- MAIN CONTENT AREA -->
   <div class="main" id="mainArea">
@@ -2237,6 +2515,12 @@ kbd{
 <div class="step-pill" id="stepPill">Step 1 of 5 — Click the search icon to begin</div>
 
 <script>
+// Auto-scroll comm chat to bottom
+document.addEventListener('DOMContentLoaded', function() {
+  const chat = document.getElementById('commChat');
+  if (chat) chat.scrollTop = chat.scrollHeight;
+});
+
 // ── STATE ──────────────────────────────────────────────
 const STEPS = [
   'Step 1 of 5 — Click the search icon to begin',
@@ -2531,6 +2815,20 @@ function openEmailDetail(id) {
     '<br/>To: ' + d.to + '</div>' +
     d.body;
 }
+
+function toggleAssistMenu() {
+  const menu = document.getElementById('assistMenu');
+  if (!menu) return;
+  menu.classList.toggle('open');
+}
+// Close assist menu when clicking outside
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('assistMenu');
+  if (!menu) return;
+  if (!e.target.closest('.cp2-bicon-active') && !e.target.closest('.cp2-assist-menu')) {
+    menu.classList.remove('open');
+  }
+});
 
 function toggleCopilot() {
   const panel = document.getElementById('copilotPanel');
