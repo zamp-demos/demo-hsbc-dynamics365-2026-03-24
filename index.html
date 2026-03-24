@@ -1298,6 +1298,65 @@ kbd{
 }
 /* required star */
 .req{color:#a80000;margin-right:1px;}
+
+/* ── COMM PANEL COLLAPSE ────────────────────────────────── */
+.comm-panel{
+  transition: width .22s ease, min-width .22s ease;
+}
+.comm-panel.cp-collapsed{
+  width: 36px !important;
+  min-width: 36px !important;
+  overflow: hidden;
+}
+/* Hide all inner content except the restore tab */
+.comm-panel.cp-collapsed .cp2-contact-bar,
+.comm-panel.cp-collapsed .cp2-chat,
+.comm-panel.cp-collapsed .cp2-assist-menu,
+.comm-panel.cp-collapsed .cp2-input-area,
+.comm-panel.cp-collapsed .cp2-bottom-bar {
+  display: none !important;
+}
+/* Collapsed header: just a vertical restore strip */
+.comm-panel.cp-collapsed .cp2-header {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 6px 0;
+  gap: 6px;
+  border-bottom: none;
+  height: 100%;
+  overflow: hidden;
+}
+.comm-panel.cp-collapsed .cp2-header-title {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 11px;
+  color: #424242;
+  white-space: nowrap;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+}
+.comm-panel.cp-collapsed .cp2-header-icons {
+  flex-direction: column;
+  gap: 2px;
+}
+/* Restore icon – show a ► chevron when collapsed */
+.cp2-restore-btn {
+  display: none;
+}
+.comm-panel.cp-collapsed .cp2-restore-btn {
+  display: flex;
+}
+.comm-panel.cp-collapsed .cp2-minimize-btn {
+  display: none;
+}
+.comm-panel.cp-collapsed .cp2-popout-btn {
+  display: none;
+}
+
 </style>
 <body>
 
@@ -1419,16 +1478,22 @@ kbd{
     <div class="cp2-header">
       <span class="cp2-header-title">Communication Panel</span>
       <div class="cp2-header-icons">
-        <!-- Pop-out icon -->
-        <div class="cp2-hicon" title="Pop out">
+        <!-- Restore icon (only visible when collapsed) -->
+        <div class="cp2-hicon cp2-restore-btn" title="Restore" onclick="toggleCommPanel()">
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polyline points="6,4 10,8 6,12" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <!-- Pop-out icon (hidden when collapsed) -->
+        <div class="cp2-hicon cp2-popout-btn" title="Pop out">
           <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4">
             <rect x="1.5" y="3.5" width="9" height="9" rx="1"/>
             <polyline points="8,1.5 14.5,1.5 14.5,8"/>
             <line x1="9" y1="7" x2="14.5" y2="1.5"/>
           </svg>
         </div>
-        <!-- Minimize icon -->
-        <div class="cp2-hicon" title="Minimize">
+        <!-- Minimize icon (hidden when collapsed) -->
+        <div class="cp2-hicon cp2-minimize-btn" title="Minimize" onclick="toggleCommPanel()">
           <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5">
             <line x1="3" y1="8" x2="13" y2="8"/>
           </svg>
@@ -3675,6 +3740,14 @@ function updateCinBadges() {
 }
 
 setStep(0);
+
+// ── COMM PANEL COLLAPSE ────────────────────────────────────────
+function toggleCommPanel() {
+  const panel = document.getElementById('commPanel');
+  if (!panel) return;
+  panel.classList.toggle('cp-collapsed');
+}
+
 
 // ── INBOX NAV: switch between inbox views ──────────────────────
 function showAssignedConversations(el) {
