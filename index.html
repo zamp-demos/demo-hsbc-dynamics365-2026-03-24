@@ -197,6 +197,163 @@ input,textarea{font-family:inherit;}
 .cmdbtn svg{width:13px;height:13px;}
 .cmdsep{width:1px;height:18px;background:#e0e0e0;margin:0 3px;}
 .cmdspacer{flex:1;}
+
+/* ── INBOX LAYOUT ──────────────────────────────────────────────── */
+.inbox-wrap{
+  display:flex;flex:1;overflow:hidden;height:100%;
+}
+/* Left: conversation list */
+.inbox-list{
+  width:320px;min-width:280px;max-width:340px;
+  background:#fff;
+  border-right:1px solid #e0e0e0;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.inbox-list-header{
+  height:40px;min-height:40px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 10px 0 14px;
+  border-bottom:1px solid #e0e0e0;
+  flex-shrink:0;
+}
+.inbox-list-title{font-size:13px;font-weight:600;color:#242424;}
+.inbox-list-icons{display:flex;gap:2px;}
+.ilh-icon{
+  width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:#616161;border-radius:3px;
+}
+.ilh-icon:hover{background:#f5f5f5;}
+.ilh-icon svg{width:14px;height:14px;}
+.inbox-list-body{overflow-y:auto;flex:1;}
+/* CIN group header */
+.cin-group-hdr{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 12px 4px;
+  cursor:pointer;
+  user-select:none;
+  border-bottom:1px solid #f0f0f0;
+  position:sticky;top:0;background:#f8f8f8;z-index:2;
+}
+.cin-group-hdr:hover{background:#f2f2f2;}
+.cin-chevron{
+  width:12px;height:12px;color:#888;flex-shrink:0;
+  transition:transform .18s;
+}
+.cin-chevron.open{transform:rotate(90deg);}
+.cin-group-name{font-size:12px;font-weight:600;color:#242424;flex:1;}
+.cin-group-count{
+  font-size:11px;color:#fff;background:#0f6cbd;
+  padding:1px 6px;border-radius:8px;font-weight:600;
+}
+.cin-group-count.unread{background:#db0011;}
+/* Individual email row */
+.inbox-email-row{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:8px 12px;
+  border-bottom:1px solid #f5f5f5;
+  cursor:pointer;
+  transition:background .1s;
+  position:relative;
+}
+.inbox-email-row:hover{background:#f5f5f5;}
+.inbox-email-row.active{background:#eff6fc;}
+.inbox-email-row.unread .ier-sender{font-weight:700;color:#242424;}
+.inbox-email-row.unread .ier-subject{font-weight:600;color:#242424;}
+.unread-dot{
+  width:7px;height:7px;border-radius:50%;background:#0f6cbd;
+  position:absolute;left:4px;top:50%;transform:translateY(-50%);
+  flex-shrink:0;
+}
+.ier-av{
+  width:28px;height:28px;min-width:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px;
+}
+.ier-body{flex:1;min-width:0;}
+.ier-top{display:flex;align-items:baseline;justify-content:space-between;gap:4px;}
+.ier-sender{font-size:12px;color:#424242;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;}
+.ier-time{font-size:10px;color:#888;white-space:nowrap;flex-shrink:0;}
+.ier-subject{font-size:12px;color:#616161;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
+.ier-preview{font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
+.ier-meta{display:flex;align-items:center;gap:4px;margin-top:3px;}
+.ier-case{font-size:10px;color:#0f6cbd;background:#e8f0fe;padding:1px 5px;border-radius:2px;}
+.ier-badge{
+  font-size:10px;padding:1px 5px;border-radius:2px;font-weight:500;
+}
+.ier-badge-rx{background:#dff6dd;color:#107c10;}
+.ier-badge-tx{background:#fff4ce;color:#7a5200;}
+.ier-badge-high{background:#fde7e9;color:#a80000;}
+
+/* Right: email detail pane */
+.inbox-detail{
+  flex:1;display:flex;flex-direction:column;overflow:hidden;
+  background:#fff;
+}
+.inbox-detail-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex:1;gap:8px;color:#888;
+}
+.inbox-detail-empty svg{width:40px;height:40px;opacity:.25;}
+.inbox-detail-empty p{font-size:13px;}
+/* Email detail toolbar */
+.email-toolbar{
+  height:40px;min-height:40px;
+  display:flex;align-items:center;gap:2px;
+  padding:0 10px;
+  border-bottom:1px solid #e0e0e0;
+  flex-shrink:0;
+}
+.etb-btn{
+  display:flex;align-items:center;gap:4px;
+  padding:4px 8px;font-size:12px;color:#242424;
+  border:1px solid transparent;border-radius:3px;
+  background:none;cursor:pointer;white-space:nowrap;
+}
+.etb-btn:hover{background:#f5f5f5;border-color:#e0e0e0;}
+.etb-btn svg{width:13px;height:13px;}
+.etb-sep{width:1px;height:18px;background:#e0e0e0;margin:0 2px;}
+.etb-spacer{flex:1;}
+.etb-btn.primary{background:#0f6cbd;color:#fff;border-color:#0f6cbd;}
+.etb-btn.primary:hover{background:#115ea3;}
+/* Email subject bar */
+.email-subject-bar{
+  padding:10px 16px 6px;
+  border-bottom:1px solid #e0e0e0;
+  flex-shrink:0;
+}
+.email-subject-title{font-size:17px;font-weight:600;color:#242424;margin-bottom:4px;}
+.email-subject-meta{display:flex;align-items:center;gap:16px;font-size:11px;color:#616161;}
+.esm-item{display:flex;flex-direction:column;gap:1px;}
+.esm-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.3px;}
+.esm-val{font-size:12px;color:#242424;font-weight:500;}
+/* Email body */
+.email-body-wrap{flex:1;overflow-y:auto;padding:16px;}
+.email-from-row{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:12px;
+}
+.efr-av{
+  width:32px;height:32px;min-width:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;
+}
+.efr-info{flex:1;}
+.efr-name{font-size:13px;font-weight:600;color:#242424;}
+.efr-to{font-size:11px;color:#888;}
+.efr-time{font-size:11px;color:#888;white-space:nowrap;}
+.email-divider{border:none;border-top:1px solid #e8e8e8;margin:10px 0;}
+.email-body-text{font-size:13px;color:#242424;line-height:1.6;}
+.email-body-text p{margin-bottom:8px;}
+.email-body-text .orig-msg{
+  border-left:3px solid #e0e0e0;
+  padding:8px 12px;
+  color:#616161;
+  font-size:12px;
+  margin-top:10px;
+}
+.email-body-text .orig-label{font-size:11px;color:#888;margin-bottom:4px;font-style:italic;}
 </style>
 </head>
 <style>
@@ -740,7 +897,7 @@ kbd{
     <div class="sb-tab-icon"><svg><use href="#ic-home"/></svg></div>
     Home
   </div>
-  <div class="sb-tab">
+  <div class="sb-tab" id="inboxSessionTab" onclick="showInbox()">
     <div class="sb-tab-icon"><svg><use href="#ic-inbox"/></svg></div>
     Inbox
   </div>
@@ -1257,6 +1414,191 @@ kbd{
       </div>
     </div><!-- /caseView -->
 
+    <!-- ══ INBOX VIEW ══════════════════════════════════════════════ -->
+    <div id="inboxView" class="hidden" style="display:none;flex:1;overflow:hidden;">
+      <div class="inbox-wrap">
+
+        <!-- Left: email list grouped by CIN -->
+        <div class="inbox-list">
+          <div class="inbox-list-header">
+            <span class="inbox-list-title">Assigned conversations</span>
+            <div class="inbox-list-icons">
+              <div class="ilh-icon" title="Search"><svg><use href="#ic-search"/></svg></div>
+              <div class="ilh-icon" title="Refresh"><svg><use href="#ic-refresh"/></svg></div>
+              <div class="ilh-icon" title="Filter"><svg><use href="#ic-filter"/></svg></div>
+            </div>
+          </div>
+          <div class="inbox-list-body" id="inboxListBody">
+
+            <!-- CIN GROUP 1 -->
+            <div class="cin-group-hdr" onclick="toggleCinGroup(this)">
+              <svg class="cin-chevron open" viewBox="0 0 12 12"><polyline points="4,2 9,6 4,10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span class="cin-group-name">CIN-44821039 &mdash; Hartley &amp; Associates Ltd</span>
+              <span class="cin-group-count unread">3</span>
+            </div>
+            <div class="cin-group-rows">
+              <div class="inbox-email-row unread" ondblclick="openEmailDetail('e1')" onclick="selectEmailRow(this,'e1')" title="Double-click to open">
+                <div class="unread-dot"></div>
+                <div class="ier-av" style="background:#2b579a;">JH</div>
+                <div class="ier-body">
+                  <div class="ier-top">
+                    <span class="ier-sender">James Hartley</span>
+                    <span class="ier-time">10:42 AM</span>
+                  </div>
+                  <div class="ier-subject">RE: Unauthorised FX Debit &mdash; Urgent Escalation</div>
+                  <div class="ier-preview">Following up on FRAUD-2026-00874 &mdash; still awaiting response...</div>
+                  <div class="ier-meta">
+                    <span class="ier-case">HART-CAS-2026-0112</span>
+                    <span class="ier-badge ier-badge-rx">Received</span>
+                    <span class="ier-badge ier-badge-high">High</span>
+                  </div>
+                </div>
+              </div>
+              <div class="inbox-email-row unread" ondblclick="openEmailDetail('e2')" onclick="selectEmailRow(this,'e2')" title="Double-click to open">
+                <div class="unread-dot"></div>
+                <div class="ier-av" style="background:#2b579a;">JH</div>
+                <div class="ier-body">
+                  <div class="ier-top">
+                    <span class="ier-sender">James Hartley</span>
+                    <span class="ier-time">3 Feb</span>
+                  </div>
+                  <div class="ier-subject">FX Account Block &mdash; Request for Interim Statement</div>
+                  <div class="ier-preview">Could you please send a statement for the blocked period...</div>
+                  <div class="ier-meta">
+                    <span class="ier-case">HART-CAS-2026-0112</span>
+                    <span class="ier-badge ier-badge-rx">Received</span>
+                  </div>
+                </div>
+              </div>
+              <div class="inbox-email-row" ondblclick="openEmailDetail('e3')" onclick="selectEmailRow(this,'e3')" title="Double-click to open">
+                <div class="ier-av" style="background:#107c10;">PN</div>
+                <div class="ier-body">
+                  <div class="ier-top">
+                    <span class="ier-sender">Priya Nair (RM)</span>
+                    <span class="ier-time">29 Jan</span>
+                  </div>
+                  <div class="ier-subject">Hartley &amp; Associates &mdash; Case Notes Update</div>
+                  <div class="ier-preview">Hi team, attaching the latest case notes from my call...</div>
+                  <div class="ier-meta">
+                    <span class="ier-case">HART-CAS-2026-0112</span>
+                    <span class="ier-badge ier-badge-tx">Internal</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CIN GROUP 2 -->
+            <div class="cin-group-hdr" onclick="toggleCinGroup(this)">
+              <svg class="cin-chevron open" viewBox="0 0 12 12"><polyline points="4,2 9,6 4,10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span class="cin-group-name">CIN-38291047 &mdash; Mercer Capital Group</span>
+              <span class="cin-group-count unread">2</span>
+            </div>
+            <div class="cin-group-rows">
+              <div class="inbox-email-row unread" ondblclick="openEmailDetail('e4')" onclick="selectEmailRow(this,'e4')" title="Double-click to open">
+                <div class="unread-dot"></div>
+                <div class="ier-av" style="background:#5c2d91;">DM</div>
+                <div class="ier-body">
+                  <div class="ier-top">
+                    <span class="ier-sender">David Mercer</span>
+                    <span class="ier-time">9:15 AM</span>
+                  </div>
+                  <div class="ier-subject">Trade Finance Facility &mdash; Documentary Credit Query</div>
+                  <div class="ier-preview">We need clarification on the LC terms for the Singapore...</div>
+                  <div class="ier-meta">
+                    <span class="ier-case">MERC-CAS-2026-0088</span>
+                    <span class="ier-badge ier-badge-rx">Received</span>
+                  </div>
+                </div>
+              </div>
+              <div class="inbox-email-row unread" ondblclick="openEmailDetail('e5')" onclick="selectEmailRow(this,'e5')" title="Double-click to open">
+                <div class="unread-dot"></div>
+                <div class="ier-av" style="background:#5c2d91;">DM</div>
+                <div class="ier-body">
+                  <div class="ier-top">
+                    <span class="ier-sender">David Mercer</span>
+                    <span class="ier-time">23 Jan</span>
+                  </div>
+                  <div class="ier-subject">SWIFT Transfer Delay &mdash; MERC-CAS-2026-0088</div>
+                  <div class="ier-preview">Our beneficiary in Singapore has not received the funds...</div>
+                  <div class="ier-meta">
+                    <span class="ier-case">MERC-CAS-2026-0088</span>
+                    <span class="ier-badge ier-badge-rx">Received</span>
+                    <span class="ier-badge ier-badge-high">High</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CIN GROUP 3 -->
+            <div class="cin-group-hdr" onclick="toggleCinGroup(this)">
+              <svg class="cin-chevron open" viewBox="0 0 12 12"><polyline points="4,2 9,6 4,10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span class="cin-group-name">CIN-71045883 &mdash; Falmouth Export Co.</span>
+              <span class="cin-group-count">1</span>
+            </div>
+            <div class="cin-group-rows">
+              <div class="inbox-email-row" ondblclick="openEmailDetail('e6')" onclick="selectEmailRow(this,'e6')" title="Double-click to open">
+                <div class="ier-av" style="background:#d47500;">SR</div>
+                <div class="ier-body">
+                  <div class="ier-top">
+                    <span class="ier-sender">Sarah Ravenscroft</span>
+                    <span class="ier-time">20 Jan</span>
+                  </div>
+                  <div class="ier-subject">Annual Review &mdash; Commercial Lending Facility</div>
+                  <div class="ier-preview">Please find the updated financials for the review period...</div>
+                  <div class="ier-meta">
+                    <span class="ier-case">FALM-CAS-2026-0041</span>
+                    <span class="ier-badge ier-badge-rx">Received</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /inbox-list-body -->
+          <div style="padding:6px 12px;font-size:11px;color:#888;border-top:1px solid #e0e0e0;flex-shrink:0;">
+            6 items &bull; Last updated at <span id="inboxTimestamp">10:45 AM</span>
+          </div>
+        </div><!-- /inbox-list -->
+
+        <!-- Right: email detail pane -->
+        <div class="inbox-detail" id="inboxDetailPane">
+          <div class="inbox-detail-empty" id="inboxDetailEmpty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,14 22,4"/></svg>
+            <p>Double-click an email to open it</p>
+          </div>
+          <div id="inboxDetailContent" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
+            <!-- Toolbar -->
+            <div class="email-toolbar">
+              <button class="etb-btn"><svg><use href="#ic-mail"/></svg> Reply</button>
+              <button class="etb-btn"><svg><use href="#ic-mail"/></svg> Reply All</button>
+              <button class="etb-btn"><svg><use href="#ic-share"/></svg> Forward</button>
+              <div class="etb-sep"></div>
+              <button class="etb-btn"><svg><use href="#ic-save"/></svg> Save</button>
+              <button class="etb-btn"><svg><use href="#ic-save"/></svg> Save &amp; Close</button>
+              <button class="etb-btn"><svg><use href="#ic-refresh"/></svg> Refresh</button>
+              <div class="etb-sep"></div>
+              <button class="etb-btn"><svg><use href="#ic-cases"/></svg> Create Case</button>
+              <div class="etb-spacer"></div>
+              <button class="etb-btn primary"><svg><use href="#ic-share"/></svg> Share</button>
+            </div>
+            <!-- Subject + meta -->
+            <div class="email-subject-bar">
+              <div class="email-subject-title" id="edSubject">Subject</div>
+              <div class="email-subject-meta">
+                <div class="esm-item"><span class="esm-label">Priority</span><span class="esm-val" id="edPriority">Normal</span></div>
+                <div class="esm-item"><span class="esm-label">Status</span><span class="esm-val" id="edStatus">Open</span></div>
+                <div class="esm-item"><span class="esm-label">CIN</span><span class="esm-val" id="edCin">&mdash;</span></div>
+                <div class="esm-item"><span class="esm-label">Case</span><span class="esm-val" id="edCase" style="color:#0f6cbd;">&mdash;</span></div>
+              </div>
+            </div>
+            <!-- Body scroll area -->
+            <div class="email-body-wrap" id="edBody">
+            </div>
+          </div>
+        </div><!-- /inbox-detail -->
+
+      </div><!-- /inbox-wrap -->
+    </div><!-- /inboxView -->
+
   </div><!-- /mainArea -->
 
   <!-- ══ COPILOT RIGHT PANEL ══════════════════════════════ -->
@@ -1463,6 +1805,145 @@ function closeCaseTab(e) {
 }
 
 // ── INIT ───────────────────────────────────────────────
+
+// ── INBOX ─────────────────────────────────────────────────────────────────────
+function showInbox() {
+  document.getElementById('homePlaceholder').style.display = 'none';
+  document.getElementById('contactView').style.display = 'none';
+  document.getElementById('contactView').classList.add('hidden');
+  document.getElementById('caseView').style.display = 'none';
+  document.getElementById('caseView').classList.add('hidden');
+  const iv = document.getElementById('inboxView');
+  iv.style.display = 'flex';
+  iv.classList.remove('hidden');
+  document.getElementById('inboxSessionTab').classList.add('active');
+  document.getElementById('contactSessionTab').classList.remove('active');
+  document.getElementById('caseSessionTab').classList.remove('active');
+  const now = new Date();
+  document.getElementById('inboxTimestamp').textContent =
+    now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+}
+
+function toggleCinGroup(hdr) {
+  const rows = hdr.nextElementSibling;
+  const chevron = hdr.querySelector('.cin-chevron');
+  if (rows.style.display === 'none') {
+    rows.style.display = '';
+    chevron.classList.add('open');
+  } else {
+    rows.style.display = 'none';
+    chevron.classList.remove('open');
+  }
+}
+
+const EMAIL_DATA = {
+  e1: {
+    subject: 'RE: Unauthorised FX Debit \u2014 Urgent Escalation',
+    priority: 'High', status: 'In Progress',
+    cin: 'CIN-44821039', caseNo: 'HART-CAS-2026-0112',
+    avBg: '#2b579a', avInit: 'JH',
+    from: 'James Hartley', fromEmail: 'james.hartley@hartleyassociates.co.uk',
+    to: 'hsbc.commercial@hsbc.com',
+    time: '14 Feb 2026, 10:42 AM',
+    body: '<p>Dear HSBC Commercial Banking Team,</p><p>I am writing to follow up on case reference <strong>FRAUD-2026-00874</strong> regarding the unauthorised FX debit of <strong>\u00a314,200</strong> on 14 January 2026. It has now been over three weeks since the interim account block was placed, and we have yet to receive investigation findings. This is causing significant disruption to our business operations as we are unable to access our FX facility.</p><p>I respectfully request an urgent update and confirmation of when normal access will be restored. I would also like to formally escalate this matter to a senior relationship manager.</p><p>Regards,<br/>James Hartley<br/>Director of Finance, Hartley &amp; Associates Ltd</p><div class="orig-msg"><div class="orig-label">\u2014\u2014\u2014 Original Message \u2014\u2014\u2014</div><p><strong>From:</strong> Priya Nair &lt;p.nair@hsbc.com&gt;<br/><strong>Sent:</strong> 3 February 2026, 09:15<br/><strong>Subject:</strong> Unauthorised FX Debit \u2014 FRAUD-2026-00874 Update</p><p>Dear Mr Hartley, our Fraud Operations team is continuing to investigate and will provide findings by 10 February 2026 per SLA...</p></div>'
+  },
+  e2: {
+    subject: 'FX Account Block \u2014 Request for Interim Statement',
+    priority: 'Normal', status: 'Open',
+    cin: 'CIN-44821039', caseNo: 'HART-CAS-2026-0112',
+    avBg: '#2b579a', avInit: 'JH',
+    from: 'James Hartley', fromEmail: 'james.hartley@hartleyassociates.co.uk',
+    to: 'hsbc.commercial@hsbc.com',
+    time: '3 Feb 2026, 2:18 PM',
+    body: '<p>Dear Priya,</p><p>Thank you for the update. Could you please arrange for an interim bank statement covering 1 January \u2013 3 February 2026 for our FX account? We need this for monthly management accounts and auditor queries.</p><p>Kind regards,<br/>James Hartley</p>'
+  },
+  e3: {
+    subject: 'Hartley & Associates \u2014 Case Notes Update',
+    priority: 'Normal', status: 'Open',
+    cin: 'CIN-44821039', caseNo: 'HART-CAS-2026-0112',
+    avBg: '#107c10', avInit: 'PN',
+    from: 'Priya Nair', fromEmail: 'p.nair@hsbc.com',
+    to: 'fraud.ops@hsbc.com; commercial.cs@hsbc.com',
+    time: '29 Jan 2026, 4:05 PM',
+    body: '<p>Hi team,</p><p>Attaching my call notes from the conversation with James Hartley on 29 January. Key points:</p><ul style="padding-left:18px;margin:8px 0;line-height:1.8;"><li>Customer is cooperative and has provided all requested documentation.</li><li>He is concerned about the duration of the block and impact on supplier payments.</li><li>Requested weekly updates via email going forward.</li><li>Has authorised HSBC to liaise directly with his solicitors if required.</li></ul><p>I have committed to a response by 10 Feb.</p><p>Priya Nair | Relationship Manager, HSBC Commercial Banking</p>'
+  },
+  e4: {
+    subject: 'Trade Finance Facility \u2014 Documentary Credit Query',
+    priority: 'Normal', status: 'Open',
+    cin: 'CIN-38291047', caseNo: 'MERC-CAS-2026-0088',
+    avBg: '#5c2d91', avInit: 'DM',
+    from: 'David Mercer', fromEmail: 'd.mercer@mercercapital.co.uk',
+    to: 'hsbc.tradeFinance@hsbc.com',
+    time: '14 Feb 2026, 9:15 AM',
+    body: '<p>Good morning,</p><p>I am writing regarding our Trade Finance facility (ref: <strong>TF-2026-MC-0441</strong>). We seek clarification on: (1) documentary requirements under UCP 600, (2) whether a transferable LC is permissible under our current facility limit, and (3) the expected processing timeline given our shipment date of 28 February 2026.</p><p>Please advise at your earliest convenience.</p><p>David Mercer | CFO, Mercer Capital Group</p>'
+  },
+  e5: {
+    subject: 'SWIFT Transfer Delay \u2014 MERC-CAS-2026-0088',
+    priority: 'High', status: 'In Progress',
+    cin: 'CIN-38291047', caseNo: 'MERC-CAS-2026-0088',
+    avBg: '#5c2d91', avInit: 'DM',
+    from: 'David Mercer', fromEmail: 'd.mercer@mercercapital.co.uk',
+    to: 'hsbc.commercial@hsbc.com',
+    time: '23 Jan 2026, 11:50 AM',
+    body: '<p>Dear HSBC Team,</p><p>We initiated a SWIFT transfer of <strong>SGD 185,000</strong> on 20 January 2026 (ref: <strong>SWT-2026-0094</strong>) to Pinnacle Trading Pte Ltd in Singapore. The beneficiary bank has confirmed the funds have not arrived.</p><p>Our supplier is threatening to delay shipment. Please investigate urgently and provide a trace reference from the correspondent bank.</p><p>David Mercer</p>'
+  },
+  e6: {
+    subject: 'Annual Review \u2014 Commercial Lending Facility',
+    priority: 'Normal', status: 'Open',
+    cin: 'CIN-71045883', caseNo: 'FALM-CAS-2026-0041',
+    avBg: '#d47500', avInit: 'SR',
+    from: 'Sarah Ravenscroft', fromEmail: 's.ravenscroft@falmouthexport.co.uk',
+    to: 'hsbc.commercial@hsbc.com',
+    time: '20 Jan 2026, 3:30 PM',
+    body: '<p>Dear HSBC Commercial Banking,</p><p>Please find attached the updated financial statements for the annual review of our commercial lending facility (limit: <strong>\u00a32.5M</strong>). Documents enclosed: audited accounts FY2025, 12-month cash flow forecast, updated asset schedule, and director\'s confirmation letter.</p><p>Please let us know if any additional documentation is required.</p><p>Sarah Ravenscroft | Finance Director, Falmouth Export Co.</p>'
+  }
+};
+
+let _activeEmailRow = null;
+
+function selectEmailRow(row, id) {
+  if (_activeEmailRow) _activeEmailRow.classList.remove('active');
+  row.classList.add('active');
+  row.classList.remove('unread');
+  const dot = row.querySelector('.unread-dot');
+  if (dot) dot.style.display = 'none';
+  _activeEmailRow = row;
+  updateCinBadges();
+}
+
+function openEmailDetail(id) {
+  const d = EMAIL_DATA[id];
+  if (!d) return;
+  document.getElementById('inboxDetailEmpty').style.display = 'none';
+  const cont = document.getElementById('inboxDetailContent');
+  cont.style.display = 'flex';
+  document.getElementById('edSubject').textContent = d.subject;
+  document.getElementById('edPriority').textContent = d.priority;
+  document.getElementById('edStatus').textContent = d.status;
+  document.getElementById('edCin').textContent = d.cin;
+  document.getElementById('edCase').textContent = d.caseNo;
+  document.getElementById('edBody').innerHTML =
+    '<div class="email-from-row">' +
+    '<div class="efr-av" style="background:' + d.avBg + ';">' + d.avInit + '</div>' +
+    '<div class="efr-info">' +
+    '<div class="efr-name">' + d.from + ' <span style="font-weight:400;color:#888;">&lt;' + d.fromEmail + '&gt;</span></div>' +
+    '<div class="efr-to">To: ' + d.to + '</div>' +
+    '</div>' +
+    '<div class="efr-time">' + d.time + '</div>' +
+    '</div><hr class="email-divider"/><div class="email-body-text">' + d.body + '</div>';
+}
+
+function updateCinBadges() {
+  document.querySelectorAll('.cin-group-rows').forEach(function(grp) {
+    const unreadCount = grp.querySelectorAll('.inbox-email-row.unread').length;
+    const badge = grp.previousElementSibling.querySelector('.cin-group-count');
+    if (badge) {
+      badge.textContent = unreadCount || grp.querySelectorAll('.inbox-email-row').length;
+      badge.className = 'cin-group-count' + (unreadCount > 0 ? ' unread' : '');
+    }
+  });
+}
+
 setStep(0);
 </script>
 </body>
