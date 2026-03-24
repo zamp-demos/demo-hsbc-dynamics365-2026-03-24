@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dynamics 365 | Customer Service workspace — HSBC</title>
+<style>
+/* ── TOKENS ───────────────────────────────────────────────── */
+:root{
+  --d365-navy:#1a2b4a;
+  --d365-nav-bg:#1a3a5c;
+  --d365-blue:#0078d4;
+  --d365-blue-dk:#106ebe;
+  --d365-blue-lt:#deecf9;
+  --d365-tab-active:#0078d4;
+  --d365-border:#e1dfdd;
+  --d365-bg:#f3f2f1;
+  --d365-white:#ffffff;
+  --d365-text:#323130;
+  --d365-text-lt:#605e5c;
+  --d365-text-xs:#8a8886;
+  --d365-lozenge-high:#a80000;
+  --d365-amber:#b46c00;
+  --d365-amber-bg:#fff4ce;
+  --d365-green:#107c10;
+  --d365-red:#a80000;
+  --hsbc-red:#db0011;
+  --font:'Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);font-size:13px;color:var(--d365-text);background:var(--d365-bg);height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+a{color:var(--d365-blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+button{font-family:var(--font);cursor:pointer;border:none;background:none;}
+
+/* ── TOP NAV BAR ─────────────────────────────────────────── */
+.topbar{
+  background:var(--d365-navy);
+  height:40px;min-height:40px;
+  display:flex;align-items:center;
+  padding:0 8px;gap:4px;
+  position:relative;z-index:200;
+}
+.topbar-waffle{color:#fff;font-size:18px;padding:6px 8px;display:flex;align-items:center;cursor:pointer;}
+.topbar-brand{display:flex;align-items:center;gap:0;color:#fff;}
+.topbar-d365{font-weight:600;font-size:13px;color:#fff;padding:0 4px 0 2px;}
+.topbar-sep{color:rgba(255,255,255,0.4);font-size:16px;margin:0 2px;}
+.topbar-module{font-size:13px;color:rgba(255,255,255,0.9);white-space:nowrap;}
+.topbar-spacer{flex:1;}
+.topbar-label{font-size:12px;color:rgba(255,255,255,0.7);margin-right:4px;}
+.topbar-toggle{
+  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);
+  border-radius:10px;padding:2px 4px;display:flex;align-items:center;gap:4px;
+  cursor:pointer;
+}
+.toggle-knob{width:16px;height:10px;background:var(--d365-blue);border-radius:5px;position:relative;}
+.topbar-icon{color:rgba(255,255,255,0.85);font-size:15px;padding:4px 7px;cursor:pointer;border-radius:2px;}
+.topbar-icon:hover{background:rgba(255,255,255,0.1);}
+.topbar-avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--hsbc-red);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;margin-left:2px;cursor:pointer;
+}
+/* HSBC co-brand pill */
+.hsbc-cobrand{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.08);
+  border-left:2px solid var(--hsbc-red);
+  padding:3px 10px 3px 8px;
+  border-radius:2px;
+  margin-right:6px;
+}
+.hsbc-hex{display:flex;align-items:center;gap:2px;}
+.hsbc-hex span{
+  display:inline-block;width:8px;height:8px;
+  background:var(--hsbc-red);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+}
+.hsbc-cobrand-text{font-size:11px;color:rgba(255,255,255,0.85);font-weight:500;letter-spacing:.3px;}
+
+/* ── SECOND BAR (tabs) ───────────────────────────────────── */
+.tabs-bar{
+  background:#fff;
+  height:36px;min-height:36px;
+  display:flex;align-items:stretch;
+  border-bottom:1px solid var(--d365-border);
+  padding:0 8px;
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
+  z-index:150;
+}
+.tabs-bar-nav{
+  display:flex;align-items:center;gap:2px;
+  padding-right:8px;
+  border-right:1px solid var(--d365-border);
+  margin-right:4px;
+}
+.tabs-bar-nav button{
+  background:none;border:none;padding:4px 8px;
+  color:var(--d365-text-lt);font-size:13px;cursor:pointer;
+  border-radius:2px;display:flex;align-items:center;gap:4px;
+}
+.tabs-bar-nav button:hover{background:var(--d365-bg);}
+.tab-item{
+  display:flex;align-items:center;gap:6px;
+  padding:0 12px;
+  border-bottom:2px solid transparent;
+  font-size:13px;color:var(--d365-text-lt);cursor:pointer;
+  white-space:nowrap;
+}
+.tab-item:hover{background:var(--d365-bg);color:var(--d365-text);}
+.tab-item.active{border-bottom-color:var(--d365-blue);color:var(--d365-text);font-weight:500;}
+.tab-icon{font-size:13px;color:var(--d365-text-lt);}
+.tab-close{
+  font-size:11px;color:var(--d365-text-xs);
+  margin-left:2px;padding:1px 3px;border-radius:2px;
+}
+.tab-close:hover{background:var(--d365-bg);color:var(--d365-text);}
+
+/* ── LAYOUT ──────────────────────────────────────────────── */
+.workspace{display:flex;flex:1;overflow:hidden;}
+.left-rail{
+  width:200px;min-width:200px;
+  background:#fff;
+  border-right:1px solid var(--d365-border);
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+}
+.main-content{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;}
+.right-panel{
+  width:280px;min-width:280px;
+  background:#fff;
+  border-left:1px solid var(--d365-border);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+
+/* ── LEFT RAIL ───────────────────────────────────────────── */
+.rail-section{padding:12px 0 4px;}
+.rail-section-label{
+  font-size:11px;font-weight:600;
+  color:var(--d365-text-xs);
+  text-transform:uppercase;letter-spacing:.5px;
+  padding:4px 16px;
+}
+.rail-item{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 16px;font-size:13px;
+  color:var(--d365-text-lt);cursor:pointer;border-radius:0;
+}
+.rail-item:hover{background:var(--d365-bg);}
+.rail-item.active{background:var(--d365-blue-lt);color:var(--d365-blue);font-weight:500;}
+.rail-item .icon{font-size:14px;width:16px;text-align:center;}
+
+/* ── COMMAND BAR ─────────────────────────────────────────── */
+.cmd-bar{
+  background:#fff;
+  border-bottom:1px solid var(--d365-border);
+  padding:4px 16px;
+  display:flex;align-items:center;gap:4px;
+  min-height:40px;
+}
+.cmd-btn{
+  display:flex;align-items:center;gap:5px;
+  padding:5px 10px;font-size:13px;
+  border-radius:2px;color:var(--d365-text);
+  border:1px solid transparent;cursor:pointer;background:none;
+}
+.cmd-btn:hover{background:var(--d365-bg);border-color:var(--d365-border);}
+.cmd-btn.primary{
+  background:var(--d365-blue);color:#fff;border-color:var(--d365-blue);
+}
+.cmd-btn.primary:hover{background:var(--d365-blue-dk);}
+.cmd-sep{width:1px;height:20px;background:var(--d365-border);margin:0 4px;}
+.cmd-spacer{flex:1;}
+
+/* ── RECORD HEADER ───────────────────────────────────────── */
+.record-header{
+  background:#fff;
+  padding:12px 20px 0;
+  border-bottom:1px solid var(--d365-border);
+}
+.record-breadcrumb{
+  font-size:12px;color:var(--d365-text-xs);
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:6px;
+}
+.record-breadcrumb a{color:var(--d365-blue);font-size:12px;}
+.record-title-row{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:10px;
+}
+.record-title{font-size:19px;font-weight:600;color:var(--d365-text);}
+.record-title-sub{font-size:12px;color:var(--d365-text-xs);margin-top:2px;}
+.record-meta-strip{
+  display:flex;align-items:center;gap:20px;
+  font-size:12px;color:var(--d365-text-lt);
+}
+.meta-item{display:flex;flex-direction:column;gap:1px;}
+.meta-label{font-size:11px;color:var(--d365-text-xs);}
+.meta-value{font-size:12px;color:var(--d365-text);font-weight:500;}
+.lozenge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;border-radius:2px;
+  font-size:11px;font-weight:600;letter-spacing:.3px;
+}
+.lozenge.high{background:#fde7e9;color:var(--d365-lozenge-high);}
+.lozenge.normal{background:#fff4ce;color:#7a5600;}
+.lozenge.in-progress{background:#dff6dd;color:#107c10;}
+.record-header-tabs{
+  display:flex;gap:0;margin-top:8px;
+}
+.rh-tab{
+  padding:8px 16px;
+  font-size:13px;color:var(--d365-text-lt);
+  border-bottom:2px solid transparent;cursor:pointer;
+}
+.rh-tab:hover{color:var(--d365-text);}
+.rh-tab.active{color:var(--d365-blue);border-bottom-color:var(--d365-blue);font-weight:500;}
+
+/* ── FORM BODY ───────────────────────────────────────────── */
+.record-body{
+  flex:1;overflow-y:auto;
+  padding:16px 20px;
+  display:flex;flex-direction:column;gap:16px;
+}
+.form-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-section{background:#fff;border:1px solid var(--d365-border);border-radius:2px;}
+.form-section-header{
+  padding:10px 16px;
+  border-bottom:1px solid var(--d365-border);
+  font-size:13px;font-weight:600;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.form-section-header .icon{margin-right:6px;}
+.form-field{
+  display:grid;grid-template-columns:160px 1fr;
+  align-items:start;
+  padding:8px 16px;
+  border-bottom:1px solid var(--d365-border);
+  min-height:36px;
+}
+.form-field:last-child{border-bottom:none;}
+.field-label{font-size:12px;color:var(--d365-text-xs);padding-top:3px;}
+.field-value{font-size:13px;color:var(--d365-text);}
+.field-value a{color:var(--d365-blue);}
+.field-value input{
+  width:100%;border:1px solid transparent;background:transparent;
+  padding:2px 4px;font-size:13px;font-family:var(--font);color:var(--d365-text);
+  border-radius:2px;outline:none;
+}
+.field-value input:hover{border-color:var(--d365-border);}
+.field-value input:focus{border-color:var(--d365-blue);background:#fff;}
+.required-star{color:var(--d365-red);margin-right:2px;}
+
+/* ── TIMELINE ────────────────────────────────────────────── */
+.timeline-section{
+  background:#fff;border:1px solid var(--d365-border);border-radius:2px;
+  display:flex;flex-direction:column;
+}
+.timeline-header{
+  padding:10px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--d365-border);
+}
+.timeline-header-left{font-size:13px;font-weight:600;}
+.timeline-header-right{display:flex;gap:4px;}
+.tl-icon-btn{
+  padding:3px 6px;border-radius:2px;color:var(--d365-text-lt);font-size:13px;cursor:pointer;
+}
+.tl-icon-btn:hover{background:var(--d365-bg);}
+.timeline-search{
+  padding:8px 16px;border-bottom:1px solid var(--d365-border);
+  display:flex;align-items:center;gap:6px;
+}
+.timeline-search input{
+  flex:1;border:1px solid var(--d365-border);border-radius:2px;
+  padding:4px 8px;font-size:12px;font-family:var(--font);outline:none;
+}
+.timeline-search input:focus{border-color:var(--d365-blue);}
+.timeline-note{
+  padding:8px 16px;border-bottom:1px solid var(--d365-border);
+  display:flex;align-items:center;gap:8px;
+}
+.timeline-note input{
+  flex:1;border:1px solid var(--d365-border);border-radius:2px;
+  padding:5px 10px;font-size:12px;font-family:var(--font);
+  color:var(--d365-text-xs);outline:none;
+}
+.timeline-entries{padding:8px 0;}
+.tl-group-label{
+  padding:4px 16px;font-size:11px;font-weight:600;
+  color:var(--d365-text-xs);text-transform:uppercase;letter-spacing:.5px;
+  display:flex;align-items:center;gap:8px;
+}
+.tl-group-label::after{content:'';flex:1;height:1px;background:var(--d365-border);}
+.tl-entry{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:10px 16px;border-bottom:1px solid #faf9f8;
+  transition:background .15s;
+}
+.tl-entry:hover{background:#faf9f8;}
+.tl-avatar{
+  width:32px;height:32px;min-width:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;color:#fff;
+}
+.tl-avatar.blue{background:var(--d365-blue);}
+.tl-avatar.green{background:#107c10;}
+.tl-avatar.purple{background:#5c2d91;}
+.tl-body{flex:1;}
+.tl-meta{font-size:11px;color:var(--d365-text-xs);margin-bottom:3px;}
+.tl-title{font-size:13px;font-weight:500;color:var(--d365-text);margin-bottom:2px;}
+.tl-sub{font-size:12px;color:var(--d365-text-lt);}
+.tl-actions{display:flex;gap:2px;align-items:center;}
+.tl-action-btn{font-size:12px;color:var(--d365-text-xs);padding:2px 5px;border-radius:2px;cursor:pointer;}
+.tl-action-btn:hover{background:var(--d365-bg);}
+
+/* ── AMBER NOTIFICATION BAR ──────────────────────────────── */
+.amber-bar{
+  background:var(--d365-amber-bg);
+  border-top:2px solid #f0c050;
+  border-bottom:1px solid #f0c050;
+  padding:10px 20px;
+  display:flex;align-items:center;gap:12px;
+  font-size:13px;
+  animation:slideIn .4s ease;
+  position:relative;
+  z-index:50;
+}
+@keyframes slideIn{from{transform:translateY(100%);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.amber-bar-icon{font-size:18px;color:var(--d365-amber);}
+.amber-bar-text{flex:1;color:var(--d365-amber);}
+.amber-bar-text strong{font-weight:600;}
+.amber-bar a{color:var(--d365-blue);}
+.amber-bar-actions{display:flex;gap:8px;}
+.amber-bar .cmd-btn{
+  background:var(--d365-amber);color:#fff;border-color:var(--d365-amber);
+  font-size:12px;padding:4px 12px;
+}
+.amber-bar .cmd-btn:hover{background:#9a5b00;}
+.amber-bar .cmd-btn.ghost{background:transparent;color:var(--d365-amber);border-color:var(--d365-amber);}
+.amber-bar .cmd-btn.ghost:hover{background:rgba(180,108,0,.1);}
+.amber-bar-dismiss{font-size:14px;color:var(--d365-text-xs);cursor:pointer;padding:2px 6px;border-radius:2px;}
+.amber-bar-dismiss:hover{background:rgba(0,0,0,.06);}
+
+/* ── SEARCH OVERLAY ──────────────────────────────────────── */
+.search-overlay{
+  display:none;
+  position:fixed;inset:0;z-index:500;
+}
+.search-backdrop{
+  position:absolute;inset:0;background:rgba(0,0,0,.25);
+}
+.search-box{
+  position:absolute;
+  top:80px;left:50%;transform:translateX(-50%);
+  width:560px;background:#fff;
+  border-radius:4px;
+  box-shadow:0 8px 32px rgba(0,0,0,.18);
+  overflow:hidden;
+}
+.search-input-row{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 14px;
+  border-bottom:1px solid var(--d365-border);
+}
+.search-input-row .search-icon{font-size:16px;color:var(--d365-text-xs);}
+.search-input-row input{
+  flex:1;border:none;outline:none;font-size:14px;
+  font-family:var(--font);color:var(--d365-text);
+}
+.search-typeahead{max-height:300px;overflow-y:auto;}
+.typeahead-section{padding:8px 0;}
+.typeahead-label{
+  font-size:11px;color:var(--d365-text-xs);
+  padding:4px 14px;text-transform:uppercase;letter-spacing:.4px;font-weight:600;
+}
+.typeahead-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 14px;cursor:pointer;
+}
+.typeahead-item:hover,.typeahead-item.highlighted{background:var(--d365-blue-lt);}
+.typeahead-avatar{
+  width:28px;height:28px;min-width:28px;border-radius:50%;
+  background:var(--d365-blue);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;
+}
+.typeahead-info{flex:1;}
+.typeahead-name{font-size:13px;font-weight:500;color:var(--d365-text);}
+.typeahead-meta{font-size:11px;color:var(--d365-text-xs);}
+.typeahead-type{font-size:11px;color:var(--d365-text-xs);}
+
+/* ── CASE RECORD VIEW ────────────────────────────────────── */
+.case-view{display:none;flex-direction:column;height:100%;}
+.case-view.visible{display:flex;}
+.contact-view{display:flex;flex-direction:column;height:100%;}
+
+/* ── RIGHT PANEL (Copilot) ───────────────────────────────── */
+.right-panel-header{
+  padding:12px 16px;border-bottom:1px solid var(--d365-border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.copilot-title{font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;}
+.copilot-icon{
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,#5c2d91,#0078d4);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:11px;
+}
+.copilot-tabs{display:flex;border-bottom:1px solid var(--d365-border);}
+.copilot-tab{
+  flex:1;text-align:center;padding:8px 4px;
+  font-size:12px;color:var(--d365-text-lt);cursor:pointer;
+  border-bottom:2px solid transparent;
+}
+.copilot-tab.active{color:var(--d365-blue);border-bottom-color:var(--d365-blue);font-weight:500;}
+.copilot-body{flex:1;overflow-y:auto;padding:16px;}
+.copilot-greeting{
+  text-align:center;padding:20px 8px;
+}
+.copilot-greeting h3{font-size:14px;font-weight:600;margin-bottom:8px;color:var(--d365-text);}
+.copilot-greeting p{font-size:12px;color:var(--d365-text-lt);line-height:1.5;}
+.copilot-tip{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:12px;color:var(--d365-text-lt);
+  margin-bottom:10px;line-height:1.4;
+}
+.copilot-tip .tip-icon{font-size:14px;margin-top:1px;min-width:16px;}
+.copilot-input-row{
+  padding:10px 12px;border-top:1px solid var(--d365-border);
+  display:flex;align-items:center;gap:6px;
+}
+.copilot-input-row input{
+  flex:1;border:1px solid var(--d365-border);border-radius:16px;
+  padding:5px 12px;font-size:12px;font-family:var(--font);outline:none;
+  color:var(--d365-text-xs);
+}
+.copilot-input-row input:focus{border-color:var(--d365-blue);}
+.send-btn{
+  background:var(--d365-blue);color:#fff;border:none;
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;cursor:pointer;flex-shrink:0;
+}
+
+/* ── RIGHT SIDE ICON RAIL ────────────────────────────────── */
+.icon-rail{
+  width:40px;min-width:40px;
+  background:#fff;border-left:1px solid var(--d365-border);
+  display:flex;flex-direction:column;align-items:center;
+  padding:8px 0;gap:4px;
+}
+.icon-rail-btn{
+  width:32px;height:32px;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;color:var(--d365-text-lt);cursor:pointer;
+}
+.icon-rail-btn:hover{background:var(--d365-bg);}
+.icon-rail-btn.active{background:var(--d365-blue-lt);color:var(--d365-blue);}
+
+/* ── SUMMARY PANEL (right of case form) ─────────────────── */
+.summary-panel{
+  background:#fff;border:1px solid var(--d365-border);border-radius:2px;
+  padding:14px;
+  font-size:12px;color:var(--d365-text-lt);line-height:1.6;
+}
+.summary-panel h4{font-size:13px;font-weight:600;margin-bottom:8px;
+  display:flex;align-items:center;justify-content:space-between;}
+.summary-toggle{font-size:12px;color:var(--d365-text-xs);cursor:pointer;}
+.summary-copy-row{margin-top:10px;display:flex;gap:8px;}
+.summary-note{font-size:10px;color:var(--d365-text-xs);margin-top:6px;line-height:1.4;}
+
+/* ── MISC ────────────────────────────────────────────────── */
+.hidden{display:none!important;}
+.fade-in{animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.step-indicator{
+  position:fixed;bottom:16px;right:16px;
+  background:var(--d365-navy);color:#fff;
+  padding:6px 14px;border-radius:20px;
+  font-size:12px;z-index:300;
+  box-shadow:0 2px 8px rgba(0,0,0,.3);
+  opacity:.85;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOP NAV ═══════════════════════════════════════════════ -->
+<div class="topbar">
+  <div class="topbar-waffle">⊞</div>
+  <div class="topbar-brand">
+    <span class="topbar-d365">Dynamics 365</span>
+    <span class="topbar-sep">|</span>
+    <span class="topbar-module">Customer Service workspace</span>
+  </div>
+  <div class="topbar-spacer"></div>
+  <!-- HSBC co-brand -->
+  <div class="hsbc-cobrand">
+    <div class="hsbc-hex">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <span class="hsbc-cobrand-text">HSBC Commercial Banking</span>
+  </div>
+  <span class="topbar-label" style="font-size:11px;color:rgba(255,255,255,.6)">New look</span>
+  <div class="topbar-toggle"><div class="toggle-knob"></div></div>
+  <!-- search icon — clicking opens overlay -->
+  <span class="topbar-icon" id="searchTrigger" title="Search (Ctrl+K)">🔍</span>
+  <span class="topbar-icon">🔔</span>
+  <span class="topbar-icon">＋</span>
+  <span class="topbar-icon">⚙️</span>
+  <span class="topbar-icon">❓</span>
+  <span class="topbar-icon">📞</span>
+  <div class="topbar-avatar">SK</div>
+</div>
+
+<!-- ══ TABS BAR ══════════════════════════════════════════════ -->
+<div class="tabs-bar">
+  <div class="tabs-bar-nav">
+    <button>☰</button>
+    <button>🏠 Home</button>
+    <button>📥 Inbox</button>
+  </div>
+  <div class="tab-item active" id="contactTab">
+    <span class="tab-icon">👤</span>
+    <span id="contactTabLabel">James Hartley</span>
+    <span class="tab-close">✕</span>
+  </div>
+  <div class="tab-item hidden" id="caseTab">
+    <span class="tab-icon">🔧</span>
+    <span>HART-CAS-2026-0112</span>
+    <span class="tab-close" onclick="closeCaseTab(event)">✕</span>
+  </div>
+</div>
+
+<!-- ══ WORKSPACE ═════════════════════════════════════════════ -->
+<div class="workspace">
+
+  <!-- LEFT RAIL -->
+  <div class="left-rail">
+    <div class="rail-section">
+      <div class="rail-section-label">Inbox views</div>
+      <div class="rail-item">📋 Assigned conversations</div>
+      <div class="rail-item active">📁 Cases</div>
+      <div class="rail-item">✅ Resolved conversations</div>
+      <div class="rail-item">📌 Unassigned conversations</div>
+    </div>
+    <div class="rail-section">
+      <div class="rail-section-label">Recent</div>
+      <div class="rail-item" style="flex-direction:column;align-items:flex-start;gap:2px;">
+        <span style="font-weight:500;">James Hartley</span>
+        <span style="font-size:11px;color:var(--d365-text-xs);">HART-CAS-2026-0112</span>
+        <span style="font-size:11px;color:var(--d365-text-xs);">Active • High</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="main-content" id="mainContent">
+
+    <!-- ══ CONTACT VIEW ═══════════════════════════════════ -->
+    <div class="contact-view" id="contactView">
+
+      <!-- Command bar -->
+      <div class="cmd-bar">
+        <button class="cmd-btn">⬅</button>
+        <div class="cmd-sep"></div>
+        <button class="cmd-btn">💾 Save</button>
+        <button class="cmd-btn">💾 Save &amp; Close</button>
+        <button class="cmd-btn">🔄 Refresh</button>
+        <button class="cmd-btn">➕ New Case</button>
+        <button class="cmd-btn">📧 Send Email</button>
+        <button class="cmd-btn">📞 Log Call</button>
+        <div class="cmd-sep"></div>
+        <button class="cmd-btn">⋯</button>
+        <div class="cmd-spacer"></div>
+        <button class="cmd-btn primary">↗ Share</button>
+      </div>
+
+      <!-- Record header -->
+      <div class="record-header">
+        <div class="record-breadcrumb">
+          <a href="#">Contacts</a>
+          <span>›</span>
+          <span>James Hartley</span>
+        </div>
+        <div class="record-title-row">
+          <div>
+            <div class="record-title">James Hartley</div>
+            <div class="record-title-sub">Contact · Commercial Banking Customer</div>
+          </div>
+          <div class="record-meta-strip">
+            <div class="meta-item">
+              <span class="meta-label">Case Number</span>
+              <span class="meta-value" style="color:var(--d365-blue);cursor:pointer;" onclick="openCase()">HART-CAS-2026-0112</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Priority</span>
+              <span class="lozenge high" style="margin-top:2px;">● HIGH</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Status</span>
+              <span class="lozenge in-progress" style="margin-top:2px;">In Progress</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Owner</span>
+              <div style="display:flex;align-items:center;gap:4px;margin-top:2px;">
+                <div class="tl-avatar blue" style="width:20px;height:20px;font-size:9px;">SK</div>
+                <span class="meta-value">Sarah Kim</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Tab strip -->
+        <div class="record-header-tabs">
+          <div class="rh-tab active" id="detailsTabBtn" onclick="showContactTab('details')">Details</div>
+          <div class="rh-tab" id="timelineTabBtn" onclick="showContactTab('timeline')">Timeline</div>
+          <div class="rh-tab" onclick="showContactTab('related')">Related ▾</div>
+        </div>
+      </div>
+
+      <!-- Amber bar (hidden initially, appears after Timeline) -->
+      <div class="amber-bar hidden" id="amberBar">
+        <span class="amber-bar-icon">⚠️</span>
+        <span class="amber-bar-text">
+          <strong>Repeat Contact Alert</strong> — This is James Hartley's <strong>3rd contact within 90 days</strong>.
+          Prior cases: <a href="#" onclick="openCase();return false;">HART-CAS-2026-0099</a>, <a href="#">HART-CAS-2026-0078</a>.
+          Possible escalation risk.
+        </span>
+        <div class="amber-bar-actions">
+          <button class="cmd-btn" onclick="openCase()">Open Case</button>
+          <button class="cmd-btn ghost">Dismiss</button>
+        </div>
+        <span class="amber-bar-dismiss" onclick="document.getElementById('amberBar').classList.add('hidden')">✕</span>
+      </div>
+
+      <!-- Body — Details tab -->
+      <div class="record-body fade-in" id="detailsBody" style="overflow-y:auto;flex:1;">
+        <div class="form-cols">
+          <!-- Left column: Contact Info -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <span><span class="icon">👤</span> Contact Information</span>
+              <button class="cmd-btn" style="font-size:12px;padding:2px 8px;">✏️ Edit</button>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Full Name</span>
+              <span class="field-value">James Hartley</span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Account Name</span>
+              <span class="field-value"><a href="#">Hartley &amp; Associates Ltd</a></span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Job Title</span>
+              <span class="field-value">Director of Finance</span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Email</span>
+              <span class="field-value">
+                <a href="#">j.hartley@hartley-assoc.co.uk</a>
+                <span style="margin-left:6px;font-size:12px;color:var(--d365-text-xs);">✉ 📋</span>
+              </span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Business Phone</span>
+              <span class="field-value">+44 20 7946 0112 <span style="font-size:12px;color:var(--d365-text-xs);">📞 📋</span></span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Mobile Phone</span>
+              <span class="field-value">+44 7700 900 412 <span style="font-size:12px;color:var(--d365-text-xs);">📞 📋</span></span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Preferred Contact</span>
+              <span class="field-value">Phone</span>
+            </div>
+          </div>
+          <!-- Right column: Case Details -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <span><span class="icon">🔒</span> Current Case Details</span>
+              <button class="cmd-btn" style="font-size:12px;padding:2px 8px;">✏️ Edit</button>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Case Number</span>
+              <span class="field-value"><a href="#" onclick="openCase();return false;">HART-CAS-2026-0112</a></span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Case Title</span>
+              <span class="field-value">Unauthorised Transaction Query — FX Account</span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Priority</span>
+              <span class="field-value"><span class="lozenge high">● HIGH</span></span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Case Status</span>
+              <span class="field-value"><span class="lozenge in-progress">In Progress</span></span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Product</span>
+              <span class="field-value"><a href="#">HSBC Global FX Account</a> ✕</span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Channel</span>
+              <span class="field-value">Inbound Call</span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Description</span>
+              <span class="field-value" style="color:var(--d365-text-xs);font-style:italic;">Customer reports an unrecognised FX debit of £14,200 on 14 Jan 2026. Requests immediate investigation and potential reversal.</span>
+            </div>
+          </div>
+        </div>
+        <!-- Address section -->
+        <div class="form-section">
+          <div class="form-section-header"><span>📍 Address &amp; Account</span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;">
+            <div class="form-field" style="grid-column:span 1;">
+              <span class="field-label">Address</span>
+              <span class="field-value">14 Cannon Street, London, EC4M 5TA</span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Relationship Manager</span>
+              <span class="field-value"><a href="#">Priya Nair</a></span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Segment</span>
+              <span class="field-value">Commercial Banking — Mid-Market</span>
+            </div>
+          </div>
+        </div>
+        <!-- Recent Cases -->
+        <div class="form-section">
+          <div class="form-section-header">📋 Recent Cases (3)</div>
+          <div class="form-field">
+            <span class="field-label">HART-CAS-2026-0112</span>
+            <span class="field-value"><a href="#" onclick="openCase();return false;">Unauthorised Transaction Query — FX Account</a> &nbsp;<span class="lozenge high" style="font-size:10px;">HIGH</span> &nbsp;<span class="lozenge in-progress" style="font-size:10px;">In Progress</span></span>
+          </div>
+          <div class="form-field">
+            <span class="field-label">HART-CAS-2026-0099</span>
+            <span class="field-value"><a href="#">Late Payment Processing — GBP Account</a> &nbsp;<span class="lozenge normal" style="font-size:10px;">NORMAL</span> &nbsp;<span class="lozenge in-progress" style="font-size:10px;">Resolved</span></span>
+          </div>
+          <div class="form-field">
+            <span class="field-label">HART-CAS-2026-0078</span>
+            <span class="field-value"><a href="#">Online Banking Access Issue</a> &nbsp;<span class="lozenge normal" style="font-size:10px;">NORMAL</span> &nbsp;<span style="font-size:10px;color:#107c10;">Resolved</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body — Timeline tab (hidden initially) -->
+      <div class="record-body hidden fade-in" id="timelineBody" style="overflow-y:auto;flex:1;padding:0;">
+        <div style="padding:16px 20px;">
+        <div class="timeline-section">
+          <div class="timeline-header">
+            <span class="timeline-header-left">Timeline</span>
+            <div class="timeline-header-right">
+              <span class="tl-icon-btn">＋</span>
+              <span class="tl-icon-btn">🔽</span>
+              <span class="tl-icon-btn">☰</span>
+              <span class="tl-icon-btn">⋯</span>
+            </div>
+          </div>
+          <div class="timeline-search">
+            <span style="color:var(--d365-text-xs);">🔍</span>
+            <input type="text" placeholder="Search timeline" />
+          </div>
+          <div class="timeline-note">
+            <span style="color:var(--d365-text-xs);">✏️</span>
+            <input type="text" placeholder="Enter a note..." />
+            <span style="font-size:14px;color:var(--d365-text-xs);">🎙</span>
+          </div>
+          <div class="timeline-entries">
+            <!-- Highlights row -->
+            <div class="tl-entry" style="background:#fafafa;align-items:center;padding:8px 16px;">
+              <span style="font-size:14px;">💡</span>
+              <span style="font-weight:600;font-size:13px;flex:1;">Highlights</span>
+              <span style="font-size:12px;color:var(--d365-text-xs);">▼</span>
+            </div>
+            <div class="tl-group-label">Recent</div>
+
+            <!-- Entry 1: Feb call -->
+            <div class="tl-entry fade-in">
+              <div class="tl-avatar blue">SK</div>
+              <div class="tl-body">
+                <div class="tl-meta">Modified on: <strong>3 Feb 2026</strong> 10:42 AM</div>
+                <div class="tl-title">📞 Phone Call from: <a href="#">James Hartley</a>
+                  <span class="lozenge in-progress" style="margin-left:8px;font-size:10px;">Completed</span>
+                </div>
+                <div class="tl-sub">Unauthorised Transaction Query — FX Account</div>
+                <div style="margin-top:6px;padding:8px;background:#f8f8f8;border-radius:2px;font-size:12px;color:var(--d365-text-lt);">
+                  Customer called to follow up on case HART-CAS-2026-0112. Confirmed £14,200 FX debit still showing. Escalation to Fraud team requested. Case priority raised to HIGH.
+                </div>
+                <div style="margin-top:6px;">
+                  <a href="#" style="font-size:12px;">View more</a>
+                </div>
+              </div>
+              <div class="tl-actions">
+                <span class="tl-action-btn">👤</span>
+                <span class="tl-action-btn">✓</span>
+                <span class="tl-action-btn">📋</span>
+                <span class="tl-action-btn">✏️</span>
+                <span class="tl-action-btn">🗑</span>
+              </div>
+            </div>
+
+            <!-- Entry 2: Jan call -->
+            <div class="tl-entry fade-in">
+              <div class="tl-avatar purple">PN</div>
+              <div class="tl-body">
+                <div class="tl-meta">Modified on: <strong>16 Jan 2026</strong> 2:15 PM</div>
+                <div class="tl-title">📞 Phone Call from: <a href="#">Priya Nair</a>
+                  <span class="lozenge in-progress" style="margin-left:8px;font-size:10px;">Completed</span>
+                </div>
+                <div class="tl-sub">Initial case intake — Unauthorised FX transaction</div>
+                <div style="margin-top:6px;padding:8px;background:#f8f8f8;border-radius:2px;font-size:12px;color:var(--d365-text-lt);">
+                  Customer first reported unrecognised debit of £14,200 on 14 Jan 2026. Relationship Manager logged case HART-CAS-2026-0112. Customer asked to provide transaction reference within 48 hours.
+                </div>
+                <div style="margin-top:6px;">
+                  <a href="#" style="font-size:12px;">View more</a>
+                </div>
+              </div>
+              <div class="tl-actions">
+                <span class="tl-action-btn">👤</span>
+                <span class="tl-action-btn">✓</span>
+                <span class="tl-action-btn">📋</span>
+                <span class="tl-action-btn">✏️</span>
+                <span class="tl-action-btn">🗑</span>
+              </div>
+            </div>
+
+            <!-- Entry 3: Jan note -->
+            <div class="tl-entry fade-in">
+              <div class="tl-avatar green">SK</div>
+              <div class="tl-body">
+                <div class="tl-meta">Modified on: <strong>14 Jan 2026</strong> 9:07 AM</div>
+                <div class="tl-title">📝 Note by <a href="#">Sarah Kim</a></div>
+                <div class="tl-sub">Internal note — Fraud referral initiated</div>
+                <div style="margin-top:6px;padding:8px;background:#fffde7;border-left:3px solid #f0c050;border-radius:2px;font-size:12px;color:var(--d365-text-lt);">
+                  Referred to HSBC Fraud Operations team. Reference: FRAUD-2026-00874. Customer to be notified within 5 working days per SLA. Interim block placed on FX account pending investigation.
+                </div>
+              </div>
+              <div class="tl-actions">
+                <span class="tl-action-btn">✏️</span>
+                <span class="tl-action-btn">🗑</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        </div>
+      </div><!-- /timelineBody -->
+
+    </div><!-- /contactView -->
+
+    <!-- ══ CASE VIEW ════════════════════════════════════════ -->
+    <div class="case-view" id="caseView">
+
+      <!-- Command bar -->
+      <div class="cmd-bar">
+        <button class="cmd-btn" onclick="backToContact()">⬅</button>
+        <div class="cmd-sep"></div>
+        <button class="cmd-btn">💾 Save</button>
+        <button class="cmd-btn">💾 Save &amp; Close</button>
+        <button class="cmd-btn">↗ Save &amp; Route</button>
+        <button class="cmd-btn">🔄 Refresh</button>
+        <button class="cmd-btn">➕ New</button>
+        <button class="cmd-btn">✅ Resolve Case</button>
+        <button class="cmd-btn">❌ Cancel Case</button>
+        <button class="cmd-btn">👤 Assign</button>
+        <button class="cmd-btn">📥 Add to Queue</button>
+        <div class="cmd-sep"></div>
+        <button class="cmd-btn">⋯</button>
+        <div class="cmd-spacer"></div>
+        <button class="cmd-btn primary">↗ Share</button>
+      </div>
+
+      <!-- Case record header -->
+      <div class="record-header">
+        <div class="record-breadcrumb">
+          <a href="#">Cases</a>
+          <span>›</span>
+          <a href="#" onclick="backToContact();return false;">Case for Commercial Banking</a>
+          <span>›</span>
+          <span>HART-CAS-2026-0112</span>
+        </div>
+        <div class="record-title-row">
+          <div>
+            <div class="record-title">Unauthorised Transaction Query — FX Account
+              <span style="font-size:13px;color:var(--d365-text-xs);font-weight:400;margin-left:8px;">- Saved</span>
+            </div>
+            <div class="record-title-sub">Case · Case for Commercial Banking <span style="color:var(--d365-blue);">▾</span></div>
+          </div>
+          <div class="record-meta-strip">
+            <div class="meta-item">
+              <span class="meta-label">Case Number</span>
+              <span class="meta-value">HART-CAS-2026-0112</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Origin</span>
+              <span class="meta-value">Phone</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Created On</span>
+              <span class="meta-value">14 Jan 2026, 09:02</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Owner</span>
+              <div style="display:flex;align-items:center;gap:4px;margin-top:2px;">
+                <div class="tl-avatar blue" style="width:20px;height:20px;font-size:9px;">SK</div>
+                <span class="meta-value">Sarah Kim</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="record-header-tabs">
+          <div class="rh-tab active">Summary</div>
+          <div class="rh-tab">Details</div>
+          <div class="rh-tab">Related ▾</div>
+        </div>
+      </div>
+
+      <!-- Case body -->
+      <div class="record-body fade-in" style="overflow-y:auto;flex:1;">
+        <div class="form-cols">
+          <!-- Case form left -->
+          <div class="form-section">
+            <div class="form-section-header">Case Information</div>
+            <div class="form-field">
+              <span class="field-label"><span class="required-star">*</span>Case Title</span>
+              <span class="field-value">Unauthorised Transaction Query — FX Account</span>
+            </div>
+            <div class="form-field">
+              <span class="field-label"><span class="required-star">*</span>Customer</span>
+              <span class="field-value"><a href="#" onclick="backToContact();return false;">James Hartley</a> ✕ 🔍</span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Subject</span>
+              <span class="field-value">FX Account — Fraudulent Debit</span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Priority</span>
+              <span class="field-value"><span class="lozenge high">● HIGH</span></span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Case Status</span>
+              <span class="field-value"><span class="lozenge in-progress">In Progress</span></span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Product</span>
+              <span class="field-value"><a href="#">HSBC Global FX Account</a> ✕</span>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Description</span>
+              <span class="field-value" style="color:var(--d365-text-lt);">Customer reports unrecognised FX debit of £14,200 on 14 Jan 2026. Requests immediate investigation and potential reversal.</span>
+            </div>
+          </div>
+          <!-- AI Summary right -->
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="summary-panel">
+              <h4>
+                <span><span style="color:var(--d365-blue);">💡</span> Summary</span>
+                <span class="summary-toggle">▲</span>
+              </h4>
+              <p>James Hartley (Director of Finance, Hartley &amp; Associates Ltd) reported an unrecognised FX debit of <strong>£14,200</strong> on 14 January 2026 from his HSBC Global FX account. The Relationship Manager (Priya Nair) logged the case and referred it to HSBC Fraud Operations (Ref: FRAUD-2026-00874). An interim account block was placed. On 3 Feb, James followed up requesting escalation — priority raised to HIGH. Next step: Fraud Ops to report findings by 10 Feb 2026 per SLA.</p>
+              <div class="summary-copy-row">
+                <button class="cmd-btn" style="font-size:12px;border:1px solid var(--d365-border);">📋 Copy</button>
+                <button class="cmd-btn" style="font-size:12px;border:1px solid var(--d365-border);">🔄</button>
+              </div>
+              <p class="summary-note">AI-generated content may be incorrect. <a href="#">See terms</a></p>
+            </div>
+            <!-- Case Timeline mini -->
+            <div class="form-section">
+              <div class="timeline-header" style="padding:8px 12px;">
+                <span class="timeline-header-left" style="font-size:12px;">Timeline</span>
+                <div class="timeline-header-right">
+                  <span class="tl-icon-btn" style="font-size:11px;">＋</span>
+                  <span class="tl-icon-btn" style="font-size:11px;">🔽</span>
+                  <span class="tl-icon-btn" style="font-size:11px;">☰</span>
+                </div>
+              </div>
+              <div class="tl-entry">
+                <div class="tl-avatar blue" style="width:24px;height:24px;font-size:9px;">SK</div>
+                <div class="tl-body">
+                  <div class="tl-meta" style="font-size:10px;">3 Feb 2026, 10:42 AM</div>
+                  <div class="tl-title" style="font-size:12px;">📞 Inbound call — escalation to Fraud team</div>
+                </div>
+              </div>
+              <div class="tl-entry">
+                <div class="tl-avatar purple" style="width:24px;height:24px;font-size:9px;">PN</div>
+                <div class="tl-body">
+                  <div class="tl-meta" style="font-size:10px;">16 Jan 2026, 2:15 PM</div>
+                  <div class="tl-title" style="font-size:12px;">📞 Initial intake call — RM Priya Nair</div>
+                </div>
+              </div>
+              <div class="tl-entry">
+                <div class="tl-avatar green" style="width:24px;height:24px;font-size:9px;">SK</div>
+                <div class="tl-body">
+                  <div class="tl-meta" style="font-size:10px;">14 Jan 2026, 9:07 AM</div>
+                  <div class="tl-title" style="font-size:12px;">📝 Fraud referral — FRAUD-2026-00874</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /caseView -->
+
+  </div><!-- /main-content -->
+
+  <!-- RIGHT PANEL + ICON RAIL -->
+  <div style="display:flex;">
+    <div class="right-panel">
+      <div class="right-panel-header">
+        <div class="copilot-title">
+          <div class="copilot-icon">✦</div>
+          Copilot
+        </div>
+        <span style="font-size:11px;color:var(--d365-text-xs);">Get AI-powered help with solving customer issues.</span>
+      </div>
+      <div class="copilot-tabs">
+        <div class="copilot-tab active">Ask a question</div>
+        <div class="copilot-tab">Write an email</div>
+      </div>
+      <div class="copilot-body">
+        <div class="copilot-greeting">
+          <div style="font-size:32px;margin-bottom:12px;">💬</div>
+          <h3>Hi Sarah, what do you need?</h3>
+          <p>Describe it and get an answer generated by AI.</p>
+        </div>
+        <div class="copilot-tip">
+          <span class="tip-icon">↗</span>
+          <span>The more specific you are, the better responses you'll get from Copilot.</span>
+        </div>
+        <div class="copilot-tip">
+          <span class="tip-icon">🔄</span>
+          <span>Try using Copilot to translate, rephrase your responses, summarise, and change tone.</span>
+        </div>
+        <div class="copilot-tip">
+          <span class="tip-icon">ℹ️</span>
+          <span>AI-generated content can have mistakes. Make sure it's accurate and appropriate. <a href="#">Read terms</a></span>
+        </div>
+        <div style="margin-top:16px;">
+          <div style="background:var(--d365-bg);border-radius:16px;padding:6px 12px;font-size:12px;color:var(--d365-text-xs);margin-bottom:8px;cursor:pointer;">
+            How to handle an unauthorised transaction claim?
+          </div>
+          <div style="background:var(--d365-bg);border-radius:16px;padding:6px 12px;font-size:12px;color:var(--d365-text-xs);cursor:pointer;">
+            Draft a holding email for HART-CAS-2026-0112
+          </div>
+        </div>
+      </div>
+      <div class="copilot-input-row">
+        <input type="text" placeholder="Describe what you need" />
+        <button class="send-btn">➤</button>
+      </div>
+    </div>
+    <div class="icon-rail">
+      <div class="icon-rail-btn active">✦</div>
+      <div class="icon-rail-btn">📋</div>
+      <div class="icon-rail-btn">🔲</div>
+      <div class="icon-rail-btn">💬</div>
+    </div>
+  </div>
+
+</div><!-- /workspace -->
+
+<!-- ══ SEARCH OVERLAY ════════════════════════════════════════ -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-backdrop" onclick="closeSearch()"></div>
+  <div class="search-box">
+    <div class="search-input-row">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search Dynamics 365..." oninput="handleSearch(this.value)" autocomplete="off"/>
+      <span style="font-size:12px;color:var(--d365-text-xs);cursor:pointer;" onclick="closeSearch()">✕</span>
+    </div>
+    <div class="search-typeahead" id="searchTypeahead">
+      <div class="typeahead-section">
+        <div class="typeahead-label">Recent searches</div>
+        <div class="typeahead-item">
+          <div class="typeahead-avatar" style="background:#5c2d91;">MF</div>
+          <div class="typeahead-info">
+            <div class="typeahead-name">Michael Foster</div>
+            <div class="typeahead-meta">Contact · HSBC Premier Banking</div>
+          </div>
+          <span class="typeahead-type">Contact</span>
+        </div>
+        <div class="typeahead-item">
+          <div class="typeahead-avatar" style="background:#107c10;">LW</div>
+          <div class="typeahead-info">
+            <div class="typeahead-name">Laura Webb</div>
+            <div class="typeahead-meta">Contact · HSBC Business Banking</div>
+          </div>
+          <span class="typeahead-type">Contact</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Step indicator for demo flow -->
+<div class="step-indicator" id="stepIndicator">Step 1 of 5 — Click 🔍 to begin</div>
+
+<!-- ══ JAVASCRIPT ════════════════════════════════════════════ -->
+<script>
+// ── STATE ──────────────────────────────────────────────────
+let currentView = 'contact';   // 'contact' | 'case'
+let currentTab = 'details';    // 'details' | 'timeline'
+let demoStep = 0;              // 0..5
+
+const steps = [
+  'Step 1 of 5 — Click 🔍 to begin search',
+  'Step 2 of 5 — Type "James Hartley" in the search box',
+  'Step 3 of 5 — Click the result to load contact record',
+  'Step 4 of 5 — Click "Timeline" tab',
+  'Step 5 of 5 — Amber alert shown — click "Open Case"',
+  '✅ Demo complete — Case HART-CAS-2026-0112 open'
+];
+
+function setStep(n){
+  demoStep = n;
+  document.getElementById('stepIndicator').textContent = steps[n] || steps[steps.length-1];
+}
+
+// ── SEARCH ─────────────────────────────────────────────────
+document.getElementById('searchTrigger').addEventListener('click', () => {
+  openSearch();
+  setStep(1);
+});
+
+function openSearch(){
+  const ov = document.getElementById('searchOverlay');
+  ov.style.display = 'block';
+  setTimeout(() => document.getElementById('searchInput').focus(), 50);
+}
+function closeSearch(){
+  document.getElementById('searchOverlay').style.display = 'none';
+}
+
+// Keyboard shortcut Ctrl+K
+document.addEventListener('keydown', e => {
+  if((e.ctrlKey || e.metaKey) && e.key === 'k'){e.preventDefault(); openSearch(); setStep(1);}
+  if(e.key === 'Escape') closeSearch();
+});
+
+function handleSearch(val){
+  const ta = document.getElementById('searchTypeahead');
+  if(val.toLowerCase().includes('james') || val.toLowerCase().includes('hartley')){
+    setStep(2);
+    ta.innerHTML = `
+      <div class="typeahead-section">
+        <div class="typeahead-label">Contacts</div>
+        <div class="typeahead-item highlighted" onclick="selectContact()" style="cursor:pointer;">
+          <div class="typeahead-avatar">JH</div>
+          <div class="typeahead-info">
+            <div class="typeahead-name">James Hartley</div>
+            <div class="typeahead-meta">Director of Finance · Hartley &amp; Associates Ltd · HART-CAS-2026-0112</div>
+          </div>
+          <span class="typeahead-type">Contact</span>
+        </div>
+      </div>
+      <div class="typeahead-section">
+        <div class="typeahead-label">Cases</div>
+        <div class="typeahead-item" onclick="selectContact()" style="cursor:pointer;">
+          <div class="typeahead-avatar" style="background:#a80000;font-size:9px;width:28px;height:28px;">⚠</div>
+          <div class="typeahead-info">
+            <div class="typeahead-name">HART-CAS-2026-0112</div>
+            <div class="typeahead-meta">Unauthorised Transaction Query — FX Account · HIGH</div>
+          </div>
+          <span class="typeahead-type">Case</span>
+        </div>
+      </div>`;
+  } else if(val.length === 0){
+    ta.innerHTML = `
+      <div class="typeahead-section">
+        <div class="typeahead-label">Recent searches</div>
+        <div class="typeahead-item"><div class="typeahead-avatar" style="background:#5c2d91;">MF</div><div class="typeahead-info"><div class="typeahead-name">Michael Foster</div><div class="typeahead-meta">Contact · HSBC Premier Banking</div></div><span class="typeahead-type">Contact</span></div>
+        <div class="typeahead-item"><div class="typeahead-avatar" style="background:#107c10;">LW</div><div class="typeahead-info"><div class="typeahead-name">Laura Webb</div><div class="typeahead-meta">Contact · HSBC Business Banking</div></div><span class="typeahead-type">Contact</span></div>
+      </div>`;
+  } else {
+    ta.innerHTML = `<div style="padding:20px;text-align:center;color:var(--d365-text-xs);font-size:12px;">Type "James Hartley" to find the contact…</div>`;
+  }
+}
+
+function selectContact(){
+  closeSearch();
+  setStep(3);
+  showContactView();
+  document.getElementById('contactTab').classList.add('active');
+  document.getElementById('caseTab').classList.remove('active');
+}
+
+// ── VIEW SWITCHING ─────────────────────────────────────────
+function showContactView(){
+  document.getElementById('contactView').style.display = 'flex';
+  document.getElementById('caseView').style.display = 'none';
+  document.getElementById('contactTab').classList.add('active');
+  document.getElementById('caseTab').classList.remove('active');
+  currentView = 'contact';
+}
+
+function showContactTab(tab){
+  currentTab = tab;
+  if(tab === 'details'){
+    document.getElementById('detailsBody').classList.remove('hidden');
+    document.getElementById('timelineBody').classList.add('hidden');
+    document.getElementById('detailsTabBtn').classList.add('active');
+    document.getElementById('timelineTabBtn').classList.remove('active');
+  } else if(tab === 'timeline'){
+    document.getElementById('detailsBody').classList.add('hidden');
+    document.getElementById('timelineBody').classList.remove('hidden');
+    document.getElementById('detailsTabBtn').classList.remove('active');
+    document.getElementById('timelineTabBtn').classList.add('active');
+    setStep(4);
+    // Show amber bar after 800ms delay
+    setTimeout(() => {
+      document.getElementById('amberBar').classList.remove('hidden');
+      setStep(4);
+    }, 800);
+  }
+}
+
+function openCase(){
+  document.getElementById('contactView').style.display = 'none';
+  document.getElementById('caseView').style.display = 'flex';
+  document.getElementById('contactTab').classList.remove('active');
+  document.getElementById('caseTab').classList.remove('hidden');
+  document.getElementById('caseTab').classList.add('active');
+  currentView = 'case';
+  setStep(5);
+}
+
+function backToContact(){
+  showContactView();
+  // Keep timeline active
+  showContactTab('timeline');
+  setStep(4);
+}
+
+function closeCaseTab(e){
+  e.stopPropagation();
+  document.getElementById('caseTab').classList.add('hidden');
+  showContactView();
+}
+
+// ── INIT ───────────────────────────────────────────────────
+// Start with contact view hidden — show home state
+document.getElementById('contactView').style.display = 'none';
+document.getElementById('caseView').style.display = 'none';
+
+// Show a basic home placeholder until search is used
+const mainContent = document.getElementById('mainContent');
+const homePlaceholder = document.createElement('div');
+homePlaceholder.id = 'homePlaceholder';
+homePlaceholder.style.cssText = 'flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:var(--d365-text-xs);';
+homePlaceholder.innerHTML = `
+  <div style="font-size:48px;">🏦</div>
+  <div style="font-size:18px;font-weight:600;color:var(--d365-text);">HSBC Commercial Banking</div>
+  <div style="font-size:13px;color:var(--d365-text-lt);">Dynamics 365 Customer Service workspace</div>
+  <div style="font-size:12px;color:var(--d365-text-xs);">Click 🔍 in the top bar or press <kbd style="background:#f3f2f1;border:1px solid #ccc;border-radius:3px;padding:1px 5px;font-size:11px;">Ctrl+K</kbd> to search for a customer</div>
+`;
+mainContent.insertBefore(homePlaceholder, mainContent.firstChild);
+
+// Override showContactView to also hide placeholder
+const _showContactView = showContactView;
+showContactView = function(){
+  document.getElementById('homePlaceholder').style.display = 'none';
+  document.getElementById('contactView').style.display = 'flex';
+  document.getElementById('caseView').style.display = 'none';
+  document.getElementById('contactTab').classList.add('active');
+  document.getElementById('caseTab').classList.remove('active');
+  currentView = 'contact';
+};
+
+setStep(0);
+</script>
+</body>
+</html>
