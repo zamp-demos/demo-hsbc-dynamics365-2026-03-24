@@ -3086,6 +3086,14 @@ kbd{
 
           <div class="cases-list-body" id="casesListBody">
 
+            <!-- Today (injected dynamically) -->
+            <div class="cl-group-hdr" id="clTodayHdr" onclick="toggleClGroup(this)" style="display:none;">
+              <svg class="cl-chev open" viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span>Today</span>
+              <span class="cl-count" id="clTodayCount">0</span>
+            </div>
+            <div class="cl-group-rows" id="clTodayRows"></div>
+
             <!-- This week -->
             <div class="cl-group-hdr" onclick="toggleClGroup(this)">
               <svg class="cl-chev open" viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -5304,6 +5312,16 @@ function evSendReply() {
     fullBody: bodyEl ? bodyEl.innerHTML : previewText
   });
 
+  /* Inject case into Today section, linked to DLA Piper case */
+  injectCaseRow({
+    id: 'DLA-REPLY-' + Date.now(),
+    title: 'DLA Piper Spain — Reply Sent',
+    caseNum: 'CSC-2026-0322-DLA-0193',
+    subtitle: 'Programme: DLA-ES-CC-0089',
+    priority: 'High',
+    statusText: 'In Progress',
+    onClick: function() { openDLACase(); }
+  });
   showToast('Reply sent to ' + (d ? d.from : 'recipient'), '#107c10');
   evCloseReply();
 
@@ -5397,6 +5415,16 @@ function edSendReply() {
     fullBody: bodyEl ? bodyEl.innerHTML : previewText
   });
 
+  /* Inject case into Today section, linked to DLA Piper case */
+  injectCaseRow({
+    id: 'DLA-REPLY-' + Date.now(),
+    title: 'DLA Piper Spain — Reply Sent',
+    caseNum: 'CSC-2026-0322-DLA-0193',
+    subtitle: 'Programme: DLA-ES-CC-0089',
+    priority: 'High',
+    statusText: 'In Progress',
+    onClick: function() { openDLACase(); }
+  });
   showToast('Reply sent to ' + (d ? d.from : 'recipient'), '#107c10');
   edCloseReply();
 
@@ -5416,6 +5444,52 @@ function edSendReply() {
     showToast('New reply from Mateo Segovia', '#0f6cbd');
   }, 3000);
 }
+
+
+/* ── INJECT CASE ROW into Today section ─────────────────────────────── */
+window.injectCaseRow = function injectCaseRow(opts) {
+  /* opts: { id, title, caseNum, subtitle, priority, statusText, onClick } */
+  var hdr   = document.getElementById('clTodayHdr');
+  var rows  = document.getElementById('clTodayRows');
+  var count = document.getElementById('clTodayCount');
+  if (!hdr || !rows) return;
+
+  /* Show the Today group header if first case */
+  if (hdr.style.display === 'none') hdr.style.display = '';
+
+  /* Increment count badge */
+  var n = parseInt(count.textContent || '0', 10) + 1;
+  count.textContent = n;
+
+  /* Build initials from title (first two words) */
+  var words = opts.title.replace(/[^A-Za-z ]/g,'').trim().split(/\s+/);
+  var initials = (words[0]||'').charAt(0).toUpperCase() + ((words[1]||'').charAt(0).toUpperCase());
+  var colors = ['#0f6cbd','#6b3fa0','#d47500','#107c10','#d83b01','#2b579a'];
+  var avColor = colors[n % colors.length];
+
+  var now = new Date();
+  var hh = now.getHours(), mm = now.getMinutes();
+  var ampm = hh >= 12 ? 'PM' : 'AM';
+  var h12 = hh % 12 || 12;
+  var timeStr = 'Today ' + h12 + ':' + (mm < 10 ? '0' : '') + mm + ' ' + ampm;
+
+  var row = document.createElement('div');
+  row.className = 'cl-case-row';
+  row.innerHTML =
+    '<div class="cl-case-av" style="background:' + avColor + ';">' + initials + '</div>' +
+    '<div class="cl-case-body">' +
+      '<div class="cl-case-title">' + opts.title + '</div>' +
+      '<div class="cl-case-num">' + opts.caseNum + '</div>' +
+      '<div class="cl-case-meta"><span>' + (opts.subtitle || '') + '</span></div>' +
+      '<div class="cl-case-meta"><span class="cl-status-dot" style="background:#0f6cbd;"></span>' +
+        (opts.statusText || 'Open') + ' &bull; ' + (opts.priority || 'Normal') + ' &bull; ' + timeStr +
+      '</div>' +
+    '</div>';
+
+  row.onclick = opts.onClick || function() {};
+
+  rows.insertBefore(row, rows.firstChild);
+};
 
 
 </script>
