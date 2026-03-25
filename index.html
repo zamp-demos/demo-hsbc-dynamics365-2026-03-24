@@ -3064,7 +3064,7 @@ kbd{
         <button class="cmdbtn"><svg><use href="#ic-refresh"/></svg> Refresh</button>
         <button class="cmdbtn"><svg><use href="#ic-filter"/></svg> Filter</button>
         <div class="cmdspacer"></div>
-        <span style="font-size:11px;color:#888;padding:0 8px;">7 Items &nbsp;|&nbsp; Last updated at 10:45 AM</span>
+        <span style="font-size:11px;color:#888;padding:0 8px;">9 Items &nbsp;|&nbsp; Last updated at 10:45 AM</span>
       </div>
 
       <!-- Cases list container: left panel + detail -->
@@ -3098,7 +3098,7 @@ kbd{
             <div class="cl-group-hdr" onclick="toggleClGroup(this)">
               <svg class="cl-chev open" viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
               <span>This week</span>
-              <span class="cl-count">3</span>
+              <span class="cl-count">5</span>
             </div>
             <div class="cl-group-rows">
               <div class="cl-case-row active" onclick="openCaseFromList('HART-CAS-2026-0112','Unauthorised FX Transaction — £14,200 Debit','James Hartley','High','Active')">
@@ -3119,13 +3119,31 @@ kbd{
                   <div class="cl-case-meta"><span class="cl-status-dot"></span>In Progress &bull; High &bull; Today 9:15 AM</div>
                 </div>
               </div>
-              <div class="cl-case-row" onclick="openDLACase(this)">
+              <div class="cl-case-row" onclick="openDLACaseR1(this)">
                 <div class="cl-case-av" style="background:#6b3fa0;">DL</div>
                 <div class="cl-case-body">
-                  <div class="cl-case-title">Bulk Programme Update &mdash; DLA Piper Spain</div>
-                  <div class="cl-case-num">CSC-2026-0322-DLA-0193</div>
-                  <div class="cl-case-meta"><span>Programme: DLA-ES-CC-0089</span></div>
+                  <div class="cl-case-title">Credit Limit Uplift &mdash; Madrid Cards (x47)</div>
+                  <div class="cl-case-num">CSC-2026-0322-DLA-0193-R1</div>
+                  <div class="cl-case-meta"><span>Customer: DLA Piper Spain S.L.P</span></div>
                   <div class="cl-case-meta"><span class="cl-status-dot" style="background:#f0a500;"></span>HITL Escalated &bull; High &bull; 22 Mar 2026</div>
+                </div>
+              </div>
+              <div class="cl-case-row" onclick="openDLACaseR2(this)">
+                <div class="cl-case-av" style="background:#6b3fa0;">DL</div>
+                <div class="cl-case-body">
+                  <div class="cl-case-title">New Card Issuance &mdash; Barcelona Joiners (x8)</div>
+                  <div class="cl-case-num">CSC-2026-0322-DLA-0194-R2</div>
+                  <div class="cl-case-meta"><span>Customer: DLA Piper Spain S.L.P</span></div>
+                  <div class="cl-case-meta"><span class="cl-status-dot" style="background:#107c10;"></span>In Progress &bull; High &bull; 22 Mar 2026</div>
+                </div>
+              </div>
+              <div class="cl-case-row" onclick="openDLACaseR3(this)">
+                <div class="cl-case-av" style="background:#6b3fa0;">DL</div>
+                <div class="cl-case-body">
+                  <div class="cl-case-title">VCN Payment Settlement &mdash; Indra Sistemas</div>
+                  <div class="cl-case-num">CSC-2026-0322-DLA-0195-R3</div>
+                  <div class="cl-case-meta"><span>Customer: DLA Piper Spain S.L.P</span></div>
+                  <div class="cl-case-meta"><span class="cl-status-dot" style="background:#107c10;"></span>Resolved &bull; Normal &bull; 22 Mar 2026</div>
                 </div>
               </div>
             </div>
@@ -3251,13 +3269,20 @@ kbd{
                   </div>
                   <div class="rec-meta-item">
                     <span class="rec-meta-label">Created On</span>
-                    <span class="rec-meta-val">14 Jan 2026, 09:02</span>
+                    <span class="rec-meta-val" id="cld-created-on">22 Mar 2026, 09:14</span>
                   </div>
                   <div class="rec-meta-item">
                     <span class="rec-meta-label">Owner</span>
-                    <div style="display:flex;align-items:center;gap:4px;margin-top:2px;">
-                      <div class="tl-av av-blue" style="width:18px;height:18px;font-size:9px;">EC</div>
-                      <span class="rec-meta-val">Sarah Kim</span>
+                    <div style="display:flex;align-items:center;gap:4px;margin-top:2px;" id="cld-owner-wrap">
+                      <div class="tl-av av-blue" style="width:18px;height:18px;font-size:9px;">DM</div>
+                      <span class="rec-meta-val" id="cld-owner">David Mensah</span>
+                    </div>
+                  </div>
+                  <div class="rec-meta-item">
+                    <span class="rec-meta-label">Assigned To</span>
+                    <div style="display:flex;align-items:center;gap:4px;margin-top:2px;" id="cld-assigned-wrap">
+                      <div class="tl-av" style="width:18px;height:18px;font-size:9px;background:#5c2d91;">ZP</div>
+                      <span class="rec-meta-val" id="cld-assigned">Zamp</span>
                     </div>
                   </div>
                 </div>
@@ -4224,6 +4249,8 @@ function openDLACase(rowEl) {
   if (titleEl) titleEl.innerHTML = 'Bulk Programme Update &mdash; DLA Piper Spain S.L.P <span style="font-size:13px;color:#888;font-weight:400;">- Saved</span>';
   var numEl = document.getElementById('cld-num');
   if (numEl) numEl.textContent = 'CSC-2026-0322-DLA-0193';
+  var createdEl = document.getElementById('cld-created-on');
+  if (createdEl) createdEl.textContent = '22 Mar 2026, 09:14';
   var fieldTitle = document.getElementById('cld-field-title');
   if (fieldTitle) fieldTitle.value = 'Bulk Programme Update - DLA Piper Spain S.L.P';
   var custEl = document.getElementById('cld-customer');
@@ -4271,6 +4298,139 @@ function openDLACase(rowEl) {
     + '<div class="tl-av" style="width:22px;height:22px;font-size:9px;margin-top:1px;background:#0f6cbd;">AI</div>'
     + '<div class="tl-body"><div class="tl-meta" style="font-size:10px;">22 Mar 2026, 10:44</div>'
     + '<div class="tl-item-title" style="font-size:11px;">POCA closure email drafted in Spanish (es-ES) for Mateo Segovia. Vargas card referenced with neutral language per POCA tipping-off policy.</div></div></div>';
+  }
+
+  // Owner and Assigned To
+  var ownerEl = document.getElementById('cld-owner');
+  if (ownerEl) ownerEl.textContent = 'David Mensah';
+  var assignedEl = document.getElementById('cld-assigned');
+  if (assignedEl) assignedEl.textContent = 'Zamp';
+
+  switchCasesTab(document.querySelector('#casesDetailContent .rec-tab'), 'summary');
+  document.getElementById('casesDetailEmpty').style.display = 'none';
+  document.getElementById('casesDetailContent').style.display = 'flex';
+}
+
+function openDLACaseR1(rowEl) {
+  document.querySelectorAll('.cl-case-row').forEach(r => r.classList.remove('active'));
+  if (rowEl) rowEl.classList.add('active');
+
+  var titleEl = document.getElementById('cld-title');
+  if (titleEl) titleEl.innerHTML = 'Credit Limit Uplift &mdash; Madrid Cards (x47) <span style="font-size:13px;color:#888;font-weight:400;">- Saved</span>';
+  var numEl = document.getElementById('cld-num');
+  if (numEl) numEl.textContent = 'CSC-2026-0322-DLA-0193-R1';
+  var createdEl = document.getElementById('cld-created-on');
+  if (createdEl) createdEl.textContent = '22 Mar 2026, 09:14';
+  var fieldTitle = document.getElementById('cld-field-title');
+  if (fieldTitle) fieldTitle.value = 'Credit Limit Uplift - Madrid Cards (x47)';
+  var custEl = document.getElementById('cld-customer');
+  if (custEl) custEl.textContent = 'DLA Piper Spain S.L.P';
+  var priEl = document.getElementById('cld-priority');
+  if (priEl) priEl.value = 'High';
+  var statEl = document.getElementById('cld-status');
+  if (statEl) statEl.value = 'In Progress';
+  var ownerEl = document.getElementById('cld-owner');
+  if (ownerEl) ownerEl.textContent = 'David Mensah';
+  var assignedEl = document.getElementById('cld-assigned');
+  if (assignedEl) assignedEl.textContent = 'Zamp';
+
+  var descEl = document.querySelector('#cld-tab-summary textarea.form-input');
+  if (descEl) descEl.value = 'Bulk amendment of 47 corporate cards in the Madrid Litigation pool to EUR 5,000 credit limit. Programme: DLA-ES-CC-0089. 46 cards processed via BATCH-INL-2026-0322. 1 card held: Alejandro Vargas (•••∢5521) — Fraud Ops 72-hour watch (SAL-2026-0322-5521) following cross-provincial spend anomaly. HITL: SM David Mensah selected Option B.';
+  var sumEl = document.querySelector('#cld-tab-summary .summary-panel p');
+  if (sumEl) sumEl.innerHTML = 'Bulk credit limit uplift for <strong>47 Madrid Litigation pool cards</strong> to EUR 5,000. <strong>46 cards processed</strong> via Inlogik batch (BATCH-INL-2026-0322). Cardholder <strong>Alejandro Vargas (•••∢5521)</strong> held on <strong>Fraud Ops 72-hour watch</strong> (SAL-2026-0322-5521) following cross-provincial spend anomaly. HITL invoked — SM <strong>David Mensah</strong> selected Option B; Fraud Ops referral active.';
+
+  var tlLabel = document.getElementById('cld-tl-recent-label');
+  if (tlLabel) {
+    var tlParent = tlLabel.parentElement;
+    tlParent.innerHTML = '<div style="padding:4px 12px;font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.3px;">Activity — 22 Mar 2026</div>'
+    + '<div class="tl-entry" style="padding:6px 12px;border-bottom:1px solid #f4f4f4;"><div class="tl-av" style="width:22px;height:22px;font-size:9px;margin-top:1px;background:#5c2d91;">PA</div><div class="tl-body"><div class="tl-meta" style="font-size:10px;">22 Mar 2026, 09:14</div><div class="tl-item-title" style="font-size:11px;">Inbound request — Mateo Segovia (PA). 47 Madrid cards flagged for limit uplift to EUR 5,000.</div></div></div>'
+    + '<div class="tl-entry" style="padding:6px 12px;border-bottom:1px solid #f4f4f4;"><div class="tl-av" style="width:22px;height:22px;font-size:9px;margin-top:1px;background:#107c10;">AI</div><div class="tl-body"><div class="tl-meta" style="font-size:10px;">22 Mar 2026, 09:22</div><div class="tl-item-title" style="font-size:11px;">SAS batch scan completed (47 cards). Anomaly: Alejandro Vargas (•••∢5521) cross-provincial spend flagged.</div></div></div>'
+    + '<div class="tl-entry" style="padding:6px 12px;border-bottom:1px solid #f4f4f4;"><div class="tl-av" style="width:22px;height:22px;font-size:9px;margin-top:1px;background:#f0a500;">!</div><div class="tl-body"><div class="tl-meta" style="font-size:10px;">22 Mar 2026, 09:31</div><div class="tl-item-title" style="font-size:11px;">HITL — David Mensah (SM) selected Option B: hold •••∢5521, escalate Fraud Ops. Release 46 clean cards.</div></div></div>'
+    + '<div class="tl-entry" style="padding:6px 12px;"><div class="tl-av" style="width:22px;height:22px;font-size:9px;margin-top:1px;background:#107c10;">AI</div><div class="tl-body"><div class="tl-meta" style="font-size:10px;">22 Mar 2026, 09:38</div><div class="tl-item-title" style="font-size:11px;">R1 complete: 46 cards uplifted to EUR 5,000. Ref: BATCH-INL-2026-0322. Card •••∢5521 held pending Fraud Ops.</div></div></div>';
+  }
+
+  switchCasesTab(document.querySelector('#casesDetailContent .rec-tab'), 'summary');
+  document.getElementById('casesDetailEmpty').style.display = 'none';
+  document.getElementById('casesDetailContent').style.display = 'flex';
+}
+
+function openDLACaseR2(rowEl) {
+  document.querySelectorAll('.cl-case-row').forEach(r => r.classList.remove('active'));
+  if (rowEl) rowEl.classList.add('active');
+
+  var titleEl = document.getElementById('cld-title');
+  if (titleEl) titleEl.innerHTML = 'New Card Issuance &mdash; Barcelona Joiners (x8) <span style="font-size:13px;color:#888;font-weight:400;">- Saved</span>';
+  var numEl = document.getElementById('cld-num');
+  if (numEl) numEl.textContent = 'CSC-2026-0322-DLA-0194-R2';
+  var createdEl = document.getElementById('cld-created-on');
+  if (createdEl) createdEl.textContent = '22 Mar 2026, 09:15';
+  var fieldTitle = document.getElementById('cld-field-title');
+  if (fieldTitle) fieldTitle.value = 'New Card Issuance - Barcelona Joiners (x8)';
+  var custEl = document.getElementById('cld-customer');
+  if (custEl) custEl.textContent = 'DLA Piper Spain S.L.P';
+  var priEl = document.getElementById('cld-priority');
+  if (priEl) priEl.value = 'High';
+  var statEl = document.getElementById('cld-status');
+  if (statEl) statEl.value = 'In Progress';
+  var ownerEl = document.getElementById('cld-owner');
+  if (ownerEl) ownerEl.textContent = 'David Mensah';
+  var assignedEl = document.getElementById('cld-assigned');
+  if (assignedEl) assignedEl.textContent = 'Zamp';
+
+  var descEl = document.querySelector('#cld-tab-summary textarea.form-input');
+  if (descEl) descEl.value = 'Onboarding of 8 new cardholders at Barcelona office (Av. Diagonal 640). Programme: DLA-ES-CC-0089. KYC checks cleared for all 8 joiners. Bulk submitted to Inlogik (INL-DLA-ES-0822). Estimated card dispatch within 5 working days.';
+  var sumEl = document.querySelector('#cld-tab-summary .summary-panel p');
+  if (sumEl) sumEl.innerHTML = 'Onboarding of <strong>8 new cardholders</strong> at DLA Piper Spain’s Barcelona office (Av. Diagonal 640). All 8 joiners <strong>KYC-cleared</strong> and bulk-submitted to Inlogik (Ref: INL-DLA-ES-0822). Cards estimated for dispatch within <strong>5 working days</strong>. Owner: David Mensah | Assigned: <strong>Zamp</strong>.';
+
+  var tlLabel = document.getElementById('cld-tl-recent-label');
+  if (tlLabel) {
+    var tlParent = tlLabel.parentElement;
+    tlParent.innerHTML = '<div style="padding:4px 12px;font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.3px;">Activity — 22 Mar 2026</div>'
+    + '<div class="tl-entry" style="padding:6px 12px;border-bottom:1px solid #f4f4f4;"><div class="tl-av" style="width:22px;height:22px;font-size:9px;margin-top:1px;background:#5c2d91;">PA</div><div class="tl-body"><div class="tl-meta" style="font-size:10px;">22 Mar 2026, 09:15</div><div class="tl-item-title" style="font-size:11px;">Inbound request — 8 new joiners at Barcelona (Av. Diagonal 640) submitted for card issuance.</div></div></div>'
+    + '<div class="tl-entry" style="padding:6px 12px;border-bottom:1px solid #f4f4f4;"><div class="tl-av" style="width:22px;height:22px;font-size:9px;margin-top:1px;background:#107c10;">AI</div><div class="tl-body"><div class="tl-meta" style="font-size:10px;">22 Mar 2026, 09:55</div><div class="tl-item-title" style="font-size:11px;">KYC checks completed for all 8 Barcelona joiners. No adverse findings. All cleared for issuance.</div></div></div>'
+    + '<div class="tl-entry" style="padding:6px 12px;"><div class="tl-av" style="width:22px;height:22px;font-size:9px;margin-top:1px;background:#107c10;">AI</div><div class="tl-body"><div class="tl-meta" style="font-size:10px;">22 Mar 2026, 10:05</div><div class="tl-item-title" style="font-size:11px;">Bulk issuance submitted to Inlogik. Ref: INL-DLA-ES-0822. Est. dispatch within 5 working days.</div></div></div>';
+  }
+
+  switchCasesTab(document.querySelector('#casesDetailContent .rec-tab'), 'summary');
+  document.getElementById('casesDetailEmpty').style.display = 'none';
+  document.getElementById('casesDetailContent').style.display = 'flex';
+}
+
+function openDLACaseR3(rowEl) {
+  document.querySelectorAll('.cl-case-row').forEach(r => r.classList.remove('active'));
+  if (rowEl) rowEl.classList.add('active');
+
+  var titleEl = document.getElementById('cld-title');
+  if (titleEl) titleEl.innerHTML = 'VCN Payment Settlement &mdash; Indra Sistemas S.A. <span style="font-size:13px;color:#888;font-weight:400;">- Saved</span>';
+  var numEl = document.getElementById('cld-num');
+  if (numEl) numEl.textContent = 'CSC-2026-0322-DLA-0195-R3';
+  var createdEl = document.getElementById('cld-created-on');
+  if (createdEl) createdEl.textContent = '22 Mar 2026, 09:16';
+  var fieldTitle = document.getElementById('cld-field-title');
+  if (fieldTitle) fieldTitle.value = 'VCN Payment Settlement - Indra Sistemas S.A.';
+  var custEl = document.getElementById('cld-customer');
+  if (custEl) custEl.textContent = 'DLA Piper Spain S.L.P';
+  var priEl = document.getElementById('cld-priority');
+  if (priEl) priEl.value = 'Normal';
+  var statEl = document.getElementById('cld-status');
+  if (statEl) statEl.value = 'Resolved';
+  var ownerEl = document.getElementById('cld-owner');
+  if (ownerEl) ownerEl.textContent = 'David Mensah';
+  var assignedEl = document.getElementById('cld-assigned');
+  if (assignedEl) assignedEl.textContent = 'Zamp';
+
+  var descEl = document.querySelector('#cld-tab-summary textarea.form-input');
+  if (descEl) descEl.value = 'Verification and confirmation of EUR 14,000 VCN payment to Indra Sistemas S.A. D&B verification passed. Settlement confirmed 2026-03-18 (STL-2026-0318-VC0298). Indra Sistemas S.A. added as authorised VCN beneficiary under DLA-ES-CC-0089.';
+  var sumEl = document.querySelector('#cld-tab-summary .summary-panel p');
+  if (sumEl) sumEl.innerHTML = 'EUR 14,000 VCN payment to <strong>Indra Sistemas S.A.</strong> verified and confirmed settled on 2026-03-18 (Ref: STL-2026-0318-VC0298). D&amp;B verification passed. Indra Sistemas S.A. <strong>added as authorised VCN beneficiary</strong> under programme DLA-ES-CC-0089. Case <strong>resolved</strong>. Owner: David Mensah | Assigned: <strong>Zamp</strong>.';
+
+  var tlLabel = document.getElementById('cld-tl-recent-label');
+  if (tlLabel) {
+    var tlParent = tlLabel.parentElement;
+    tlParent.innerHTML = '<div style="padding:4px 12px;font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.3px;">Activity — 22 Mar 2026</div>'
+    + '<div class="tl-entry" style="padding:6px 12px;border-bottom:1px solid #f4f4f4;"><div class="tl-av" style="width:22px;height:22px;font-size:9px;margin-top:1px;background:#5c2d91;">PA</div><div class="tl-body"><div class="tl-meta" style="font-size:10px;">22 Mar 2026, 09:16</div><div class="tl-item-title" style="font-size:11px;">Inbound request — EUR 14,000 VCN payment to Indra Sistemas S.A. submitted for verification.</div></div></div>'
+    + '<div class="tl-entry" style="padding:6px 12px;border-bottom:1px solid #f4f4f4;"><div class="tl-av" style="width:22px;height:22px;font-size:9px;margin-top:1px;background:#107c10;">AI</div><div class="tl-body"><div class="tl-meta" style="font-size:10px;">22 Mar 2026, 10:12</div><div class="tl-item-title" style="font-size:11px;">D&amp;B verification passed for Indra Sistemas S.A. Beneficiary added to VCN programme DLA-ES-CC-0089.</div></div></div>'
+    + '<div class="tl-entry" style="padding:6px 12px;"><div class="tl-av" style="width:22px;height:22px;font-size:9px;margin-top:1px;background:#107c10;">AI</div><div class="tl-body"><div class="tl-meta" style="font-size:10px;">22 Mar 2026, 10:18</div><div class="tl-item-title" style="font-size:11px;">EUR 14,000 VCN settlement confirmed (STL-2026-0318-VC0298). Settled 2026-03-18. Case resolved.</div></div></div>';
   }
 
   switchCasesTab(document.querySelector('#casesDetailContent .rec-tab'), 'summary');
