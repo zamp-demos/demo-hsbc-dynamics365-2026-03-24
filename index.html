@@ -2849,9 +2849,13 @@ kbd{
           <svg width="14" height="14" viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </button>
         <div class="etb-sep"></div>
-        <button class="etb-btn">
+        <button class="etb-btn" id="evSendBtn" onclick="evSendReply()">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" width="13" height="13"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9,3 14,8 9,13"/></svg>
           Send
+        </button>
+        <button class="etb-btn" id="evReplyBtn" onclick="evOpenReply()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" width="13" height="13"><polyline points="6,4 2,8 6,12"/><path d="M2 8h7a5 5 0 0 1 5 5"/></svg>
+          Reply
         </button>
         <button class="etb-btn"><svg><use href="#ic-save"/></svg> Save</button>
         <button class="etb-btn"><svg><use href="#ic-save"/></svg> Save &amp; Close</button>
@@ -2933,24 +2937,49 @@ kbd{
             <span class="ed-subject-label">Subject</span>
             <input class="ed-subject-input" id="evSubjectInput" type="text" readonly/>
           </div>
-          <div class="ed-compose-wrap">
-            <div class="ed-compose-card" style="position:relative;">
-              <div class="ed-compose-expand">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><polyline points="10,2 14,2 14,6"/><polyline points="6,14 2,14 2,10"/><line x1="14" y1="2" x2="9" y2="7"/><line x1="2" y1="14" x2="7" y2="9"/></svg>
+          <!-- Read pane: email body display -->
+          <div class="ed-compose-wrap" id="evReadPane">
+            <div class="ed-compose-card" style="position:relative;min-height:180px;">
+              <div id="evBody" style="padding:16px;font-size:13px;color:#242424;line-height:1.6;"></div>
+            </div>
+          </div>
+
+          <!-- Reply pane: hidden until Reply clicked -->
+          <div id="evReplyPane" style="display:none;margin-top:10px;border:1px solid #0f6cbd;border-radius:3px;background:#fff;flex-shrink:0;">
+            <!-- Reply header -->
+            <div style="padding:10px 14px;border-bottom:1px solid #e0e0e0;background:#f8f8f8;display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:12px;font-weight:600;color:#242424;">Reply</span>
+              <button onclick="evCloseReply()" style="border:none;background:none;cursor:pointer;font-size:15px;color:#888;line-height:1;">&#x2715;</button>
+            </div>
+            <!-- To / From / Subject fields -->
+            <div style="padding:8px 14px;border-bottom:1px solid #e8e8e8;font-size:12px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                <span style="color:#888;width:36px;flex-shrink:0;">From</span>
+                <span id="evRplyFrom" style="color:#242424;font-weight:500;"></span>
               </div>
-              <div class="ed-compose-toolbar">
-                <button class="ed-compose-tbtn"><svg viewBox="0 0 14 14"><text x="2" y="11" font-size="11" font-weight="bold" fill="currentColor">B</text></svg></button>
-                <button class="ed-compose-tbtn"><svg viewBox="0 0 14 14"><text x="4" y="11" font-size="11" font-style="italic" fill="currentColor">I</text></svg></button>
-                <button class="ed-compose-tbtn"><svg viewBox="0 0 14 14"><text x="2" y="10" font-size="10" fill="currentColor">U</text></svg></button>
-                <div style="width:1px;height:14px;background:#e0e0e0;margin:0 3px;"></div>
-                <button class="ed-compose-tbtn">
-                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="2.5" cy="4" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="4" x2="12" y2="4"/><circle cx="2.5" cy="8" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="8" x2="12" y2="8"/><circle cx="2.5" cy="12" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="12" x2="12" y2="12"/></svg>
-                </button>
-                <button class="ed-compose-tbtn">
-                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 7 a5 5 0 1 1 .5 3.5"/><polyline points="2,4 2,8 6,8"/></svg>
-                </button>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                <span style="color:#888;width:36px;flex-shrink:0;">To</span>
+                <span id="evRplyTo" style="color:#0f6cbd;"></span>
               </div>
-              <div class="ed-compose-body" id="evBody" contenteditable="true"></div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="color:#888;width:36px;flex-shrink:0;">Subject</span>
+                <span id="evRplySubject" style="color:#242424;"></span>
+              </div>
+            </div>
+            <!-- Compose toolbar -->
+            <div style="padding:4px 10px;border-bottom:1px solid #e8e8e8;display:flex;gap:2px;">
+              <button class="ed-compose-tbtn"><svg viewBox="0 0 14 14"><text x="2" y="11" font-size="11" font-weight="bold" fill="currentColor">B</text></svg></button>
+              <button class="ed-compose-tbtn"><svg viewBox="0 0 14 14"><text x="4" y="11" font-size="11" font-style="italic" fill="currentColor">I</text></svg></button>
+              <button class="ed-compose-tbtn"><svg viewBox="0 0 14 14"><text x="2" y="10" font-size="10" fill="currentColor">U</text></svg></button>
+            </div>
+            <!-- Editable body + signature -->
+            <div id="evRplyBody" contenteditable="true"
+              style="padding:14px 16px;min-height:120px;font-size:13px;color:#242424;line-height:1.6;outline:none;white-space:pre-wrap;"
+              data-placeholder="Type your reply here..."></div>
+            <!-- Send reply bar -->
+            <div style="padding:8px 14px;border-top:1px solid #e8e8e8;display:flex;gap:8px;align-items:center;">
+              <button onclick="evSendReply()" style="background:#0f6cbd;color:#fff;border:none;border-radius:2px;padding:6px 18px;font-size:12px;font-weight:600;cursor:pointer;">Send</button>
+              <button onclick="evCloseReply()" style="background:none;border:1px solid #d0d0d0;border-radius:2px;padding:6px 14px;font-size:12px;cursor:pointer;color:#424242;">Discard</button>
             </div>
           </div>
         </div>
@@ -4082,6 +4111,10 @@ function openEmailDetail(id) {
   const ev = document.getElementById('emailView');
   ev.style.display = 'flex';
   ev.classList.remove('hidden');
+  evSetCurrentId(id);
+  var rp = document.getElementById('evReplyPane'); if(rp) rp.style.display='none';
+  var sb = document.getElementById('evSendBtn');  if(sb) sb.style.display='';
+  var rb = document.getElementById('evReplyBtn'); if(rb) rb.style.display='';
 
   // -- 4. Populate fields ---------------------------------------------------
   document.getElementById('evSubject').textContent = d.subject;
@@ -5139,6 +5172,111 @@ window.sendEmailReply = function sendEmailReply() {
       sender: 'Mateo Segovia (PA)',
       time: 'Just now',
       subject: 'RE: Urgente: Solicitud de reunión para actualizaciones masivas',
+      preview: 'Gracias David. Confirmamos disponibilidad para la llamada. Por favor envínos la invitación de calendario.',
+      badgeClass: 'ier-badge-rx', badgeText: 'Received',
+      priority: false,
+      fullBody: '<p>Hola David,</p><p>Gracias por tu rápida respuesta. Confirmamos disponibilidad para la llamada y estamos listos para avanzar con los tres puntos del programa.</p><p>Por favor, envínos la invitación de calendario con el enlace de Teams cuando puedas.</p><p>Quedamos a la espera.</p><p>Atentamente,<br/><strong>Mateo Segovia</strong><br/>DLA Piper Spain S.L.P</p>'
+    });
+    showToast('New reply from Mateo Segovia', '#0f6cbd');
+  }, 3000);
+}
+
+
+/* ─── EMAIL VIEW: REPLY FLOW ─────────────────────────────────── */
+var _evCurrentId = null;
+
+/* called by openEmailInline to track which email is open */
+function evSetCurrentId(id) { _evCurrentId = id; }
+
+function evOpenReply() {
+  var id = _evCurrentId;
+  var d = id ? EMAIL_DATA[id] : null;
+  if (!d) return;
+
+  var isSent = (d.status === 'Sent');
+  /* Reply goes to: if we sent it, reply goes to the original recipient; else to sender */
+  var replyTo   = isSent ? d.to        : (d.fromEmail || d.from);
+  var replyToName = isSent ? d.to      : d.from;
+  var replySubj = d.subject.match(/^RE:/i) ? d.subject : 'RE: ' + d.subject;
+
+  document.getElementById('evRplyFrom').textContent    = 'David Mensah <d.mensah@hsbc.com>';
+  document.getElementById('evRplyTo').textContent      = replyToName + (d.fromEmail ? ' <' + (isSent ? d.to : d.fromEmail) + '>' : '');
+  document.getElementById('evRplySubject').textContent = replySubj;
+
+  /* Pre-fill body: blank area + signature + quoted original */
+  var sig = '<div style="margin-top:24px;padding-top:12px;border-top:1px solid #e0e0e0;font-size:12px;color:#424242;line-height:1.7;"><strong style="color:#242424;">David Mensah</strong><br/>Senior Relationship Manager, HSBC Commercial Banking<br/>d.mensah@hsbc.com &nbsp;|&nbsp; +44 207 991 8820<br/><span style="color:#db0011;font-weight:600;">HSBC</span> <span style="font-size:11px;color:#888;">| Commercial Banking | London</span></div>';
+  var quoted =
+    '<div style="margin-top:20px;padding-top:12px;border-top:2px solid #e0e0e0;' +
+    'font-size:12px;color:#888;">' +
+    '<div style="margin-bottom:6px;">&#8212;&#8212;&#8212; Original Message &#8212;&#8212;&#8212;</div>' +
+    '<div><strong>From:</strong> ' + d.from + ' &lt;' + (d.fromEmail||'') + '&gt;</div>' +
+    '<div><strong>Sent:</strong> ' + d.time + '</div>' +
+    '<div><strong>To:</strong> ' + d.to + '</div>' +
+    '<div><strong>Subject:</strong> ' + d.subject + '</div>' +
+    '<div style="margin-top:8px;color:#616161;">' + d.body + '</div>' +
+    '</div>';
+
+  var bodyEl = document.getElementById('evRplyBody');
+  bodyEl.innerHTML = '<div><br/><br/></div>' + sig + quoted;
+
+  /* Place cursor at top */
+  bodyEl.focus();
+  var sel = window.getSelection();
+  var range = document.createRange();
+  range.setStart(bodyEl.firstChild, 0);
+  range.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(range);
+
+  document.getElementById('evReplyPane').style.display = 'block';
+  document.getElementById('evSendBtn').style.display   = 'none';
+  document.getElementById('evReplyBtn').style.display  = 'none';
+
+  /* Scroll reply pane into view */
+  document.getElementById('evReplyPane').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function evCloseReply() {
+  document.getElementById('evReplyPane').style.display = 'none';
+  document.getElementById('evSendBtn').style.display   = '';
+  document.getElementById('evReplyBtn').style.display  = '';
+}
+
+function evSendReply() {
+  var id = _evCurrentId;
+  var d  = id ? EMAIL_DATA[id] : null;
+  var bodyEl = document.getElementById('evRplyBody');
+  var rawText = bodyEl ? bodyEl.innerText.trim() : '';
+
+  /* Strip out the quoted section and signature for the preview */
+  var previewText = rawText.split('\u2014\u2014\u2014 Original')[0].replace(/David Mensah[\s\S]*/,'').trim();
+  if (!previewText) { showToast('Please type your reply before sending.', '#8a8a8a'); return; }
+
+  var subj = d ? (d.subject.match(/^RE:/i) ? d.subject : 'RE: ' + d.subject) : 'RE: Email';
+
+  injectInboxRow({
+    id: 'evSent_' + Date.now(),
+    avatar: 'DM', avatarBg: '#0f6cbd',
+    sender: 'David Mensah (PA)',
+    time: 'Just now',
+    subject: subj,
+    preview: previewText.length > 90 ? previewText.substring(0, 90) + '...' : previewText,
+    badgeClass: 'ier-badge-tx', badgeText: 'Sent',
+    priority: false,
+    fullBody: bodyEl ? bodyEl.innerHTML : previewText
+  });
+
+  showToast('Reply sent to ' + (d ? d.from : 'recipient'), '#107c10');
+  evCloseReply();
+
+  /* 3s: Mateo replies back */
+  setTimeout(function() {
+    injectInboxRow({
+      id: 'evBack_' + Date.now(),
+      avatar: 'MS', avatarBg: '#6b3fa0',
+      sender: 'Mateo Segovia (PA)',
+      time: 'Just now',
+      subject: subj,
       preview: 'Gracias David. Confirmamos disponibilidad para la llamada. Por favor envínos la invitación de calendario.',
       badgeClass: 'ier-badge-rx', badgeText: 'Received',
       priority: false,
