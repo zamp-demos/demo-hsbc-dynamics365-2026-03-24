@@ -2664,7 +2664,7 @@ kbd{
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,14 22,4"/></svg>
             <p>Double-click an email to open it</p>
           </div>
-          <div id="inboxDetailContent" style="display:none;">
+          <div id="inboxDetailContent" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
 
             <!-- Scheduling hint bar -->
             <div class="ed-hint-bar" id="edHintBar" style="flex-shrink:0;">
@@ -2762,28 +2762,32 @@ kbd{
 
 
             <!-- Inline Reply Pane (hidden until Reply clicked) -->
-            <div id="edReplyPane" style="display:none;margin:10px 16px 16px;border:1px solid #0f6cbd;border-radius:3px;background:#fff;flex-shrink:0;">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #e8e8e8;background:#f5f9ff;">
+            <div id="edReplyPane" style="display:none;flex-direction:column;flex:1;overflow:hidden;border-top:2px solid #0f6cbd;background:#fff;">
+              <!-- Reply header: static -->
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid #e8e8e8;background:#f5f9ff;flex-shrink:0;">
                 <span style="font-size:12px;font-weight:600;color:#242424;">Reply</span>
                 <button onclick="edCloseReply()" style="border:none;background:none;cursor:pointer;font-size:15px;color:#888;line-height:1;">&#x2715;</button>
               </div>
-              <div style="padding:8px 12px;font-size:12px;color:#616161;border-bottom:1px solid #f0f0f0;">
+              <!-- To / Subject rows: static -->
+              <div style="padding:7px 14px;font-size:12px;color:#616161;border-bottom:1px solid #f0f0f0;flex-shrink:0;">
                 <span style="color:#888;">To:</span>&nbsp;<span id="edRplyTo" style="color:#242424;font-weight:500;"></span>
               </div>
-              <div style="padding:6px 12px;font-size:12px;color:#616161;border-bottom:1px solid #f0f0f0;">
+              <div style="padding:6px 14px;font-size:12px;color:#616161;border-bottom:1px solid #f0f0f0;flex-shrink:0;">
                 <span style="color:#888;">Subject:</span>&nbsp;<span id="edRplySubject" style="color:#242424;"></span>
               </div>
+              <!-- Scrollable compose area -->
               <div id="edRplyBody" contenteditable="true"
-                style="min-height:120px;padding:12px;font-size:12px;color:#242424;outline:none;font-family:inherit;line-height:1.6;white-space:pre-wrap;"
+                style="flex:1;overflow-y:auto;padding:14px;font-size:12px;color:#242424;outline:none;font-family:inherit;line-height:1.7;white-space:pre-wrap;"
                 data-placeholder="Type your reply here..."></div>
-              <div style="display:flex;gap:8px;padding:8px 12px;border-top:1px solid #e8e8e8;background:#fafafa;">
-                <button onclick="edSendReply()" style="background:#0f6cbd;color:#fff;border:none;border-radius:2px;padding:6px 18px;font-size:12px;font-weight:600;cursor:pointer;">Send</button>
-                <button onclick="edCloseReply()" style="background:none;border:1px solid #d0d0d0;border-radius:2px;padding:6px 14px;font-size:12px;cursor:pointer;color:#424242;">Discard</button>
+              <!-- Static Send bar pinned to bottom -->
+              <div style="display:flex;gap:8px;padding:10px 14px;border-top:1px solid #e0e0e0;background:#f5f9ff;flex-shrink:0;">
+                <button onclick="edSendReply()" style="background:#0f6cbd;color:#fff;border:none;border-radius:2px;padding:7px 22px;font-size:12px;font-weight:600;cursor:pointer;">Send</button>
+                <button onclick="edCloseReply()" style="background:none;border:1px solid #d0d0d0;border-radius:2px;padding:7px 16px;font-size:12px;cursor:pointer;color:#424242;">Discard</button>
               </div>
             </div>
 
             <!-- Body area: center compose + RHS panel -->
-            <div class="ed-body-wrap">
+            <div class="ed-body-wrap" id="edBodyWrap" style="flex:1;overflow-y:auto;">
 
               <!-- Center compose pane -->
               <div class="ed-center">
@@ -5355,17 +5359,18 @@ function edOpenReply() {
   sel.addRange(range);
   bodyEl.focus();
 
-  document.getElementById('edReplyPane').style.display = 'block';
+  document.getElementById('edReplyPane').style.display = 'flex';
   document.getElementById('edSendBtn').style.display   = 'none';
   document.getElementById('edReplyBtn').style.display  = 'none';
-
-  var idc = document.getElementById('inboxDetailContent'); if(idc) idc.scrollTop = 0;
+  var edBw = document.getElementById('edBodyWrap'); if(edBw) edBw.style.display = 'none';
+  document.getElementById('inboxDetailContent').scrollTop = 0;
 }
 
 function edCloseReply() {
   document.getElementById('edReplyPane').style.display = 'none';
   document.getElementById('edSendBtn').style.display   = '';
   document.getElementById('edReplyBtn').style.display  = '';
+  var edBw = document.getElementById('edBodyWrap'); if(edBw) edBw.style.display = '';
 }
 
 function edSendReply() {
