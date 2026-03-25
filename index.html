@@ -3535,18 +3535,18 @@ document.addEventListener('DOMContentLoaded', function() {
   if (chat) chat.scrollTop = chat.scrollHeight;
 });
 
-// ── STATE ──────────────────────────────────────────────
+// -- STATE ----------------------------------------------
 const STEPS = [
-  'Step 1 of 5 — Click the search icon to begin',
-  'Step 2 of 5 — Type "James Hartley"',
-  'Step 3 of 5 — Click the result to load contact record',
-  'Step 4 of 5 — Click the Timeline tab',
-  'Step 5 of 5 — Click "Open Case" in the amber alert bar',
-  'Complete — Case HART-CAS-2026-0112 open'
+  'Step 1 of 5 -- Click the search icon to begin',
+  'Step 2 of 5 -- Type "James Hartley"',
+  'Step 3 of 5 -- Click the result to load contact record',
+  'Step 4 of 5 -- Click the Timeline tab',
+  'Step 5 of 5 -- Click "Open Case" in the amber alert bar',
+  'Complete -- Case HART-CAS-2026-0112 open'
 ];
 function setStep(n){ document.getElementById('stepPill').textContent = STEPS[Math.min(n, STEPS.length-1)]; }
 
-// ── SEARCH ─────────────────────────────────────────────
+// -- SEARCH ---------------------------------------------
 document.getElementById('searchTrigger').addEventListener('click', () => {
   document.getElementById('searchOverlay').style.display = 'block';
   setTimeout(() => document.getElementById('searchInput').focus(), 50);
@@ -3583,7 +3583,7 @@ function handleSearch(val) {
         <div class="sb-av" style="background:#a80000;font-size:9px;">!</div>
         <div class="sb-info">
           <div class="sb-name">HART-CAS-2026-0112</div>
-          <div class="sb-meta">Unauthorised Transaction Query — FX Account &bull; High</div>
+          <div class="sb-meta">Unauthorised Transaction Query -- FX Account &bull; High</div>
         </div>
         <span class="sb-type">Case</span>
       </div>`;
@@ -3603,7 +3603,7 @@ function selectContact() {
   showContactView();
 }
 
-// ── VIEW CONTROL ───────────────────────────────────────
+// -- VIEW CONTROL ---------------------------------------
 function showContactView() {
   document.getElementById('homePlaceholder').style.display = 'none';
   document.getElementById('contactView').style.display = 'flex';
@@ -3661,9 +3661,9 @@ function closeCaseTab(e) {
   showContactView();
 }
 
-// ── INIT ───────────────────────────────────────────────
+// -- INIT -----------------------------------------------
 
-// ── INBOX ─────────────────────────────────────────────────────────────────────
+// -- INBOX ---------------------------------------------------------------------
 function showInbox() {
   // Close cases: hide cases session tab
   const casesTab = document.getElementById('casesListSessionTab');
@@ -3782,14 +3782,14 @@ function openEmailDetail(id) {
   const d = EMAIL_DATA[id];
   if (!d) return;
 
-  // ── 1. Add / reuse session tab ───────────────────────────────────────────
+  // -- 1. Add / reuse session tab -------------------------------------------
   let tab = document.getElementById('emailSessionTab');
   if (!tab) {
     tab = document.createElement('div');
     tab.className = 'sb-tab';
     tab.id = 'emailSessionTab';
     // truncate subject label to ~28 chars
-    const lbl = d.subject.length > 28 ? d.subject.slice(0, 27) + '…' : d.subject;
+    const lbl = d.subject.length > 28 ? d.subject.slice(0, 27) + '...' : d.subject;
     tab.innerHTML =
       '<div class="sb-tab-icon"><svg><use href="#ic-mail"/></svg></div>' +
       '<span id="emailSessionLabel">' + lbl + '</span>' +
@@ -3799,16 +3799,16 @@ function openEmailDetail(id) {
     inboxTab.parentNode.insertBefore(tab, inboxTab.nextSibling);
   } else {
     // update label
-    const lbl = d.subject.length > 28 ? d.subject.slice(0, 27) + '…' : d.subject;
+    const lbl = d.subject.length > 28 ? d.subject.slice(0, 27) + '...' : d.subject;
     const lbl_el = document.getElementById('emailSessionLabel');
     if (lbl_el) lbl_el.textContent = lbl;
   }
 
-  // ── 2. Set active tab ────────────────────────────────────────────────────
+  // -- 2. Set active tab ----------------------------------------------------
   document.querySelectorAll('.sb-tab').forEach(t => t.classList.remove('active'));
   tab.classList.add('active');
 
-  // ── 3. Hide all main views, show emailView ───────────────────────────────
+  // -- 3. Hide all main views, show emailView -------------------------------
   ['homePlaceholder','contactView','caseView','inboxView'].forEach(function(vid) {
     const el = document.getElementById(vid);
     if (el) { el.style.display = 'none'; el.classList.add('hidden'); }
@@ -3817,7 +3817,7 @@ function openEmailDetail(id) {
   ev.style.display = 'flex';
   ev.classList.remove('hidden');
 
-  // ── 4. Populate fields ───────────────────────────────────────────────────
+  // -- 4. Populate fields ---------------------------------------------------
   document.getElementById('evSubject').textContent = d.subject;
   document.getElementById('evSubjectInput').value = d.subject;
   document.getElementById('evPriority').textContent = d.priority;
@@ -3844,7 +3844,7 @@ function toggleAssistMenu() {
   menu.classList.toggle('open');
 }
 
-// ── CASES VIEW ─────────────────────────────────────────────────
+// -- CASES VIEW -------------------------------------------------
 
 function showCasesView() {
   // Close inbox: hide inbox session tab, close inline email if open
@@ -3931,7 +3931,7 @@ function toggleClGroup(hdr) {
   rows.style.display = isOpen ? 'none' : '';
 }
 
-// ── CASES: "Cases" link in Inbox nav ───────────────────────────
+// -- CASES: "Cases" link in Inbox nav ---------------------------
 // Wire up the left nav "Cases" item to open cases view
 document.addEventListener('DOMContentLoaded', function() {
   // Fix: if inbox view nav has "Cases" item, wire it up
@@ -3945,7 +3945,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (inboxTab) inboxTab.onclick = showInbox;
 });
 
-// ── NEW CASE MODAL ─────────────────────────────────────────────
+// -- NEW CASE MODAL ---------------------------------------------
 
 function openNewCaseModal() {
   document.getElementById('nc-title').value = '';
@@ -4009,7 +4009,7 @@ function submitNewCase() {
   showToast('Case ' + caseNum + ' created successfully', '#107c10');
 }
 
-// ── RESOLVE CASE MODAL ─────────────────────────────────────────
+// -- RESOLVE CASE MODAL -----------------------------------------
 
 function openResolveCaseModal() {
   document.getElementById('resolveCaseModal').style.display = 'flex';
@@ -4048,7 +4048,7 @@ function submitResolveCase() {
   showToast('Case resolved successfully', '#107c10');
 }
 
-// ── TOAST HELPER ───────────────────────────────────────────────
+// -- TOAST HELPER -----------------------------------------------
 function showToast(msg, color) {
   const t = document.createElement('div');
   t.className = 'resolve-toast';
@@ -4084,7 +4084,7 @@ function cpTabSwitch(el) {
 function fillCpInput(el) {
   const input = document.getElementById('cpInput');
   if (input) {
-    input.value = el.textContent.replace(/…$/, '').trim();
+    input.value = el.textContent.replace(/...$/, '').trim();
     input.focus();
   }
 }
@@ -4093,7 +4093,7 @@ function cpSend(e) {
   if (e.key !== 'Enter') return;
   const input = document.getElementById('cpInput');
   if (!input || !input.value.trim()) return;
-  // Visual feedback — clear input
+  // Visual feedback -- clear input
   input.value = '';
 }
 
@@ -4121,7 +4121,7 @@ function updateCinBadges() {
 
 setStep(0);
 
-// ── COMM PANEL COLLAPSE ────────────────────────────────────────
+// -- COMM PANEL COLLAPSE ----------------------------------------
 function toggleCommPanel() {
   const panel = document.getElementById('commPanel');
   if (!panel) return;
@@ -4129,7 +4129,7 @@ function toggleCommPanel() {
 }
 
 
-// ── INBOX NAV: switch between inbox views ──────────────────────
+// -- INBOX NAV: switch between inbox views ----------------------
 function showAssignedConversations(el) {
   // Mark nav item active
   document.querySelectorAll('.inbox-nav-item').forEach(i => i.classList.remove('active'));
@@ -4159,7 +4159,7 @@ function switchInboxView(el, view) {
   document.getElementById('inboxDetailContent').style.display = 'none';
 }
 
-// ── EMAIL: open inline inside inbox (keeps list visible) ───────
+// -- EMAIL: open inline inside inbox (keeps list visible) -------
 function openEmailInline(id) {
   const d = EMAIL_DATA[id];
   if (!d) return;
@@ -4233,7 +4233,7 @@ function closeEmailInline(e) {
 
 
 
-/* ══ FULL-SCREEN CALENDAR ════════════════════════════════════════════════════ */
+/* == FULL-SCREEN CALENDAR ==================================================== */
 (function(){
   var MONTHS   = ['January','February','March','April','May','June',
                   'July','August','September','October','November','December'];
@@ -4245,34 +4245,34 @@ function closeEmailInline(e) {
   var weekOffset = 0;
   var miniOffset = 0; // months from anchor month (Mar 2026)
 
-  // ── EARLY GLOBAL EXPORTS (hoisting-safe) ─────────────────────────────────
+  // -- EARLY GLOBAL EXPORTS (hoisting-safe) ---------------------------------
   window.openCalendar  = function(){ _calOpen(); };
   window.closeCalendar = function(){ _calClose(); };
   console.log('[CAL-IIFE] openCalendar assigned:', typeof window.openCalendar);
   window.calNav        = function(d){ _calNav(d); };
   window.calGoToday    = function(){ _calGoToday(); };
   window.calMiniNav    = function(d){ _calMiniNav(d); };
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
 
 
-  /* ── HSBC events (dayOffset 0=Mon … 6=Sun, times 24h) ── */
+  /* -- HSBC events (dayOffset 0=Mon ... 6=Sun, times 24h) -- */
   var EVENTS = [
     {d:0,sh:9, sm:0, eh:10,em:0,  c:'blue',   t:'Weekly Team Standup',                  loc:'Teams'},
-    {d:0,sh:11,sm:0, eh:12,em:0,  c:'red',    t:'Fraud Review — HSBC-CAS-2026-0042',    loc:'Room 4A'},
+    {d:0,sh:11,sm:0, eh:12,em:0,  c:'red',    t:'Fraud Review -- HSBC-CAS-2026-0042',    loc:'Room 4A'},
     {d:0,sh:14,sm:0, eh:14,em:30, c:'amber',  t:'SWIFT Delay Escalation',               loc:'Teams'},
-    {d:1,sh:9, sm:30,eh:10,em:30, c:'blue',   t:'KYC Refresh — Corporate Clients',      loc:'Room 2B'},
+    {d:1,sh:9, sm:30,eh:10,em:30, c:'blue',   t:'KYC Refresh -- Corporate Clients',      loc:'Room 2B'},
     {d:1,sh:13,sm:0, eh:14,em:0,  c:'green',  t:'AML Compliance Training',              loc:'Training Hub'},
-    {d:1,sh:15,sm:0, eh:15,em:30, c:'purple', t:'Copilot Demo — Wealth Mgmt',           loc:'Teams'},
-    {d:2,sh:10,sm:0, eh:11,em:0,  c:'red',    t:'Sanctions Alert — L2 Triage',          loc:'Room 3C'},
+    {d:1,sh:15,sm:0, eh:15,em:30, c:'purple', t:'Copilot Demo -- Wealth Mgmt',           loc:'Teams'},
+    {d:2,sh:10,sm:0, eh:11,em:0,  c:'red',    t:'Sanctions Alert -- L2 Triage',          loc:'Room 3C'},
     {d:2,sh:14,sm:0, eh:15,em:0,  c:'blue',   t:'2FA / Digital Banking Escalations',    loc:'Teams'},
     {d:3,sh:9, sm:0, eh:9, em:30, c:'blue',   t:'Morning Briefing',                     loc:'Teams'},
     {d:3,sh:11,sm:0, eh:12,em:30, c:'amber',  t:'Trade Finance SLA Review',             loc:'Room 1A'},
-    {d:3,sh:14,sm:0, eh:15,em:0,  c:'green',  t:'Mortgage Dispute — Final Decision',    loc:'Room 4A'},
-    {d:4,sh:10,sm:0, eh:11,em:0,  c:'blue',   t:'Chargeback Panel — Q1 Cases',         loc:'Room 2B'},
+    {d:3,sh:14,sm:0, eh:15,em:0,  c:'green',  t:'Mortgage Dispute -- Final Decision',    loc:'Room 4A'},
+    {d:4,sh:10,sm:0, eh:11,em:0,  c:'blue',   t:'Chargeback Panel -- Q1 Cases',         loc:'Room 2B'},
     {d:4,sh:13,sm:0, eh:14,em:0,  c:'purple', t:'Digital Channels Roadmap Review',      loc:'Teams'},
     {d:4,sh:15,sm:30,eh:16,em:30, c:'red',    t:'OFAC Match Investigation Debrief',     loc:'Room 3C'},
   ];
-  var ALL_DAY = [{d:0,t:'Bank Holiday — Good Friday',span:1,c:'amber'}];
+  var ALL_DAY = [{d:0,t:'Bank Holiday -- Good Friday',span:1,c:'amber'}];
 
   function getMon(){ return ANCHOR + weekOffset*7*86400000; }
   function p(n){ return n<10?'0'+n:String(n); }
@@ -4310,7 +4310,7 @@ function closeEmailInline(e) {
       adr.innerHTML += cell+'</div>';
     }
 
-    // Time grid: 7 AM → 8 PM
+    // Time grid: 7 AM -> 8 PM
     var H0=7, H1=20, CELL=56;
     var grid = document.getElementById('calTimeGrid');
     grid.innerHTML='';
