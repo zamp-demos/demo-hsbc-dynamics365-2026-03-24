@@ -3656,7 +3656,7 @@ kbd{
           <option value="Sarah Kim">Sarah Kim</option>
           <option value="David Mensah">David Mensah</option>
           <option value="Priya Nair">Priya Nair</option>
-          <option value="Zamp">Zamp (AI Operations)</option>
+          <option value="Zamp">Zamp</option>
         </select>
       </div>
     </div>
@@ -4348,7 +4348,7 @@ function submitNewCase() {
   const priority = document.getElementById('nc-priority').value;
   const assignedEl = document.getElementById('nc-assigned');
   const assigned = assignedEl ? assignedEl.value : 'Unassigned';
-  const assignedLabel = assigned === 'Zamp' ? 'Zamp (AI Operations)' : assigned;
+  const assignedLabel = assigned;
 
   // Add to cases list (This week group)
   const rows = document.querySelector('.cl-group-rows');
