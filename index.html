@@ -3119,7 +3119,7 @@ kbd{
                   <div class="cl-case-meta"><span class="cl-status-dot"></span>In Progress &bull; High &bull; Today 9:15 AM</div>
                 </div>
               </div>
-              <div class="cl-case-row" onclick="openDLACase()">
+              <div class="cl-case-row" onclick="openDLACase(this)">
                 <div class="cl-case-av" style="background:#6b3fa0;">DL</div>
                 <div class="cl-case-body">
                   <div class="cl-case-title">Bulk Programme Update &mdash; DLA Piper Spain</div>
@@ -3234,7 +3234,7 @@ kbd{
             <div class="rec-header">
               <div class="rec-title-row">
                 <div style="flex:1;">
-                  <div class="rec-title" id="cld-title">Unauthorised FX Transaction &mdash; &pound;14,200 Debit <span style="font-size:13px;color:#888;font-weight:400;">- Saved</span></div>
+                  <div class="rec-title" id="cld-title">Bulk Programme Update &mdash; DLA Piper Spain S.L.P <span style="font-size:13px;color:#888;font-weight:400;">- Saved</span></div>
                   <div class="rec-subtitle">Case &middot; <a href="#">Case for Multisession experience</a>
                     <svg width="10" height="10" style="vertical-align:middle;"><use href="#ic-chevron-down"/></svg>
                   </div>
@@ -3243,7 +3243,7 @@ kbd{
                 <div class="rec-meta">
                   <div class="rec-meta-item">
                     <span class="rec-meta-label">Case Number</span>
-                    <span class="rec-meta-val" id="cld-num">HART-CAS-2026-0112</span>
+                    <span class="rec-meta-val" id="cld-num">CSC-2026-0322-DLA-0193</span>
                   </div>
                   <div class="rec-meta-item">
                     <span class="rec-meta-label">Origin</span>
@@ -3279,20 +3279,20 @@ kbd{
                   <div class="form-card-header"><div class="fch-left">Case Information</div></div>
                   <div class="form-row">
                     <span class="form-label"><span class="req">*</span>Case Title</span>
-                    <div class="form-input-wrap"><input class="form-input" id="cld-field-title" value="Unauthorised FX Transaction — £14,200 Debit"/></div>
+                    <div class="form-input-wrap"><input class="form-input" id="cld-field-title" value="Bulk Programme Update - DLA Piper Spain S.L.P"/></div>
                   </div>
                   <div class="form-row">
                     <span class="form-label"><span class="req">*</span>Customer</span>
                     <div class="form-input-wrap" style="display:flex;align-items:center;gap:4px;">
                       <svg width="12" height="12" style="color:#888;flex-shrink:0;"><use href="#ic-person"/></svg>
-                      <a href="#" style="font-size:12px;color:#0f6cbd;" id="cld-customer">James Hartley</a>
+                      <a href="#" style="font-size:12px;color:#0f6cbd;" id="cld-customer">DLA Piper Spain S.L.P</a>
                       <span style="color:#888;cursor:pointer;">&times;</span>
                       <svg width="12" height="12" style="color:#888;cursor:pointer;margin-left:auto;"><use href="#ic-search"/></svg>
                     </div>
                   </div>
                   <div class="form-row">
                     <span class="form-label">Subject</span>
-                    <div class="form-input-wrap"><input class="form-input" value="FX Account — Fraud Investigation"/></div>
+                    <div class="form-input-wrap"><input class="form-input" value="Bulk Programme Update — DLA-ES-CC-0089"/></div>
                   </div>
                   <div class="form-row">
                     <span class="form-label">Priority</span>
@@ -4215,9 +4215,10 @@ function closeCasesListTab(event) {
   document.getElementById('homePlaceholder').style.display = 'flex';
 }
 
-function openDLACase() {
+function openDLACase(rowEl) {
   document.querySelectorAll('.cl-case-row').forEach(r => r.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+  var activeRow = rowEl || (typeof event !== 'undefined' && event && event.currentTarget ? event.currentTarget : null);
+  if (activeRow) activeRow.classList.add('active');
 
   var titleEl = document.getElementById('cld-title');
   if (titleEl) titleEl.innerHTML = 'Bulk Programme Update &mdash; DLA Piper Spain S.L.P <span style="font-size:13px;color:#888;font-weight:400;">- Saved</span>';
@@ -5319,9 +5320,14 @@ function evSendReply() {
     caseNum: 'CSC-2026-0322-DLA-0193',
     subtitle: 'Programme: DLA-ES-CC-0089',
     priority: 'High',
-    statusText: 'In Progress',
-    onClick: function() { openDLACase(); }
+    statusText: 'In Progress'
   });
+  /* Navigate to Cases view and open DLA case detail automatically */
+  showCasesView();
+  setTimeout(function() {
+    var newRow = document.querySelector('#clTodayRows .cl-case-row');
+    openDLACase(newRow);
+  }, 50);
   showToast('Reply sent to ' + (d ? d.from : 'recipient'), '#107c10');
   evCloseReply();
 
@@ -5422,9 +5428,14 @@ function edSendReply() {
     caseNum: 'CSC-2026-0322-DLA-0193',
     subtitle: 'Programme: DLA-ES-CC-0089',
     priority: 'High',
-    statusText: 'In Progress',
-    onClick: function() { openDLACase(); }
+    statusText: 'In Progress'
   });
+  /* Navigate to Cases view and open DLA case detail automatically */
+  showCasesView();
+  setTimeout(function() {
+    var newRow = document.querySelector('#clTodayRows .cl-case-row');
+    openDLACase(newRow);
+  }, 50);
   showToast('Reply sent to ' + (d ? d.from : 'recipient'), '#107c10');
   edCloseReply();
 
@@ -5486,7 +5497,7 @@ window.injectCaseRow = function injectCaseRow(opts) {
       '</div>' +
     '</div>';
 
-  row.onclick = opts.onClick || function() {};
+  row.onclick = function() { openDLACase(this); };
 
   rows.insertBefore(row, rows.firstChild);
 };
