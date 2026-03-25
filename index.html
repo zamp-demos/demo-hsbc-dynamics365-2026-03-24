@@ -2488,7 +2488,7 @@ kbd{
         </div>
 
         <!-- Left: email list grouped by CIN -->
-        <div class="inbox-list">
+        <div class="inbox-list" id="inboxListPanel">
           <div class="inbox-list-header">
             <span class="inbox-list-title">Inbox</span>
             <div class="inbox-list-icons">
@@ -4527,6 +4527,9 @@ function showAssignedConversations(el) {
     clv.style.display = 'none';
     clv.classList.add('hidden');
   }
+  // Restore middle email list panel
+  var ilp2 = document.getElementById('inboxListPanel');
+  if (ilp2) ilp2.style.display = '';
   // Show inbox detail empty state
   document.getElementById('inboxDetailEmpty').style.display = 'flex';
   document.getElementById('inboxDetailContent').style.display = 'none';
@@ -4543,6 +4546,9 @@ function showCasesViewFromNav(el) {
   var iv = document.getElementById('inboxView');
   if (iv) { iv.style.display = 'flex'; iv.classList.remove('hidden'); }
 
+  // Hide the middle email list panel
+  var ilp = document.getElementById('inboxListPanel');
+  if (ilp) ilp.style.display = 'none';
   // Hide inbox detail content and empty state
   var ide = document.getElementById('inboxDetailEmpty');
   if (ide) ide.style.display = 'none';
