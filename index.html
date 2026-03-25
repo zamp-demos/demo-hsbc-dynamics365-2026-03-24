@@ -3137,6 +3137,44 @@ kbd{
     </div>
   </div><!-- /icon-rail -->
 
+
+<!-- ══ CALENDAR PANEL ══════════════════════════════════════════ -->
+<div class="cal-panel" id="calPanel">
+
+  <!-- Header -->
+  <div class="cal-header">
+    <button class="cal-nav-btn" onclick="calNav(-1)">&#8249;</button>
+    <button class="cal-nav-btn" onclick="calNav(1)">&#8250;</button>
+    <button class="cal-today-btn" onclick="calGoToday()">Today</button>
+    <span class="cal-header-title" id="calTitle">25 – 31 Mar 2026</span>
+    <div class="cal-view-tabs">
+      <button class="cal-view-tab active">Week</button>
+      <button class="cal-view-tab">Day</button>
+      <button class="cal-view-tab">Month</button>
+    </div>
+    <button class="cal-close-btn" onclick="toggleCalPanel()" title="Close">&#10005;</button>
+  </div>
+
+  <!-- Day column headers -->
+  <div class="cal-grid-header" id="calDayHeaders">
+    <div class="cal-day-hdr"></div>
+    <!-- populated by JS -->
+  </div>
+
+  <!-- All-day strip -->
+  <div class="cal-allday" id="calAlldayRow">
+    <div class="cal-allday-label">all-day</div>
+    <!-- populated by JS -->
+  </div>
+
+  <!-- Scrollable time grid -->
+  <div class="cal-body" id="calBody">
+    <div class="cal-time-grid" id="calTimeGrid">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+</div><!-- /cal-panel -->
 </div><!-- /workspace -->
 
 <!-- ══ SEARCH OVERLAY ════════════════════════════════════ -->
@@ -3860,6 +3898,138 @@ function closeEmailInline(e) {
   document.getElementById('inboxDetailContent').style.display = 'none';
   if (_activeEmailRow) { _activeEmailRow.classList.remove('active'); _activeEmailRow = null; }
 }
+
+
+  /* ── CALENDAR PANEL ─────────────────────────────────────────── */
+  (function(){
+    // Seed events — week of 24 Mar 2026 (Mon–Sun)
+    // dayOffset: 0=Mon,1=Tue,...,6=Sun  startH/startM/endH/endM in 24h
+    var EVENTS = [
+      {day:0, startH:9,  startM:0,  endH:10, endM:0,  cls:'blue',   title:'Weekly Team Standup',         loc:'Teams'},
+      {day:0, startH:11, startM:0,  endH:12, endM:0,  cls:'red',    title:'Fraud Case Review — HSBC-CAS-2026-0042', loc:'Room 4A'},
+      {day:0, startH:14, startM:0,  endH:14, endM:30, cls:'amber',  title:'SWIFT Delay Escalation Call', loc:'Teams'},
+      {day:1, startH:9,  startM:30, endH:10, endM:30, cls:'blue',   title:'KYC Refresh Meeting — Corp Clients', loc:'Room 2B'},
+      {day:1, startH:13, startM:0,  endH:14, endM:0,  cls:'green',  title:'Compliance Training — AML Module', loc:'Training Hub'},
+      {day:1, startH:15, startM:0,  endH:15, endM:30, cls:'purple', title:'Copilot Demo — Wealth Mgmt Team', loc:'Teams'},
+      {day:2, startH:10, startM:0,  endH:11, endM:0,  cls:'red',    title:'Sanctions Alert Review — L2 Triage', loc:'Room 3C'},
+      {day:2, startH:14, startM:0,  endH:15, endM:0,  cls:'blue',   title:'2FA / Digital Banking Escalations', loc:'Teams'},
+      {day:3, startH:9,  startM:0,  endH:9,  endM:30, cls:'blue',   title:'Morning Briefing',             loc:'Teams'},
+      {day:3, startH:11, startM:0,  endH:12, endM:30, cls:'amber',  title:'Trade Finance SLA Review',     loc:'Room 1A'},
+      {day:3, startH:14, startM:0,  endH:15, endM:0,  cls:'green',  title:'Mortgage Dispute — Final Decision', loc:'Room 4A'},
+      {day:4, startH:10, startM:0,  endH:11, endM:0,  cls:'blue',   title:'Chargeback Panel — Q1 Cases',  loc:'Room 2B'},
+      {day:4, startH:13, startM:0,  endH:14, endM:0,  cls:'purple', title:'Digital Channels Roadmap Review', loc:'Teams'},
+      {day:4, startH:15, startM:30, endH:16, endM:30, cls:'red',    title:'OFAC Match Investigation Debrief', loc:'Room 3C'},
+    ];
+    var ALL_DAY = [
+      {day:0, title:'Bank Holiday — Good Friday', cls:'amber', span:5},
+    ];
+
+    var DAYS_SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    var MONTHS = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+
+    // Anchor: Monday 24 Mar 2026
+    var anchorMs = new Date(2026,2,24).getTime();
+    var weekOffset = 0; // weeks from anchor
+
+    function getMondayMs(){
+      return anchorMs + weekOffset * 7 * 86400000;
+    }
+
+    function renderCalendar(){
+      var monday = new Date(getMondayMs());
+      var today  = new Date(); today.setHours(0,0,0,0);
+
+      // Title
+      var sun = new Date(getMondayMs() + 6*86400000);
+      document.getElementById('calTitle').textContent =
+        monday.getDate() + ' ' + MONTHS[monday.getMonth()] + ' – ' +
+        sun.getDate() + ' ' + MONTHS[sun.getMonth()] + ' ' + sun.getFullYear();
+
+      // Day headers
+      var hdr = document.getElementById('calDayHeaders');
+      hdr.innerHTML = '<div class="cal-day-hdr"></div>';
+      for(var d=0;d<7;d++){
+        var day = new Date(getMondayMs() + d*86400000);
+        var isToday = day.getTime()===today.getTime();
+        hdr.innerHTML +=
+          '<div class="cal-day-hdr">' +
+          '<div class="cal-day-name">' + DAYS_SHORT[d] + '</div>' +
+          '<div class="cal-day-num' + (isToday?' today':'') + '">' + day.getDate() + '</div>' +
+          '</div>';
+      }
+
+      // All-day row
+      var adr = document.getElementById('calAlldayRow');
+      adr.innerHTML = '<div class="cal-allday-label">all-day</div>';
+      for(var d=0;d<7;d++){
+        var cell = '<div class="cal-allday-cell">';
+        ALL_DAY.forEach(function(e){
+          if(e.day===d) cell += '<div class="cal-allday-evt">'+e.title+'</div>';
+        });
+        adr.innerHTML += cell + '</div>';
+      }
+
+      // Time grid: hours 7–20
+      var HOUR_START = 7, HOUR_END = 20;
+      var grid = document.getElementById('calTimeGrid');
+      grid.innerHTML = '';
+
+      // Build hour rows
+      for(var h=HOUR_START;h<=HOUR_END;h++){
+        var label = h<12 ? h+' AM' : h===12 ? '12 PM' : (h-12)+' PM';
+        var row = '<div class="cal-hour-label">' + (h>HOUR_START?label:'') + '</div>';
+        for(var d=0;d<7;d++){
+          row += '<div class="cal-hour-cell" id="hc-'+h+'-'+d+'"></div>';
+        }
+        grid.innerHTML += row;
+      }
+
+      // Place events
+      EVENTS.forEach(function(e){
+        var cell = document.getElementById('hc-'+e.startH+'-'+e.day);
+        if(!cell) return;
+        var durationMins = (e.endH - e.startH)*60 + (e.endM - e.startM);
+        var topPx  = (e.startM / 60) * 52;
+        var heightPx = Math.max((durationMins / 60) * 52 - 3, 18);
+        var evt = document.createElement('div');
+        evt.className = 'cal-evt ' + e.cls;
+        evt.style.top  = topPx  + 'px';
+        evt.style.height = heightPx + 'px';
+        evt.innerHTML =
+          '<div class="cal-evt-title">' + e.title + '</div>' +
+          '<div class="cal-evt-time">' +
+            pad(e.startH)+':'+pad(e.startM)+' – '+pad(e.endH)+':'+pad(e.endM) +
+            (e.loc ? ' · ' + e.loc : '') +
+          '</div>';
+        cell.appendChild(evt);
+      });
+
+      // Scroll to 8 AM
+      var body = document.getElementById('calBody');
+      if(body) body.scrollTop = (8 - HOUR_START) * 52;
+    }
+
+    function pad(n){ return n<10?'0'+n:String(n); }
+
+    window.toggleCalPanel = function(){
+      var panel = document.getElementById('calPanel');
+      var btn   = document.getElementById('irCalBtn');
+      var open  = panel.classList.toggle('open');
+      btn.classList.toggle('active', open);
+      if(open) renderCalendar();
+    };
+
+    window.calNav = function(dir){
+      weekOffset += dir;
+      renderCalendar();
+    };
+
+    window.calGoToday = function(){
+      weekOffset = 0;
+      renderCalendar();
+    };
+  })();
 
 </script>
 
