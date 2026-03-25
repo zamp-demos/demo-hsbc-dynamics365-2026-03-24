@@ -1076,7 +1076,7 @@ input,textarea{font-family:inherit;}
 }
 /* ══ FULL-SCREEN CALENDAR OVERLAY ═══════════════════════════════════════════ */
 .cal-overlay{
-  position:fixed;inset:0;z-index:600;
+  position:fixed;top:80px;left:0;right:0;bottom:0;z-index:600;
   background:#fff;display:none;flex-direction:column;
   font-family:inherit;
 }
@@ -1090,10 +1090,10 @@ input,textarea{font-family:inherit;}
 }
 .cal-topbar-logo{
   width:28px;height:28px;border-radius:4px;
-  background:linear-gradient(135deg,#7b2fb5,#4488ee);
+  background:#0f6cbd;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
-.cal-topbar-logo svg{ width:14px;height:14px; }
+.cal-topbar-logo svg{ width:18px;height:18px; }
 .cal-topbar-title{ font-size:13px;font-weight:600;color:#242424;flex:1; }
 .cal-topbar-close{
   height:28px;padding:0 10px;border:1px solid #d0d0d0;border-radius:3px;
@@ -3188,17 +3188,6 @@ kbd{
           <circle cx="14.5" cy="5.5" r="1" fill="white" opacity=".7"/>
         </svg>
         <span class="cp-title-text">Copilot</span>
-        <!-- Calendar icon — opens full-screen calendar -->
-        <button class="cp-cal-icon-btn" id="cpCalBtn" onclick="openCalendar()" title="My Calendar">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="1" y="2" width="14" height="13" rx="1.5"/>
-            <line x1="1" y1="6.5" x2="15" y2="6.5"/>
-            <line x1="5" y1="0.5" x2="5" y2="3.5"/>
-            <line x1="11" y1="0.5" x2="11" y2="3.5"/>
-            <rect x="3.5" y="9" width="2.5" height="2.5" rx=".4" fill="currentColor" stroke="none"/>
-            <rect x="9.5" y="9" width="2.5" height="2.5" rx=".4" fill="currentColor" stroke="none"/>
-          </svg>
-        </button>
       </div>
       <div class="cp-sub">Get AI-powered help with solving customer issues.</div>
     </div>
@@ -3335,29 +3324,194 @@ kbd{
         <polyline points="14,8.5 18,6 18,14 14,11.5" stroke-linejoin="round"/>
       </svg>
     </div>
-  </div><!-- /icon-rail -->
-
-</div><!-- /workspace -->
-
-<!-- ══ SEARCH OVERLAY ════════════════════════════════════ -->
-<div class="search-overlay" id="searchOverlay">
-  <div class="search-backdrop" onclick="closeSearch()"></div>
-  <div class="search-box">
-    <div class="sb-input-row">
-      <svg><use href="#ic-search"/></svg>
-      <input type="text" id="searchInput" placeholder="Search Dynamics 365..." oninput="handleSearch(this.value)" autocomplete="off"/>
-      <div class="sb-close" onclick="closeSearch()"><svg><use href="#ic-close"/></svg></div>
+    <!-- Calendar icon — opens full-screen calendar -->
+    <div class="ir-btn" id="irCalBtn" onclick="openCalendar()" title="My Calendar">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <rect x="1"   y="1"   width="6.5" height="6.5" rx=".8" fill="#0078d4"/>
+        <rect x="8.5" y="1"   width="6.5" height="6.5" rx=".8" fill="#d83b01"/>
+        <rect x="1"   y="8.5" width="6.5" height="6.5" rx=".8" fill="#107c10"/>
+        <rect x="8.5" y="8.5" width="6.5" height="6.5" rx=".8" fill="#ffb900"/>
+      </svg>
     </div>
-    <div class="sb-results" id="searchResults">
-      <div class="sb-section-lbl">Recent</div>
-      <div class="sb-item"><div class="sb-av" style="background:#5c2d91;">MF</div><div class="sb-info"><div class="sb-name">Michael Foster</div><div class="sb-meta">Contact &bull; HSBC Premier Banking</div></div><span class="sb-type">Contact</span></div>
-      <div class="sb-item"><div class="sb-av" style="background:#107c10;">LW</div><div class="sb-info"><div class="sb-name">Laura Webb</div><div class="sb-meta">Contact &bull; HSBC Business Banking</div></div><span class="sb-type">Contact</span></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label class="modal-label"><span class="req">*</span> Case Title</label>
+        <input class="modal-input" id="nc-title" placeholder="Enter case title..." autocomplete="off"/>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label"><span class="req">*</span> Customer</label>
+        <input class="modal-input" id="nc-customer" placeholder="Search customer..." autocomplete="off"/>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Subject</label>
+        <input class="modal-input" id="nc-subject" placeholder="Enter subject..." autocomplete="off"/>
+      </div>
+      <div class="modal-row2">
+        <div class="modal-field">
+          <label class="modal-label">Priority</label>
+          <select class="modal-input" id="nc-priority">
+            <option value="Normal">Normal</option>
+            <option value="High">High</option>
+            <option value="Low">Low</option>
+            <option value="Critical">Critical</option>
+          </select>
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Origin</label>
+          <select class="modal-input" id="nc-origin">
+            <option value="Email">Email</option>
+            <option value="Phone">Phone</option>
+            <option value="Web">Web</option>
+            <option value="Chat">Chat</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Product</label>
+        <input class="modal-input" id="nc-product" placeholder="Search product..." autocomplete="off"/>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Description</label>
+        <textarea class="modal-input" id="nc-desc" rows="3" placeholder="Describe the issue..." style="resize:none;"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn primary" onclick="submitNewCase()">Save &amp; Open</button>
+      <button class="modal-btn" onclick="closeNewCaseModalBtn()">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- Step indicator -->
-<div class="step-pill" id="stepPill">Step 1 of 5 — Click the search icon to begin</div>
+<!-- ══ RESOLVE CASE MODAL ══════════════════════════════════════ -->
+<div class="modal-overlay" id="resolveCaseModal" style="display:none;" onclick="closeResolveCaseModal(event)">
+  <div class="modal-box" style="width:420px;">
+    <div class="modal-header">
+      <span class="modal-title">Resolve Case</span>
+      <button class="modal-close" onclick="closeResolveCaseModalBtn()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label class="modal-label"><span class="req">*</span> Resolution Type</label>
+        <input class="modal-input" id="rc-type" value="Information Provided"/>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label"><span class="req">*</span> Resolution</label>
+        <input class="modal-input" id="rc-resolution" value="Customer confirmed solu"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn primary" onclick="submitResolveCase()">Resolve</button>
+      <button class="modal-btn" onclick="closeResolveCaseModalBtn()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ FULL-SCREEN CALENDAR OVERLAY ══════════════════════════════════════════ -->
+<div class="cal-overlay" id="calOverlay">
+
+  <!-- Calendar command bar — sits directly below the two preserved header rows -->
+  <div class="cal-topbar">
+    <!-- Microsoft Calendar icon (coloured grid squares) -->
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;">
+      <!-- Top-left: blue -->
+      <rect x="1"  y="1"  width="8" height="8" rx="1" fill="#0078d4"/>
+      <!-- Top-right: red/orange -->
+      <rect x="11" y="1"  width="8" height="8" rx="1" fill="#d83b01"/>
+      <!-- Bottom-left: green -->
+      <rect x="1"  y="11" width="8" height="8" rx="1" fill="#107c10"/>
+      <!-- Bottom-right: yellow -->
+      <rect x="11" y="11" width="8" height="8" rx="1" fill="#ffb900"/>
+      <!-- White calendar lines on blue quad -->
+      <line x1="3" y1="4" x2="7" y2="4" stroke="white" stroke-width="1" stroke-linecap="round"/>
+      <line x1="3" y1="6" x2="7" y2="6" stroke="white" stroke-width="1" stroke-linecap="round"/>
+    </svg>
+    <span class="cal-topbar-title">My Calendar</span>
+    <button class="cal-topbar-close" onclick="closeCalendar()">
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" style="width:11px;height:11px;"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg>
+      Close
+    </button>
+  </div>
+
+  <!-- Command bar -->
+  <div class="cal-cmdbar">
+    <button class="cal-cmd-btn primary" onclick="void(0)">
+      <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
+      New event
+    </button>
+    <button class="cal-cmd-btn" onclick="void(0)">New meeting request</button>
+    <div class="cal-cmd-sep"></div>
+    <button class="cal-cmd-btn" onclick="void(0)">Share calendar</button>
+    <button class="cal-cmd-btn" onclick="void(0)">Open in Exchange</button>
+    <div class="cal-cmd-sep"></div>
+    <span class="cal-cmd-label">View</span>
+    <div class="cal-view-group">
+      <button class="cal-vg-btn" onclick="void(0)">Day</button>
+      <button class="cal-vg-btn active" id="calWeekBtn">Week</button>
+      <button class="cal-vg-btn" onclick="void(0)">Month</button>
+    </div>
+  </div>
+
+  <!-- Nav row -->
+  <div class="cal-navrow">
+    <button class="cal-nav-today" onclick="calGoToday()">Today</button>
+    <button class="cal-nav-arrow" onclick="calNav(-1)">
+      <svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="7,2 4,5.5 7,9"/></svg>
+    </button>
+    <button class="cal-nav-arrow" onclick="calNav(1)">
+      <svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 7,5.5 4,9"/></svg>
+    </button>
+    <span class="cal-nav-period" id="calPeriodLabel">25 Mar – 31 Mar 2026</span>
+  </div>
+
+  <!-- Body: sidebar + weekly grid -->
+  <div class="cal-body">
+
+    <!-- Mini-calendar sidebar -->
+    <div class="cal-sidebar">
+      <div class="cal-mini-header">
+        <span class="cal-mini-nav" onclick="calMiniNav(-1)">&#8249;</span>
+        <span class="cal-mini-month" id="calMiniMonthLabel">March 2026</span>
+        <span class="cal-mini-nav" onclick="calMiniNav(1)">&#8250;</span>
+      </div>
+      <div class="cal-mini-grid" id="calMiniGrid"><!-- populated by JS --></div>
+
+      <!-- My calendars -->
+      <div class="cal-sidebar-section">
+        <div class="cal-sidebar-section-title">My calendars</div>
+        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#0f6cbd;"></div> James Hartley</div>
+        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#107c10;"></div> Compliance Tasks</div>
+        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#7b2fb5;"></div> Team Meetings</div>
+      </div>
+      <!-- Other calendars -->
+      <div class="cal-sidebar-section">
+        <div class="cal-sidebar-section-title">Other calendars</div>
+        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#c50000;"></div> HSBC Fraud Alerts</div>
+        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#ca8000;"></div> SWIFT / Trade Finance</div>
+      </div>
+    </div>
+
+    <!-- Main weekly view -->
+    <div class="cal-main">
+      <!-- Day column headers -->
+      <div class="cal-week-hdr" id="calWeekHdr">
+        <div class="cal-wh-gutter"></div>
+        <!-- populated by JS -->
+      </div>
+      <!-- All-day strip -->
+      <div class="cal-allday-row" id="calAlldayRow">
+        <div class="cal-allday-gutter">all&#8209;day</div>
+        <!-- populated by JS -->
+      </div>
+      <!-- Time area -->
+      <div class="cal-time-area" id="calTimeArea">
+        <div class="cal-time-grid" id="calTimeGrid"><!-- populated by JS --></div>
+      </div>
+    </div>
+
+  </div><!-- /cal-body -->
+</div><!-- /cal-overlay -->
 
 <script>
 // Auto-scroll comm chat to bottom
@@ -4335,12 +4489,12 @@ function closeEmailInline(e) {
 
   window.openCalendar = function(){
     document.getElementById('calOverlay').classList.add('open');
-    document.getElementById('cpCalBtn').style.color='#0f6cbd';
+    var irb=document.getElementById('irCalBtn'); if(irb) irb.classList.add('active');
     renderWeek();
   };
   window.closeCalendar = function(){
     document.getElementById('calOverlay').classList.remove('open');
-    document.getElementById('cpCalBtn').style.color='';
+    var irb=document.getElementById('irCalBtn'); if(irb) irb.classList.remove('active');
   };
   window.calNav = function(dir){
     weekOffset+=dir;
@@ -4357,181 +4511,6 @@ function closeEmailInline(e) {
 })();
 
 </script>
-
-<!-- ══ NEW CASE MODAL ══════════════════════════════════════════ -->
-<div class="modal-overlay" id="newCaseModal" style="display:none;" onclick="closeNewCaseModal(event)">
-  <div class="modal-box" style="width:520px;">
-    <div class="modal-header">
-      <span class="modal-title">New Case</span>
-      <button class="modal-close" onclick="closeNewCaseModalBtn()">&times;</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-field">
-        <label class="modal-label"><span class="req">*</span> Case Title</label>
-        <input class="modal-input" id="nc-title" placeholder="Enter case title..." autocomplete="off"/>
-      </div>
-      <div class="modal-field">
-        <label class="modal-label"><span class="req">*</span> Customer</label>
-        <input class="modal-input" id="nc-customer" placeholder="Search customer..." autocomplete="off"/>
-      </div>
-      <div class="modal-field">
-        <label class="modal-label">Subject</label>
-        <input class="modal-input" id="nc-subject" placeholder="Enter subject..." autocomplete="off"/>
-      </div>
-      <div class="modal-row2">
-        <div class="modal-field">
-          <label class="modal-label">Priority</label>
-          <select class="modal-input" id="nc-priority">
-            <option value="Normal">Normal</option>
-            <option value="High">High</option>
-            <option value="Low">Low</option>
-            <option value="Critical">Critical</option>
-          </select>
-        </div>
-        <div class="modal-field">
-          <label class="modal-label">Origin</label>
-          <select class="modal-input" id="nc-origin">
-            <option value="Email">Email</option>
-            <option value="Phone">Phone</option>
-            <option value="Web">Web</option>
-            <option value="Chat">Chat</option>
-          </select>
-        </div>
-      </div>
-      <div class="modal-field">
-        <label class="modal-label">Product</label>
-        <input class="modal-input" id="nc-product" placeholder="Search product..." autocomplete="off"/>
-      </div>
-      <div class="modal-field">
-        <label class="modal-label">Description</label>
-        <textarea class="modal-input" id="nc-desc" rows="3" placeholder="Describe the issue..." style="resize:none;"></textarea>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-btn primary" onclick="submitNewCase()">Save &amp; Open</button>
-      <button class="modal-btn" onclick="closeNewCaseModalBtn()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══ RESOLVE CASE MODAL ══════════════════════════════════════ -->
-<div class="modal-overlay" id="resolveCaseModal" style="display:none;" onclick="closeResolveCaseModal(event)">
-  <div class="modal-box" style="width:420px;">
-    <div class="modal-header">
-      <span class="modal-title">Resolve Case</span>
-      <button class="modal-close" onclick="closeResolveCaseModalBtn()">&times;</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-field">
-        <label class="modal-label"><span class="req">*</span> Resolution Type</label>
-        <input class="modal-input" id="rc-type" value="Information Provided"/>
-      </div>
-      <div class="modal-field">
-        <label class="modal-label"><span class="req">*</span> Resolution</label>
-        <input class="modal-input" id="rc-resolution" value="Customer confirmed solu"/>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-btn primary" onclick="submitResolveCase()">Resolve</button>
-      <button class="modal-btn" onclick="closeResolveCaseModalBtn()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- ══ FULL-SCREEN CALENDAR OVERLAY ══════════════════════════════════════════ -->
-<div class="cal-overlay" id="calOverlay">
-
-  <!-- Top bar (mimics D365 topnav) -->
-  <div class="cal-topbar">
-    <div class="cal-topbar-logo">
-      <svg viewBox="0 0 14 14" fill="none"><path d="M7 1.5l1 3L11.5 6l-3.5 1L7 10.5 6 7.5 2.5 6 6 5Z" fill="white"/></svg>
-    </div>
-    <span class="cal-topbar-title">My Calendar &mdash; Customer Service workspace</span>
-    <button class="cal-topbar-close" onclick="closeCalendar()">
-      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg>
-      Close calendar
-    </button>
-  </div>
-
-  <!-- Command bar -->
-  <div class="cal-cmdbar">
-    <button class="cal-cmd-btn primary" onclick="void(0)">
-      <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
-      New event
-    </button>
-    <button class="cal-cmd-btn" onclick="void(0)">New meeting request</button>
-    <div class="cal-cmd-sep"></div>
-    <button class="cal-cmd-btn" onclick="void(0)">Share calendar</button>
-    <button class="cal-cmd-btn" onclick="void(0)">Open in Exchange</button>
-    <div class="cal-cmd-sep"></div>
-    <span class="cal-cmd-label">View</span>
-    <div class="cal-view-group">
-      <button class="cal-vg-btn" onclick="void(0)">Day</button>
-      <button class="cal-vg-btn active" id="calWeekBtn">Week</button>
-      <button class="cal-vg-btn" onclick="void(0)">Month</button>
-    </div>
-  </div>
-
-  <!-- Nav row -->
-  <div class="cal-navrow">
-    <button class="cal-nav-today" onclick="calGoToday()">Today</button>
-    <button class="cal-nav-arrow" onclick="calNav(-1)">
-      <svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="7,2 4,5.5 7,9"/></svg>
-    </button>
-    <button class="cal-nav-arrow" onclick="calNav(1)">
-      <svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 7,5.5 4,9"/></svg>
-    </button>
-    <span class="cal-nav-period" id="calPeriodLabel">25 Mar – 31 Mar 2026</span>
-  </div>
-
-  <!-- Body: sidebar + weekly grid -->
-  <div class="cal-body">
-
-    <!-- Mini-calendar sidebar -->
-    <div class="cal-sidebar">
-      <div class="cal-mini-header">
-        <span class="cal-mini-nav" onclick="calMiniNav(-1)">&#8249;</span>
-        <span class="cal-mini-month" id="calMiniMonthLabel">March 2026</span>
-        <span class="cal-mini-nav" onclick="calMiniNav(1)">&#8250;</span>
-      </div>
-      <div class="cal-mini-grid" id="calMiniGrid"><!-- populated by JS --></div>
-
-      <!-- My calendars -->
-      <div class="cal-sidebar-section">
-        <div class="cal-sidebar-section-title">My calendars</div>
-        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#0f6cbd;"></div> James Hartley</div>
-        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#107c10;"></div> Compliance Tasks</div>
-        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#7b2fb5;"></div> Team Meetings</div>
-      </div>
-      <!-- Other calendars -->
-      <div class="cal-sidebar-section">
-        <div class="cal-sidebar-section-title">Other calendars</div>
-        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#c50000;"></div> HSBC Fraud Alerts</div>
-        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#ca8000;"></div> SWIFT / Trade Finance</div>
-      </div>
-    </div>
-
-    <!-- Main weekly view -->
-    <div class="cal-main">
-      <!-- Day column headers -->
-      <div class="cal-week-hdr" id="calWeekHdr">
-        <div class="cal-wh-gutter"></div>
-        <!-- populated by JS -->
-      </div>
-      <!-- All-day strip -->
-      <div class="cal-allday-row" id="calAlldayRow">
-        <div class="cal-allday-gutter">all&#8209;day</div>
-        <!-- populated by JS -->
-      </div>
-      <!-- Time area -->
-      <div class="cal-time-area" id="calTimeArea">
-        <div class="cal-time-grid" id="calTimeGrid"><!-- populated by JS --></div>
-      </div>
-    </div>
-
-  </div><!-- /cal-body -->
-</div><!-- /cal-overlay -->
 
 </body>
 </html>
