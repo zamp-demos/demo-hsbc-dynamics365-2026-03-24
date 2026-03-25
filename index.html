@@ -2481,7 +2481,7 @@ kbd{
           <div class="inbox-nav-header">
             Inbox views
           </div>
-          <div class="inbox-nav-item active" id="navAssigned" onclick="showAssignedConversations(this)">Assigned conversations</div>
+          <div class="inbox-nav-item active" id="navAssigned" onclick="showAssignedConversations(this)">Inbox</div>
           <div class="inbox-nav-item" id="navCases" onclick="showCasesViewFromNav(this)">Cases</div>
           <div class="inbox-nav-item" onclick="switchInboxView(this,'resolved')">Resolved conversations</div>
           <div class="inbox-nav-item" onclick="switchInboxView(this,'unassigned')">Unassigned conversations</div>
@@ -2490,7 +2490,7 @@ kbd{
         <!-- Left: email list grouped by CIN -->
         <div class="inbox-list">
           <div class="inbox-list-header">
-            <span class="inbox-list-title">Assigned conversations</span>
+            <span class="inbox-list-title">Inbox</span>
             <div class="inbox-list-icons">
               <div class="ilh-icon" title="Search"><svg><use href="#ic-search"/></svg></div>
               <div class="ilh-icon" title="Refresh"><svg><use href="#ic-refresh"/></svg></div>
@@ -4514,17 +4514,61 @@ function showAssignedConversations(el) {
   document.querySelectorAll('.inbox-nav-item').forEach(i => i.classList.remove('active'));
   if (el) el.classList.add('active');
   // Update list header title
-  const titleEl = document.querySelector('#inboxView .inbox-list-title');
-  if (titleEl) titleEl.textContent = 'Assigned conversations';
-  // Close inline email pane if open
+  var titleEl = document.querySelector('#inboxView .inbox-list-title');
+  if (titleEl) titleEl.textContent = 'Inbox';
+  // Hide embedded cases panel if present
+  var embedded = document.getElementById('embeddedCasesPanel');
+  if (embedded) embedded.style.display = 'none';
+  // Show inbox detail empty state
   document.getElementById('inboxDetailEmpty').style.display = 'flex';
   document.getElementById('inboxDetailContent').style.display = 'none';
+  // Activate inbox session tab
+  document.querySelectorAll('.sb-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.getElementById('inboxSessionTab').classList.add('active');
 }
 
 function showCasesViewFromNav(el) {
   document.querySelectorAll('.inbox-nav-item').forEach(i => i.classList.remove('active'));
   if (el) el.classList.add('active');
-  showCasesView();
+
+  // Make sure inbox view is visible (keep left pane intact)
+  var iv = document.getElementById('inboxView');
+  if (iv) { iv.style.display = 'flex'; iv.classList.remove('hidden'); }
+
+  // Hide email detail content, show cases inside the detail pane
+  document.getElementById('inboxDetailEmpty').style.display = 'none';
+  document.getElementById('inboxDetailContent').style.display = 'none';
+
+  // Embed or show cases panel inside inboxDetailPane
+  var pane = document.getElementById('inboxDetailPane');
+  var embedded = document.getElementById('embeddedCasesPanel');
+  if (!embedded) {
+    // Move casesListView into the detail pane as an embedded panel
+    var clv = document.getElementById('casesListView');
+    if (clv && pane) {
+      clv.style.display = 'flex';
+      clv.classList.remove('hidden');
+      clv.style.position = '';
+      clv.style.flex = '1';
+      clv.id = 'embeddedCasesPanel';
+      pane.appendChild(clv);
+    }
+  } else {
+    embedded.style.display = 'flex';
+  }
+
+  // Update session tab bar: show Cases tab, keep Inbox tab
+  var clt = document.getElementById('casesListSessionTab');
+  if (clt) { clt.classList.remove('hidden'); clt.style.display = ''; }
+  document.querySelectorAll('.sb-tab').forEach(function(t) { t.classList.remove('active'); });
+  if (clt) clt.classList.add('active');
+
+  // Hide other main views except inboxView
+  ['homePlaceholder','contactView','caseView','emailView'].forEach(function(vid) {
+    var el2 = document.getElementById(vid);
+    if (el2) { el2.style.display = 'none'; el2.classList.add('hidden'); }
+  });
+  document.getElementById('inboxSessionTab').classList.remove('active');
 }
 
 function switchInboxView(el, view) {
