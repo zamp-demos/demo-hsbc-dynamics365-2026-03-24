@@ -1947,7 +1947,7 @@ kbd{
           </svg>
         </button>
         <input class="cp2-input" type="text" id="commInput" placeholder="Type your public message..."/>
-        <button class="cp2-send-btn" title="Send">
+        <button class="cp2-send-btn" title="Send" onclick="sendEmailReply()">
           <svg viewBox="0 0 20 20" width="14" height="14" fill="none">
             <path d="M2.5 10.5L17.5 3L11 17.5L9.2 11.2L2.5 10.5Z" fill="#0f6cbd"/>
           </svg>
@@ -4895,9 +4895,20 @@ function closeEmailInline(e) {
 
   window.tmrSend = function(){
     if(currentStep<3){ tmrNext(); return; }
-    /* Final send - show toast and close */
     var subj=document.getElementById('tmrSubject').value;
     tmrClose();
+    /* inject sent row immediately */
+    injectInboxRow({
+      id: 'meetSent_'+Date.now(),
+      avatar: 'DM', avatarBg: '#0f6cbd',
+      sender: 'David Mensah (PA)',
+      time: 'Just now',
+      subject: subj || 'Meeting request',
+      preview: 'Meeting invite sent to Mateo Segovia — Teams link included.',
+      badgeClass: 'ier-badge-tx', badgeText: 'Sent',
+      priority: false
+    });
+    /* toast */
     setTimeout(function(){
       var t=document.createElement('div');
       t.style.cssText='position:fixed;bottom:24px;right:24px;z-index:9999;background:#107c10;color:#fff;'+
@@ -4905,10 +4916,25 @@ function closeEmailInline(e) {
         'display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,0.2);max-width:360px;';
       t.innerHTML='<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="7"/><polyline points="5,8.5 7,10.5 11,6"/></svg>'+
         '<div><div style="font-weight:600;">Meeting invite sent</div><div style="font-size:11px;opacity:.85;margin-top:1px;">'+
-        (subj||'Teams meeting')+' &mdash; Teams link included</div></div>';
+        (subj||'Teams meeting')+' — Teams link included</div></div>';
       document.body.appendChild(t);
       setTimeout(function(){ t.style.transition='opacity .4s'; t.style.opacity='0'; setTimeout(function(){ t.remove(); },400); },4000);
     },200);
+    /* 5-min: Mateo accepts */
+    setTimeout(function(){
+      injectInboxRow({
+        id: 'meetAccepted_'+Date.now(),
+        avatar: 'MS', avatarBg: '#6b3fa0',
+        sender: 'Mateo Segovia (PA)',
+        time: '5 min ago',
+        subject: 'Accepted: ' + (subj || 'Meeting request'),
+        preview: 'Mateo Segovia ha aceptado la reunión y confirma su asistencia.',
+        badgeClass: 'ier-badge-rx', badgeText: 'Received',
+        priority: false,
+        isAccepted: true
+      });
+      showToast('Mateo Segovia accepted the meeting invite', '#107c10');
+    }, 5*60*1000);
   };
 
   function tmrSetStep(n){
@@ -5006,6 +5032,117 @@ function closeEmailInline(e) {
   });
 
 })();
+
+/* ═══════════════════════════════════════════════════════════════
+   INBOX ROW INJECTION  &  REPLY / MEETING ACCEPT FLOWS
+   ═══════════════════════════════════════════════════════════════ */
+
+function showToast(msg, color) {
+  color = color || '#107c10';
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;background:'+color+';color:#fff;'+
+    'padding:12px 20px;border-radius:4px;font-size:13px;font-family:Segoe UI,sans-serif;'+
+    'display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,.2);max-width:380px;';
+  t.innerHTML = '<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">'+
+    '<circle cx="8" cy="8" r="7"/><polyline points="5,8.5 7,10.5 11,6"/></svg>'+
+    '<span>'+msg+'</span>';
+  document.body.appendChild(t);
+  setTimeout(function(){ t.style.transition='opacity .4s'; t.style.opacity='0';
+    setTimeout(function(){ t.remove(); }, 400); }, 4000);
+}
+
+function injectInboxRow(opts) {
+  /* opts: { id, avatar, avatarBg, sender, time, subject, preview,
+             badgeClass, badgeText, priority, isAccepted } */
+  var container = document.querySelector('#inboxView .cin-group-rows:last-of-type');
+  /* prefer DLA group rows */
+  var dlaHdr = document.querySelector('.cin-group-name');
+  var groups = document.querySelectorAll('.cin-group-rows');
+  groups.forEach(function(g) {
+    var hdr = g.previousElementSibling;
+    if (hdr && hdr.textContent.indexOf('DLA') !== -1) container = g;
+  });
+  if (!container) return;
+
+  var calIcon = opts.isAccepted
+    ? '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" width="11" height="11" style="margin-right:3px;vertical-align:middle;"><rect x="1" y="2" width="12" height="11" rx="1"/><line x1="4" y1="1" x2="4" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><polyline points="3,8 6,10.5 11,6.5"/></svg>'
+    : '';
+
+  var priorityBadge = opts.priority
+    ? '<span class="ier-badge ier-badge-high">High</span>' : '';
+
+  var row = document.createElement('div');
+  row.className = 'inbox-email-row unread';
+  row.id = opts.id;
+  row.title = 'Double-click to open';
+  row.innerHTML =
+    '<div class="unread-dot"></div>'+
+    '<div class="ier-av" style="background:'+opts.avatarBg+';">'+opts.avatar+'</div>'+
+    '<div class="ier-body">'+
+      '<div class="ier-top">'+
+        '<span class="ier-sender">'+opts.sender+'</span>'+
+        '<span class="ier-time">'+opts.time+'</span>'+
+      '</div>'+
+      '<div class="ier-subject">'+calIcon+opts.subject+'</div>'+
+      '<div class="ier-preview">'+opts.preview+'</div>'+
+      '<div class="ier-meta">'+
+        '<span class="ier-case">CSC-2026-0322-DLA-0193</span>'+
+        '<span class="ier-badge '+opts.badgeClass+'">'+opts.badgeText+'</span>'+
+        priorityBadge+
+      '</div>'+
+    '</div>';
+
+  /* click to mark read */
+  row.addEventListener('click', function() { row.classList.remove('unread'); updateCinBadges(); });
+
+  /* prepend so it appears at top of group */
+  container.insertBefore(row, container.firstChild);
+  updateCinBadges();
+
+  /* update footer count */
+  var footer = document.querySelector('#inboxView .inbox-list-body ~ div');
+  if (footer) {
+    var rows = document.querySelectorAll('.inbox-email-row').length;
+    footer.innerHTML = rows + ' items &bull; Last updated at <span id="inboxTimestamp">Just now</span>';
+  }
+}
+
+function sendEmailReply() {
+  var input = document.getElementById('commInput');
+  var body = input ? input.value.trim() : '';
+  if (!body) { showToast('Please type a message before sending.', '#8a8a8a'); return; }
+
+  /* inject sent row */
+  injectInboxRow({
+    id: 'replySent_'+Date.now(),
+    avatar: 'DM', avatarBg: '#0f6cbd',
+    sender: 'David Mensah (PA)',
+    time: 'Just now',
+    subject: 'RE: Urgente: Solicitud de reunión para actualizaciones masivas',
+    preview: body.length > 90 ? body.substring(0, 90) + '...' : body,
+    badgeClass: 'ier-badge-tx', badgeText: 'Sent',
+    priority: false
+  });
+
+  if (input) input.value = '';
+  showToast('Email sent to Mateo Segovia', '#107c10');
+
+  /* 5 min: Mateo replies */
+  setTimeout(function() {
+    injectInboxRow({
+      id: 'replyBack_'+Date.now(),
+      avatar: 'MS', avatarBg: '#6b3fa0',
+      sender: 'Mateo Segovia (PA)',
+      time: '5 min ago',
+      subject: 'RE: Urgente: Solicitud de reunión para actualizaciones masivas',
+      preview: 'Gracias David. Confirmamos disponibilidad para la llamada. Por favor envínos la invitación de calendario.',
+      badgeClass: 'ier-badge-rx', badgeText: 'Received',
+      priority: false
+    });
+    showToast('New reply from Mateo Segovia', '#0f6cbd');
+  }, 5*60*1000);
+}
+
 
 </script>
 
