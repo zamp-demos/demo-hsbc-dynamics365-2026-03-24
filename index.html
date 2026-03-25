@@ -4908,19 +4908,8 @@ function closeEmailInline(e) {
       badgeClass: 'ier-badge-tx', badgeText: 'Sent',
       priority: false
     });
-    /* toast */
-    setTimeout(function(){
-      var t=document.createElement('div');
-      t.style.cssText='position:fixed;bottom:24px;right:24px;z-index:9999;background:#107c10;color:#fff;'+
-        'padding:12px 20px;border-radius:4px;font-size:13px;font-family:Segoe UI,sans-serif;'+
-        'display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,0.2);max-width:360px;';
-      t.innerHTML='<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="7"/><polyline points="5,8.5 7,10.5 11,6"/></svg>'+
-        '<div><div style="font-weight:600;">Meeting invite sent</div><div style="font-size:11px;opacity:.85;margin-top:1px;">'+
-        (subj||'Teams meeting')+' — Teams link included</div></div>';
-      document.body.appendChild(t);
-      setTimeout(function(){ t.style.transition='opacity .4s'; t.style.opacity='0'; setTimeout(function(){ t.remove(); },400); },4000);
-    },200);
-    /* 5-min: Mateo accepts */
+    showToast('Meeting invite sent — ' + (subj || 'Teams meeting'), '#107c10');
+    /* 8 sec demo delay: Mateo accepts */
     setTimeout(function(){
       injectInboxRow({
         id: 'meetAccepted_'+Date.now(),
@@ -4934,7 +4923,7 @@ function closeEmailInline(e) {
         isAccepted: true
       });
       showToast('Mateo Segovia accepted the meeting invite', '#107c10');
-    }, 5*60*1000);
+    }, 8000);
   };
 
   function tmrSetStep(n){
@@ -5037,19 +5026,7 @@ function closeEmailInline(e) {
    INBOX ROW INJECTION  &  REPLY / MEETING ACCEPT FLOWS
    ═══════════════════════════════════════════════════════════════ */
 
-function showToast(msg, color) {
-  color = color || '#107c10';
-  var t = document.createElement('div');
-  t.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;background:'+color+';color:#fff;'+
-    'padding:12px 20px;border-radius:4px;font-size:13px;font-family:Segoe UI,sans-serif;'+
-    'display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,.2);max-width:380px;';
-  t.innerHTML = '<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">'+
-    '<circle cx="8" cy="8" r="7"/><polyline points="5,8.5 7,10.5 11,6"/></svg>'+
-    '<span>'+msg+'</span>';
-  document.body.appendChild(t);
-  setTimeout(function(){ t.style.transition='opacity .4s'; t.style.opacity='0';
-    setTimeout(function(){ t.remove(); }, 400); }, 4000);
-}
+/* showToast defined above */
 
 function injectInboxRow(opts) {
   /* opts: { id, avatar, avatarBg, sender, time, subject, preview,
@@ -5140,7 +5117,7 @@ function sendEmailReply() {
       priority: false
     });
     showToast('New reply from Mateo Segovia', '#0f6cbd');
-  }, 5*60*1000);
+  }, 8000);
 }
 
 
