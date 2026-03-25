@@ -2420,7 +2420,7 @@ kbd{
             </div>
             <div class="form-row">
               <span class="form-label">Description</span>
-              <span class="form-val" style="color:#616161;">Customer reports unrecognised FX debit of £14,200 on 14 Jan 2026. Requests investigation and potential reversal.</span>
+              <span class="form-val" style="color:#616161;">Bulk programme update for DLA-ES-CC-0089 initiated by PA Mateo Segovia (22 Mar 2026). R1: Credit limit uplift x47 Madrid cards to EUR 5,000 - 46 completed (BATCH-INL-2026-0322), 1 held pending Fraud Ops 72h watch (SAL-2026-0322-5521). R2: 8 new Barcelona joiners KYC-cleared, dispatched via Inlogik (INL-DLA-ES-0822). R3: EUR 14,000 VCN settlement for Indra Sistemas S.A. confirmed settled 2026-03-18 (STL-2026-0318-VC0298). HITL: SM David Mensah selected Option B.</span>
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:12px;">
@@ -3320,7 +3320,7 @@ kbd{
                     <span class="form-label">Product</span>
                     <div class="form-input-wrap" style="display:flex;align-items:center;gap:4px;">
                       <svg width="12" height="12" style="color:#0f6cbd;flex-shrink:0;"><use href="#ic-sparkle"/></svg>
-                      <a href="#" style="font-size:12px;color:#0f6cbd;">HSBC Global FX Account</a>
+                      <a href="#" style="font-size:12px;color:#0f6cbd;">HSBC Corporate Card Programme</a>
                       <span style="color:#888;cursor:pointer;">&times;</span>
                     </div>
                   </div>
@@ -3337,7 +3337,7 @@ kbd{
                       <span><span class="sum-icon"><svg><use href="#ic-sparkle"/></svg></span> Summary</span>
                       <svg width="12" height="12"><use href="#ic-chevron-down"/></svg>
                     </h4>
-                    <p>James Hartley (Director of Finance, Hartley &amp; Associates Ltd) reported an unrecognised FX debit of <strong>&pound;14,200</strong> on 14 January 2026. Relationship Manager Priya Nair logged the case and referred to HSBC Fraud Operations (Ref: FRAUD-2026-00874). An interim account block was placed. On 3 Feb, James followed up requesting escalation &mdash; priority raised to High. Fraud Ops to report findings by 10 Feb 2026 per SLA.</p>
+                    <p>Programme Administrator <strong>Mateo Segovia</strong> (DLA-ES-CC-0089) submitted a bulk update on 22 Mar 2026 across three workstreams. R1: Credit uplift for 47 Madrid cards &mdash; <strong>46 processed</strong> to EUR 5,000 (BATCH-INL-2026-0322); cardholder Alejandro Vargas (&#x2022;&#x2022;&#x2022;&#x2022;5521) held on <strong>Fraud Ops 72-hour watch</strong> (SAL-2026-0322-5521) following cross-provincial spend anomaly. R2: 8 Barcelona joiners KYC-cleared and queued (INL-DLA-ES-0822), dispatch within 5 working days. R3: EUR 14,000 VCN payment for Indra Sistemas S.A. confirmed settled 2026-03-18 (STL-2026-0318-VC0298). HITL invoked &mdash; SM <strong>David Mensah</strong> selected Option B; Fraud Ops referral active.</p>
                     <div class="sum-actions">
                       <button class="sum-btn">Copy</button>
                       <button class="sum-btn"><svg width="12" height="12"><use href="#ic-refresh"/></svg></button>
@@ -5323,11 +5323,11 @@ function evSendReply() {
     statusText: 'In Progress'
   });
   /* Navigate to Cases view and open DLA case detail automatically */
-  showCasesView();
+  showCasesViewFromNav(null);
   setTimeout(function() {
     var newRow = document.querySelector('#clTodayRows .cl-case-row');
     openDLACase(newRow);
-  }, 50);
+  }, 80);
   showToast('Reply sent to ' + (d ? d.from : 'recipient'), '#107c10');
   evCloseReply();
 
@@ -5431,11 +5431,11 @@ function edSendReply() {
     statusText: 'In Progress'
   });
   /* Navigate to Cases view and open DLA case detail automatically */
-  showCasesView();
+  showCasesViewFromNav(null);
   setTimeout(function() {
     var newRow = document.querySelector('#clTodayRows .cl-case-row');
     openDLACase(newRow);
-  }, 50);
+  }, 80);
   showToast('Reply sent to ' + (d ? d.from : 'recipient'), '#107c10');
   edCloseReply();
 
