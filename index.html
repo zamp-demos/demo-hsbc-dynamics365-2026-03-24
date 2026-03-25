@@ -4540,14 +4540,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function openNewCaseModal() {
   document.getElementById('nc-title').value = '';
-  document.getElementById('nc-customer').value = '';
+  document.getElementById('nc-customer').value = 'DLA Piper Spain S.L.P';
   document.getElementById('nc-subject').value = '';
-  document.getElementById('nc-priority').value = 'Normal';
+  document.getElementById('nc-priority').value = 'High';
   document.getElementById('nc-origin').value = 'Email';
-  document.getElementById('nc-product').value = '';
+  document.getElementById('nc-product').value = 'HSBC Corporate Card Programme';
   document.getElementById('nc-desc').value = '';
   var ncAssigned = document.getElementById('nc-assigned');
-  if (ncAssigned) ncAssigned.value = 'Unassigned';
+  if (ncAssigned) ncAssigned.value = 'Zamp';
   document.getElementById('newCaseModal').style.display = 'flex';
   setTimeout(() => document.getElementById('nc-title').focus(), 50);
 }
@@ -4600,11 +4600,21 @@ function submitNewCase() {
 
   closeNewCaseModalBtn();
   // Open the new case in detail view
-  showCasesView();
+  showCasesViewFromNav(null);
   setTimeout(function() {
     const newRow = document.querySelector('.cl-group-rows .cl-case-row:first-child');
     if (newRow) newRow.click();
-  }, 50);
+    // Set Owner and Assigned To fields in detail panel
+    var ownerEl = document.getElementById('cld-owner'); if (ownerEl) ownerEl.textContent = 'David Mensah';
+    var assignedEl = document.getElementById('cld-assigned'); if (assignedEl) assignedEl.textContent = assigned || 'Zamp';
+    var ownerFld = document.getElementById('cld-owner-field'); if (ownerFld) ownerFld.value = 'David Mensah';
+    var assignFld = document.getElementById('cld-assigned-field'); if (assignFld) assignFld.value = assigned || 'Zamp';
+    // Set Subject and Description from modal inputs
+    var subjectVal = document.getElementById('nc-subject') ? document.getElementById('nc-subject').value : '';
+    var descVal = document.getElementById('nc-desc') ? document.getElementById('nc-desc').value : '';
+    var subjFld = document.getElementById('cld-subject'); if (subjFld && subjectVal) subjFld.value = subjectVal;
+    var descFld = document.getElementById('cld-desc'); if (descFld && descVal) descFld.value = descVal;
+  }, 80);
   var toastMsg = 'Case ' + caseNum + ' created';
   if (assigned === 'Zamp') { toastMsg += ' — Assigned to Zamp'; }
   showToast(toastMsg, '#107c10');
