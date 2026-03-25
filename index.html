@@ -4156,7 +4156,7 @@ function toggleAssistMenu() {
 function showCasesView() {
   // Close inbox: hide inbox session tab, close inline email if open
   const inboxTab = document.getElementById('inboxSessionTab');
-  if (inboxTab) { inboxTab.classList.remove('active'); inboxTab.classList.add('hidden'); }
+  if (inboxTab) { inboxTab.classList.remove('active'); }
   const emailTab = document.getElementById('emailSessionTab');
   if (emailTab) emailTab.remove();
   // Show Cases session tab
