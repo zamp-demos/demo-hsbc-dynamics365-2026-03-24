@@ -4248,6 +4248,7 @@ function closeEmailInline(e) {
   // ── EARLY GLOBAL EXPORTS (hoisting-safe) ─────────────────────────────────
   window.openCalendar  = function(){ _calOpen(); };
   window.closeCalendar = function(){ _calClose(); };
+  console.log('[CAL-IIFE] openCalendar assigned:', typeof window.openCalendar);
   window.calNav        = function(d){ _calNav(d); };
   window.calGoToday    = function(){ _calGoToday(); };
   window.calMiniNav    = function(d){ _calMiniNav(d); };
