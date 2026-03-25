@@ -2680,9 +2680,13 @@ kbd{
                 <svg width="14" height="14" viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
               </button>
               <div class="etb-sep"></div>
-              <button class="etb-btn">
+              <button class="etb-btn" id="edSendBtn" onclick="edSendReply()">
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" width="13" height="13"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9,3 14,8 9,13"/></svg>
                 Send
+              </button>
+              <button class="etb-btn" id="edReplyBtn" onclick="edOpenReply()">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" width="13" height="13"><polyline points="6,4 2,8 6,12"/><path d="M2 8h7a5 5 0 0 1 5 5"/></svg>
+                Reply
               </button>
               <button class="etb-btn"><svg><use href="#ic-save"/></svg> Save</button>
               <button class="etb-btn"><svg><use href="#ic-save"/></svg> Save &amp; Close</button>
@@ -2825,6 +2829,27 @@ kbd{
               </div>
 
             </div><!-- /ed-body-wrap -->
+
+            <!-- Inline Reply Pane (hidden until Reply clicked) -->
+            <div id="edReplyPane" style="display:none;margin:10px 16px 16px;border:1px solid #0f6cbd;border-radius:3px;background:#fff;flex-shrink:0;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #e8e8e8;background:#f5f9ff;">
+                <span style="font-size:12px;font-weight:600;color:#242424;">Reply</span>
+                <button onclick="edCloseReply()" style="border:none;background:none;cursor:pointer;font-size:15px;color:#888;line-height:1;">&#x2715;</button>
+              </div>
+              <div style="padding:8px 12px;font-size:12px;color:#616161;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;">To:</span>&nbsp;<span id="edRplyTo" style="color:#242424;font-weight:500;"></span>
+              </div>
+              <div style="padding:6px 12px;font-size:12px;color:#616161;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;">Subject:</span>&nbsp;<span id="edRplySubject" style="color:#242424;"></span>
+              </div>
+              <div id="edRplyBody" contenteditable="true"
+                style="min-height:120px;padding:12px;font-size:12px;color:#242424;outline:none;font-family:inherit;line-height:1.6;white-space:pre-wrap;"
+                data-placeholder="Type your reply here..."></div>
+              <div style="display:flex;gap:8px;padding:8px 12px;border-top:1px solid #e8e8e8;background:#fafafa;">
+                <button onclick="edSendReply()" style="background:#0f6cbd;color:#fff;border:none;border-radius:2px;padding:6px 18px;font-size:12px;font-weight:600;cursor:pointer;">Send</button>
+                <button onclick="edCloseReply()" style="background:none;border:1px solid #d0d0d0;border-radius:2px;padding:6px 14px;font-size:12px;cursor:pointer;color:#424242;">Discard</button>
+              </div>
+            </div>
 
           </div>
         </div><!-- /inbox-detail -->
@@ -4591,6 +4616,13 @@ function openEmailInline(id) {
   const d = EMAIL_DATA[id];
   if (!d) return;
 
+  /* Track which email is open for ed* reply functions */
+  _edCurrentId = id;
+  /* Reset reply pane state */
+  var edRp = document.getElementById('edReplyPane'); if(edRp) edRp.style.display='none';
+  var edSb = document.getElementById('edSendBtn');   if(edSb) edSb.style.display='';
+  var edRb = document.getElementById('edReplyBtn');  if(edRb) edRb.style.display='';
+
   // Mark row as read
   const row = event ? event.currentTarget : null;
   if (row) {
@@ -5273,6 +5305,98 @@ function evSendReply() {
   setTimeout(function() {
     injectInboxRow({
       id: 'evBack_' + Date.now(),
+      avatar: 'MS', avatarBg: '#6b3fa0',
+      sender: 'Mateo Segovia (PA)',
+      time: 'Just now',
+      subject: subj,
+      preview: 'Gracias David. Confirmamos disponibilidad para la llamada. Por favor envínos la invitación de calendario.',
+      badgeClass: 'ier-badge-rx', badgeText: 'Received',
+      priority: false,
+      fullBody: '<p>Hola David,</p><p>Gracias por tu rápida respuesta. Confirmamos disponibilidad para la llamada y estamos listos para avanzar con los tres puntos del programa.</p><p>Por favor, envínos la invitación de calendario con el enlace de Teams cuando puedas.</p><p>Quedamos a la espera.</p><p>Atentamente,<br/><strong>Mateo Segovia</strong><br/>DLA Piper Spain S.L.P</p>'
+    });
+    showToast('New reply from Mateo Segovia', '#0f6cbd');
+  }, 3000);
+}
+
+
+/* ── INLINE PANE REPLY FUNCTIONS (ed* = inboxDetailContent) ── */
+var _edCurrentId = null;
+
+function edOpenReply() {
+  var id = _edCurrentId;
+  var d  = id ? EMAIL_DATA[id] : null;
+  if (!d) return;
+
+  var isSent = (d.badgeText === 'Sent');
+  var replyTo     = isSent ? d.to      : (d.fromEmail || d.from);
+  var replyToName = isSent ? d.to      : d.from;
+  var replySubj   = d.subject.match(/^RE:/i) ? d.subject : 'RE: ' + d.subject;
+
+  var DM_SIG = '\n\n--\nDavid Mensah\nSenior Relationship Manager\nHSBC Commercial Banking\ndavid.mensah@hsbc.com';
+
+  var origHeader = '\n\n\u2014\u2014\u2014 Original Message \u2014\u2014\u2014';
+  var origMeta   = '\nFrom: ' + d.from + '\nDate: ' + d.time + '\nSubject: ' + d.subject;
+  var origBody   = '\n\n' + (d.body || '').replace(/<[^>]+>/g, '');
+
+  document.getElementById('edRplyTo').textContent      = replyToName + (d.fromEmail && !isSent ? ' <' + d.fromEmail + '>' : '');
+  document.getElementById('edRplySubject').textContent = replySubj;
+
+  var bodyEl = document.getElementById('edRplyBody');
+  bodyEl.innerText = DM_SIG + origHeader + origMeta + origBody;
+
+  /* Move caret to start so user types above the signature */
+  var range = document.createRange();
+  var sel   = window.getSelection();
+  range.setStart(bodyEl, 0);
+  range.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(range);
+  bodyEl.focus();
+
+  document.getElementById('edReplyPane').style.display = 'block';
+  document.getElementById('edSendBtn').style.display   = 'none';
+  document.getElementById('edReplyBtn').style.display  = 'none';
+
+  document.getElementById('edReplyPane').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function edCloseReply() {
+  document.getElementById('edReplyPane').style.display = 'none';
+  document.getElementById('edSendBtn').style.display   = '';
+  document.getElementById('edReplyBtn').style.display  = '';
+}
+
+function edSendReply() {
+  var id = _edCurrentId;
+  var d  = id ? EMAIL_DATA[id] : null;
+  var bodyEl = document.getElementById('edRplyBody');
+  var rawText = bodyEl ? bodyEl.innerText.trim() : '';
+
+  /* Strip quoted section and signature for preview */
+  var previewText = rawText.split('\u2014\u2014\u2014 Original')[0].replace(/David Mensah[\s\S]*/, '').trim();
+  if (!previewText) { showToast('Please type your reply before sending.', '#8a8a8a'); return; }
+
+  var subj = d ? (d.subject.match(/^RE:/i) ? d.subject : 'RE: ' + d.subject) : 'RE: Email';
+
+  injectInboxRow({
+    id: 'edSent_' + Date.now(),
+    avatar: 'DM', avatarBg: '#0f6cbd',
+    sender: 'David Mensah (PA)',
+    time: 'Just now',
+    subject: subj,
+    preview: previewText.length > 90 ? previewText.substring(0, 90) + '...' : previewText,
+    badgeClass: 'ier-badge-tx', badgeText: 'Sent',
+    priority: false,
+    fullBody: bodyEl ? bodyEl.innerHTML : previewText
+  });
+
+  showToast('Reply sent to ' + (d ? d.from : 'recipient'), '#107c10');
+  edCloseReply();
+
+  /* 3s: Mateo replies back */
+  setTimeout(function() {
+    injectInboxRow({
+      id: 'edBack_' + Date.now(),
       avatar: 'MS', avatarBg: '#6b3fa0',
       sender: 'Mateo Segovia (PA)',
       time: 'Just now',
