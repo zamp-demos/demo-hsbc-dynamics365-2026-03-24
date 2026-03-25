@@ -3544,7 +3544,7 @@ const STEPS = [
   'Step 5 of 5 -- Click "Open Case" in the amber alert bar',
   'Complete -- Case HART-CAS-2026-0112 open'
 ];
-function setStep(n){ document.getElementById('stepPill').textContent = STEPS[Math.min(n, STEPS.length-1)]; }
+function setStep(n){ var el = document.getElementById('stepPill'); if (el) el.textContent = STEPS[Math.min(n, STEPS.length-1)]; }
 
 // -- SEARCH ---------------------------------------------
 document.getElementById('searchTrigger').addEventListener('click', () => {
