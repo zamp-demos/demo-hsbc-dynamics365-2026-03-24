@@ -2760,6 +2760,28 @@ kbd{
               </div>
             </div>
 
+
+            <!-- Inline Reply Pane (hidden until Reply clicked) -->
+            <div id="edReplyPane" style="display:none;margin:10px 16px 16px;border:1px solid #0f6cbd;border-radius:3px;background:#fff;flex-shrink:0;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #e8e8e8;background:#f5f9ff;">
+                <span style="font-size:12px;font-weight:600;color:#242424;">Reply</span>
+                <button onclick="edCloseReply()" style="border:none;background:none;cursor:pointer;font-size:15px;color:#888;line-height:1;">&#x2715;</button>
+              </div>
+              <div style="padding:8px 12px;font-size:12px;color:#616161;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;">To:</span>&nbsp;<span id="edRplyTo" style="color:#242424;font-weight:500;"></span>
+              </div>
+              <div style="padding:6px 12px;font-size:12px;color:#616161;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;">Subject:</span>&nbsp;<span id="edRplySubject" style="color:#242424;"></span>
+              </div>
+              <div id="edRplyBody" contenteditable="true"
+                style="min-height:120px;padding:12px;font-size:12px;color:#242424;outline:none;font-family:inherit;line-height:1.6;white-space:pre-wrap;"
+                data-placeholder="Type your reply here..."></div>
+              <div style="display:flex;gap:8px;padding:8px 12px;border-top:1px solid #e8e8e8;background:#fafafa;">
+                <button onclick="edSendReply()" style="background:#0f6cbd;color:#fff;border:none;border-radius:2px;padding:6px 18px;font-size:12px;font-weight:600;cursor:pointer;">Send</button>
+                <button onclick="edCloseReply()" style="background:none;border:1px solid #d0d0d0;border-radius:2px;padding:6px 14px;font-size:12px;cursor:pointer;color:#424242;">Discard</button>
+              </div>
+            </div>
+
             <!-- Body area: center compose + RHS panel -->
             <div class="ed-body-wrap">
 
@@ -2830,26 +2852,6 @@ kbd{
 
             </div><!-- /ed-body-wrap -->
 
-            <!-- Inline Reply Pane (hidden until Reply clicked) -->
-            <div id="edReplyPane" style="display:none;margin:10px 16px 16px;border:1px solid #0f6cbd;border-radius:3px;background:#fff;flex-shrink:0;">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #e8e8e8;background:#f5f9ff;">
-                <span style="font-size:12px;font-weight:600;color:#242424;">Reply</span>
-                <button onclick="edCloseReply()" style="border:none;background:none;cursor:pointer;font-size:15px;color:#888;line-height:1;">&#x2715;</button>
-              </div>
-              <div style="padding:8px 12px;font-size:12px;color:#616161;border-bottom:1px solid #f0f0f0;">
-                <span style="color:#888;">To:</span>&nbsp;<span id="edRplyTo" style="color:#242424;font-weight:500;"></span>
-              </div>
-              <div style="padding:6px 12px;font-size:12px;color:#616161;border-bottom:1px solid #f0f0f0;">
-                <span style="color:#888;">Subject:</span>&nbsp;<span id="edRplySubject" style="color:#242424;"></span>
-              </div>
-              <div id="edRplyBody" contenteditable="true"
-                style="min-height:120px;padding:12px;font-size:12px;color:#242424;outline:none;font-family:inherit;line-height:1.6;white-space:pre-wrap;"
-                data-placeholder="Type your reply here..."></div>
-              <div style="display:flex;gap:8px;padding:8px 12px;border-top:1px solid #e8e8e8;background:#fafafa;">
-                <button onclick="edSendReply()" style="background:#0f6cbd;color:#fff;border:none;border-radius:2px;padding:6px 18px;font-size:12px;font-weight:600;cursor:pointer;">Send</button>
-                <button onclick="edCloseReply()" style="background:none;border:1px solid #d0d0d0;border-radius:2px;padding:6px 14px;font-size:12px;cursor:pointer;color:#424242;">Discard</button>
-              </div>
-            </div>
 
           </div>
         </div><!-- /inbox-detail -->
@@ -5357,7 +5359,7 @@ function edOpenReply() {
   document.getElementById('edSendBtn').style.display   = 'none';
   document.getElementById('edReplyBtn').style.display  = 'none';
 
-  document.getElementById('edReplyPane').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  var idc = document.getElementById('inboxDetailContent'); if(idc) idc.scrollTop = 0;
 }
 
 function edCloseReply() {
