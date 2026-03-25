@@ -1263,6 +1263,183 @@ input,textarea{font-family:inherit;}
 .cp-cal-icon-btn:hover{ background:#f0f0f0;color:#0f6cbd; }
 .cp-cal-icon-btn svg{ width:15px;height:15px; }
 
+/* == TEAMS MEETING REQUEST MODAL ============================== */
+.tmr-backdrop{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(0,0,0,0.35);
+  display:none;align-items:center;justify-content:center;
+}
+.tmr-backdrop.open{ display:flex; }
+.tmr-modal{
+  width:680px;max-width:96vw;max-height:90vh;
+  background:#fff;border-radius:4px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.22);
+  display:flex;flex-direction:column;overflow:hidden;
+  font-family:'Segoe UI',system-ui,sans-serif;
+}
+/* modal title bar */
+.tmr-titlebar{
+  height:40px;min-height:40px;
+  background:#0f6cbd;
+  display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0;
+}
+.tmr-titlebar-icon{ display:flex;align-items:center;flex-shrink:0; }
+.tmr-titlebar-text{ font-size:13px;font-weight:600;color:#fff;flex:1; }
+.tmr-titlebar-close{
+  width:28px;height:28px;border:none;background:none;cursor:pointer;
+  color:rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;
+  border-radius:3px;
+}
+.tmr-titlebar-close:hover{ background:rgba(255,255,255,0.15); }
+.tmr-titlebar-close svg{ width:12px;height:12px; }
+/* ribbon */
+.tmr-ribbon{
+  height:38px;min-height:38px;
+  background:#f3f2f1;border-bottom:1px solid #d0d0d0;
+  display:flex;align-items:center;gap:6px;padding:0 12px;flex-shrink:0;
+}
+.tmr-ribbon-btn{
+  height:26px;padding:0 10px;border:1px solid #d0d0d0;border-radius:2px;
+  background:#fff;cursor:pointer;font-size:12px;color:#424242;font-family:inherit;
+  display:flex;align-items:center;gap:5px;
+}
+.tmr-ribbon-btn:hover{ background:#f0f0f0; }
+.tmr-ribbon-btn.primary{ background:#0f6cbd;color:#fff;border-color:#0f6cbd; }
+.tmr-ribbon-btn.primary:hover{ background:#115ea3; }
+.tmr-ribbon-btn:disabled{ opacity:.5;cursor:not-allowed; }
+.tmr-ribbon-sep{ width:1px;height:20px;background:#d0d0d0;margin:0 4px; }
+/* step panels */
+.tmr-body{ flex:1;overflow-y:auto;padding:20px 24px; }
+.tmr-step{ display:none; }
+.tmr-step.active{ display:block; }
+/* form fields */
+.tmr-field{ margin-bottom:16px; }
+.tmr-label{ font-size:12px;font-weight:600;color:#242424;margin-bottom:5px;display:block; }
+.tmr-label .tmr-req{ color:#c50000;margin-left:2px; }
+.tmr-input{
+  width:100%;height:30px;border:1px solid #d0d0d0;border-radius:2px;
+  padding:0 8px;font-size:13px;font-family:inherit;color:#242424;
+  background:#fff;
+}
+.tmr-input:focus{ outline:none;border-color:#0f6cbd;box-shadow:0 0 0 1px #0f6cbd; }
+.tmr-textarea{
+  width:100%;height:80px;border:1px solid #d0d0d0;border-radius:2px;
+  padding:6px 8px;font-size:13px;font-family:inherit;color:#242424;
+  resize:vertical;background:#fff;
+}
+.tmr-textarea:focus{ outline:none;border-color:#0f6cbd;box-shadow:0 0 0 1px #0f6cbd; }
+.tmr-row{ display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+.tmr-row3{ display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px; }
+/* attendee pill */
+.tmr-attendees{ display:flex;flex-wrap:wrap;gap:4px;min-height:32px;border:1px solid #d0d0d0;border-radius:2px;padding:4px 6px;background:#fff; }
+.tmr-pill{
+  display:flex;align-items:center;gap:4px;
+  background:#eff6fc;border:1px solid #c7e0f4;border-radius:12px;
+  padding:2px 8px 2px 6px;font-size:12px;color:#0f6cbd;
+}
+.tmr-pill-avatar{
+  width:18px;height:18px;border-radius:50%;background:#0f6cbd;color:#fff;
+  font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.tmr-pill-x{ cursor:pointer;color:#888;font-size:10px;margin-left:2px; }
+.tmr-pill-x:hover{ color:#c50000; }
+/* teams toggle */
+.tmr-teams-row{ display:flex;align-items:center;gap:10px;margin-bottom:16px; }
+.tmr-teams-logo{ display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#5b5fc7; }
+.tmr-toggle-track{
+  width:40px;height:22px;background:#0f6cbd;border-radius:11px;
+  position:relative;cursor:pointer;flex-shrink:0;
+}
+.tmr-toggle-knob{
+  position:absolute;right:3px;top:3px;
+  width:16px;height:16px;background:#fff;border-radius:50%;
+  transition:right .15s;
+}
+/* section heading */
+.tmr-section-hd{
+  font-size:11px;font-weight:600;color:#888;text-transform:uppercase;
+  letter-spacing:.4px;margin:0 0 10px;padding-bottom:5px;
+  border-bottom:1px solid #eee;
+}
+/* slots grid */
+.tmr-slots-intro{ font-size:13px;color:#424242;margin-bottom:14px;line-height:1.5; }
+.tmr-slots-grid{ display:flex;flex-direction:column;gap:8px; }
+.tmr-slot{
+  border:1px solid #d0d0d0;border-radius:4px;padding:12px 16px;
+  cursor:pointer;display:flex;align-items:center;gap:12px;
+  background:#fff;transition:border-color .1s,background .1s;
+}
+.tmr-slot:hover{ border-color:#0f6cbd;background:#f5f9ff; }
+.tmr-slot.selected{ border-color:#0f6cbd;background:#eff6fc;box-shadow:0 0 0 1px #0f6cbd; }
+.tmr-slot-day{ font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.3px;width:36px;text-align:center;flex-shrink:0; }
+.tmr-slot-date{ font-size:22px;font-weight:300;color:#242424;width:36px;text-align:center;flex-shrink:0; }
+.tmr-slot-info{ flex:1; }
+.tmr-slot-time{ font-size:13px;font-weight:600;color:#242424; }
+.tmr-slot-dur{ font-size:11px;color:#888;margin-top:1px; }
+.tmr-slot-badge{
+  font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;
+  background:#e8f5e8;color:#107c10;border:1px solid #c3e6c3;flex-shrink:0;
+}
+.tmr-slot-badge.busy{ background:#fde8e8;color:#c50000;border-color:#f4c2c2; }
+.tmr-no-slots{ color:#888;font-size:13px;text-align:center;padding:24px 0; }
+/* confirmation */
+.tmr-confirm-card{
+  border:1px solid #e0e0e0;border-radius:6px;padding:20px 22px;
+  background:#fafafa;margin-bottom:18px;
+}
+.tmr-confirm-title{
+  font-size:16px;font-weight:600;color:#242424;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.tmr-confirm-row{ display:flex;gap:12px;margin-bottom:8px;align-items:flex-start; }
+.tmr-confirm-lbl{ font-size:12px;color:#888;width:90px;flex-shrink:0;padding-top:1px; }
+.tmr-confirm-val{ font-size:13px;color:#242424;flex:1; }
+.tmr-teams-link{
+  display:inline-flex;align-items:center;gap:6px;
+  color:#5b5fc7;font-size:13px;font-weight:600;text-decoration:none;
+}
+.tmr-teams-link:hover{ text-decoration:underline; }
+.tmr-teams-link svg{ width:16px;height:16px;flex-shrink:0; }
+.tmr-success-banner{
+  background:#e8f5e8;border:1px solid #c3e6c3;border-radius:4px;
+  padding:10px 14px;display:flex;align-items:center;gap:8px;
+  font-size:13px;color:#107c10;margin-bottom:16px;
+}
+/* step progress */
+.tmr-steps-bar{
+  display:flex;align-items:center;padding:0 24px;height:36px;
+  border-bottom:1px solid #e8e8e8;background:#fafafa;flex-shrink:0;
+}
+.tmr-step-dot{
+  width:20px;height:20px;border-radius:50%;
+  border:2px solid #d0d0d0;background:#fff;
+  font-size:10px;font-weight:700;color:#888;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.tmr-step-dot.done{ background:#107c10;border-color:#107c10;color:#fff; }
+.tmr-step-dot.active{ background:#0f6cbd;border-color:#0f6cbd;color:#fff; }
+.tmr-step-lbl{ font-size:11px;color:#888;margin-left:5px; }
+.tmr-step-lbl.active{ color:#0f6cbd;font-weight:600; }
+.tmr-step-lbl.done{ color:#107c10; }
+.tmr-step-line{ flex:1;height:1px;background:#d0d0d0;margin:0 6px;max-width:60px; }
+/* footer */
+.tmr-footer{
+  height:46px;min-height:46px;
+  border-top:1px solid #e0e0e0;background:#f3f2f1;
+  display:flex;align-items:center;justify-content:flex-end;
+  gap:8px;padding:0 16px;flex-shrink:0;
+}
+.tmr-footer-btn{
+  height:28px;padding:0 16px;border-radius:2px;
+  font-size:13px;font-family:inherit;cursor:pointer;
+}
+.tmr-footer-btn.secondary{ background:#fff;border:1px solid #d0d0d0;color:#424242; }
+.tmr-footer-btn.secondary:hover{ background:#f0f0f0; }
+.tmr-footer-btn.primary{ background:#0f6cbd;border:1px solid #0f6cbd;color:#fff; }
+.tmr-footer-btn.primary:hover{ background:#115ea3; }
+.tmr-footer-btn:disabled{ opacity:.5;cursor:not-allowed; }
+
+
 .cp-sub{
   font-size:12px; color:#616161; line-height:1.45;
 }
@@ -3455,7 +3632,7 @@ kbd{
       <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
       New event
     </button>
-    <button class="cal-cmd-btn" onclick="void(0)">New meeting request</button>
+    <button class="cal-cmd-btn" id="tmrTriggerBtn" onclick="tmrOpen()">New meeting request</button>
     <div class="cal-cmd-sep"></div>
     <button class="cal-cmd-btn" onclick="void(0)">Share calendar</button>
     <button class="cal-cmd-btn" onclick="void(0)">Open in Exchange</button>
@@ -4404,7 +4581,409 @@ function closeEmailInline(e) {
   }
 })();
 
+
+/* == TEAMS MEETING REQUEST MODULE == */
+(function(){
+
+  var currentStep = 1;
+
+  /* Available slots: built by scanning EVENTS for free windows */
+  var CANDIDATE_SLOTS = [
+    {day:'Mon',date:23,month:'Mar',year:2026,sh:8, sm:0,eh:9, em:0, dow:0},
+    {day:'Tue',date:24,month:'Mar',year:2026,sh:10,sm:30,eh:11,em:30,dow:1},
+    {day:'Tue',date:24,month:'Mar',year:2026,sh:16,sm:0,eh:17,em:0, dow:1},
+    {day:'Wed',date:25,month:'Mar',year:2026,sh:9, sm:0,eh:10,em:0, dow:2},
+    {day:'Wed',date:25,month:'Mar',year:2026,sh:12,sm:0,eh:13,em:0, dow:2},
+    {day:'Thu',date:26,month:'Mar',year:2026,sh:9, sm:30,eh:10,em:30,dow:3},
+    {day:'Fri',date:27,month:'Mar',year:2026,sh:11,sm:0,eh:12,em:0, dow:4},
+    {day:'Fri',date:27,month:'Mar',year:2026,sh:15,sm:0,eh:16,em:0, dow:4},
+  ];
+
+  /* EVENTS from the IIFE above - we detect busy slots */
+  var BUSY_WINDOWS = [
+    {d:0,sh:9,eh:10},{d:0,sh:11,eh:12},{d:0,sh:14,eh:15},
+    {d:1,sh:9,eh:11},{d:1,sh:13,eh:14},{d:1,sh:15,eh:16},
+    {d:2,sh:10,eh:11},{d:2,sh:14,eh:15},
+    {d:3,sh:9,eh:10},{d:3,sh:11,eh:13},{d:3,sh:14,eh:15},
+    {d:4,sh:10,eh:11},{d:4,sh:13,eh:14},{d:4,sh:15,eh:17},
+  ];
+
+  function isBusy(slot){
+    return BUSY_WINDOWS.some(function(b){
+      return b.d===slot.dow && !(slot.eh<=b.sh || slot.sh>=b.eh);
+    });
+  }
+
+  function fmt(h,m){ return (h<10?'0':'')+h+':'+(m<10?'0':'')+m; }
+  function fmtAmPm(h,m){
+    var ampm=h<12?'AM':'PM';
+    var h12=h%12||12;
+    return h12+':'+(m<10?'0':'')+m+' '+ampm;
+  }
+
+  var selectedSlot = null;
+
+  window.tmrOpen = function(){
+    currentStep=1;
+    selectedSlot=null;
+    tmrSetStep(1);
+    document.getElementById('tmrBackdrop').classList.add('open');
+    document.getElementById('tmrSendBtn').disabled=true;
+  };
+
+  window.tmrClose = function(){
+    document.getElementById('tmrBackdrop').classList.remove('open');
+  };
+
+  window.tmrBackdropClick = function(e){
+    if(e.target===document.getElementById('tmrBackdrop')) tmrClose();
+  };
+
+  window.tmrGoSlots = function(){
+    if(currentStep===1){ tmrNext(); }
+  };
+
+  window.tmrNext = function(){
+    if(currentStep===1){
+      tmrBuildSlots();
+      tmrSetStep(2);
+    } else if(currentStep===2){
+      if(!selectedSlot){ alert('Please select an available time slot.'); return; }
+      tmrBuildConfirm();
+      tmrSetStep(3);
+    } else if(currentStep===3){
+      tmrSend();
+    }
+  };
+
+  window.tmrBack = function(){
+    if(currentStep===2) tmrSetStep(1);
+    else if(currentStep===3) tmrSetStep(2);
+  };
+
+  window.tmrSend = function(){
+    if(currentStep<3){ tmrNext(); return; }
+    /* Final send - show toast and close */
+    var subj=document.getElementById('tmrSubject').value;
+    tmrClose();
+    setTimeout(function(){
+      var t=document.createElement('div');
+      t.style.cssText='position:fixed;bottom:24px;right:24px;z-index:9999;background:#107c10;color:#fff;'+
+        'padding:12px 20px;border-radius:4px;font-size:13px;font-family:Segoe UI,sans-serif;'+
+        'display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,0.2);max-width:360px;';
+      t.innerHTML='<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="7"/><polyline points="5,8.5 7,10.5 11,6"/></svg>'+
+        '<div><div style="font-weight:600;">Meeting invite sent</div><div style="font-size:11px;opacity:.85;margin-top:1px;">'+
+        (subj||'Teams meeting')+' &mdash; Teams link included</div></div>';
+      document.body.appendChild(t);
+      setTimeout(function(){ t.style.transition='opacity .4s'; t.style.opacity='0'; setTimeout(function(){ t.remove(); },400); },4000);
+    },200);
+  };
+
+  function tmrSetStep(n){
+    currentStep=n;
+    for(var i=1;i<=3;i++){
+      var step=document.getElementById('tmrStep'+i);
+      if(step) step.classList.toggle('active',i===n);
+      var dot=document.getElementById('tmrDot'+i);
+      var lbl=document.getElementById('tmrLbl'+i);
+      if(dot){
+        dot.classList.toggle('active',i===n);
+        dot.classList.toggle('done',i<n);
+      }
+      if(lbl){
+        lbl.classList.toggle('active',i===n);
+        lbl.classList.toggle('done',i<n);
+      }
+    }
+    var backBtn=document.getElementById('tmrBackBtn');
+    var nextBtn=document.getElementById('tmrNextBtn');
+    var sendBtn=document.getElementById('tmrSendBtn');
+    if(backBtn) backBtn.style.display=n>1?'block':'none';
+    if(nextBtn){
+      if(n===1) nextBtn.textContent='Find available slots';
+      else if(n===2) nextBtn.textContent='Confirm selection';
+      else nextBtn.style.display='none';
+    }
+    if(sendBtn){
+      sendBtn.disabled=(n<3);
+      sendBtn.style.opacity=(n<3)?'0.5':'1';
+    }
+    if(n===2){
+      /* animate slot appearance */
+      setTimeout(function(){
+        document.getElementById('tmrSlotsIntro').innerHTML=
+          'Found <strong>'+(CANDIDATE_SLOTS.length)+' available windows</strong> this week when all attendees are free. Select a slot to continue.';
+      },700);
+    }
+  }
+
+  function tmrBuildSlots(){
+    var grid=document.getElementById('tmrSlotsGrid');
+    grid.innerHTML='<div style="font-size:12px;color:#888;padding:16px 0;text-align:center;">Checking calendars...</div>';
+    setTimeout(function(){
+      grid.innerHTML='';
+      CANDIDATE_SLOTS.forEach(function(s,idx){
+        var busy=isBusy(s);
+        var div=document.createElement('div');
+        div.className='tmr-slot'+(busy?' busy':'');
+        div.innerHTML=
+          '<div style="text-align:center;flex-shrink:0;">'+
+          '<div class="tmr-slot-day">'+s.day+'</div>'+
+          '<div class="tmr-slot-date">'+s.date+'</div>'+
+          '</div>'+
+          '<div class="tmr-slot-info">'+
+          '<div class="tmr-slot-time">'+fmtAmPm(s.sh,s.sm)+' &ndash; '+fmtAmPm(s.eh,s.em)+'</div>'+
+          '<div class="tmr-slot-dur">'+(s.eh*60+s.em-s.sh*60-s.sm)+' min &middot; '+s.month+' '+s.date+', '+s.year+'</div>'+
+          '</div>'+
+          '<div class="tmr-slot-badge'+(busy?' busy':'')+'">'+
+            (busy?'Conflicts exist':'All free')+
+          '</div>';
+        if(!busy){
+          div.onclick=function(){
+            document.querySelectorAll('.tmr-slot').forEach(function(el){ el.classList.remove('selected'); });
+            div.classList.add('selected');
+            selectedSlot=s;
+          };
+        } else {
+          div.style.opacity='0.55';
+          div.style.cursor='default';
+        }
+        grid.appendChild(div);
+      });
+    },800);
+  }
+
+  function tmrBuildConfirm(){
+    if(!selectedSlot) return;
+    var s=selectedSlot;
+    var days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    var when=days[s.dow]+', '+s.month+' '+s.date+' '+s.year+
+      ', '+fmtAmPm(s.sh,s.sm)+' - '+fmtAmPm(s.eh,s.em)+' (GMT+0)';
+    document.getElementById('tmrConfirmWhen').textContent=when;
+    var subj=document.getElementById('tmrSubject').value;
+    document.getElementById('tmrConfirmSubject').textContent=subj;
+    var desc=document.getElementById('tmrDesc').value;
+    document.getElementById('tmrInvitePreview').innerHTML=
+      '<strong>'+subj+'</strong><br><br>'+
+      desc.replace(/\n/g,'<br>')+'<br><br>'+
+      '<strong>Time:</strong> '+when+'<br>'+
+      '<strong>Microsoft Teams Meeting</strong><br>'+
+      '<a href="#" style="color:#5b5fc7;">Join Meeting</a> &nbsp;|&nbsp; '+
+      'Meeting ID: <strong>247 318 562 491</strong> &nbsp;|&nbsp; Passcode: <strong>HSBC42</strong>';
+  }
+
+  /* Wire the "New meeting request" button */
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.getElementById('tmrTriggerBtn');
+    if(btn) btn.addEventListener('click', window.tmrOpen);
+  });
+
+})();
+
 </script>
+
+
+<!-- == TEAMS MEETING REQUEST MODAL == -->
+<div class="tmr-backdrop" id="tmrBackdrop" onclick="tmrBackdropClick(event)">
+  <div class="tmr-modal" id="tmrModal">
+
+    <!-- Title bar -->
+    <div class="tmr-titlebar">
+      <div class="tmr-titlebar-icon">
+        <!-- Teams purple icon -->
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <rect width="18" height="18" rx="3" fill="#5b5fc7"/>
+          <text x="3" y="13" font-family="Segoe UI,sans-serif" font-size="11" font-weight="700" fill="#fff">T</text>
+          <circle cx="13" cy="5" r="3" fill="#fff" opacity=".9"/>
+        </svg>
+      </div>
+      <span class="tmr-titlebar-text">New Meeting Request - Microsoft Teams</span>
+      <button class="tmr-titlebar-close" onclick="tmrClose()">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg>
+      </button>
+    </div>
+
+    <!-- Ribbon -->
+    <div class="tmr-ribbon">
+      <button class="tmr-ribbon-btn primary" onclick="tmrSend()" id="tmrSendBtn">
+        <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6">
+          <line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/>
+        </svg>
+        Send
+      </button>
+      <div class="tmr-ribbon-sep"></div>
+      <button class="tmr-ribbon-btn" onclick="tmrClose()">Discard</button>
+      <div class="tmr-ribbon-sep"></div>
+      <button class="tmr-ribbon-btn" id="tmrFindSlotsBtn" onclick="tmrGoSlots()">
+        <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="1" y="2" width="12" height="11" rx="1"/><line x1="1" y1="6" x2="13" y2="6"/>
+          <line x1="4" y1="1" x2="4" y2="3"/><line x1="10" y1="1" x2="10" y2="3"/>
+        </svg>
+        Scheduling Assistant
+      </button>
+    </div>
+
+    <!-- Step progress bar -->
+    <div class="tmr-steps-bar">
+      <div class="tmr-step-dot" id="tmrDot1">1</div>
+      <span class="tmr-step-lbl" id="tmrLbl1">Meeting details</span>
+      <div class="tmr-step-line"></div>
+      <div class="tmr-step-dot" id="tmrDot2">2</div>
+      <span class="tmr-step-lbl" id="tmrLbl2">Available slots</span>
+      <div class="tmr-step-line"></div>
+      <div class="tmr-step-dot" id="tmrDot3">3</div>
+      <span class="tmr-step-lbl" id="tmrLbl3">Confirm &amp; send</span>
+    </div>
+
+    <!-- Body -->
+    <div class="tmr-body" id="tmrBody">
+
+      <!-- STEP 1: Meeting details form -->
+      <div class="tmr-step active" id="tmrStep1">
+        <p class="tmr-section-hd">Meeting details</p>
+        <div class="tmr-field">
+          <label class="tmr-label">Subject <span class="tmr-req">*</span></label>
+          <input class="tmr-input" id="tmrSubject" value="Follow-up: HSBC-CAS-2026-0042 - Fraud Review" />
+        </div>
+        <div class="tmr-field">
+          <label class="tmr-label">Required attendees</label>
+          <div class="tmr-attendees" id="tmrAttendees">
+            <span class="tmr-pill">
+              <span class="tmr-pill-avatar">CM</span>Claudia Mazzanti
+              <span class="tmr-pill-x" onclick="this.parentElement.remove()">x</span>
+            </span>
+            <span class="tmr-pill">
+              <span class="tmr-pill-avatar">SK</span>Sarah Kim
+              <span class="tmr-pill-x" onclick="this.parentElement.remove()">x</span>
+            </span>
+            <span class="tmr-pill">
+              <span class="tmr-pill-avatar">JH</span>James Hartley
+              <span class="tmr-pill-x" onclick="this.parentElement.remove()">x</span>
+            </span>
+          </div>
+        </div>
+        <div class="tmr-row">
+          <div class="tmr-field">
+            <label class="tmr-label">Start date</label>
+            <input class="tmr-input" id="tmrStartDate" value="25/03/2026" />
+          </div>
+          <div class="tmr-field">
+            <label class="tmr-label">Start time</label>
+            <input class="tmr-input" id="tmrStartTime" value="10:00 AM" />
+          </div>
+        </div>
+        <div class="tmr-row">
+          <div class="tmr-field">
+            <label class="tmr-label">End date</label>
+            <input class="tmr-input" id="tmrEndDate" value="25/03/2026" />
+          </div>
+          <div class="tmr-field">
+            <label class="tmr-label">End time</label>
+            <input class="tmr-input" id="tmrEndTime" value="11:00 AM" />
+          </div>
+        </div>
+        <div class="tmr-teams-row">
+          <div class="tmr-teams-logo">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <rect width="18" height="18" rx="3" fill="#5b5fc7"/>
+              <text x="3" y="13" font-family="Segoe UI,sans-serif" font-size="11" font-weight="700" fill="#fff">T</text>
+              <circle cx="13" cy="5" r="3" fill="#fff" opacity=".9"/>
+            </svg>
+            Microsoft Teams meeting
+          </div>
+          <div class="tmr-toggle-track">
+            <div class="tmr-toggle-knob"></div>
+          </div>
+          <span style="font-size:12px;color:#107c10;font-weight:600;">On</span>
+        </div>
+        <div class="tmr-field">
+          <label class="tmr-label">Description / agenda</label>
+          <textarea class="tmr-textarea" id="tmrDesc">Case reference: HSBC-CAS-2026-0042
+Purpose: Review fraud investigation findings and next steps for customer resolution.
+Please bring updated transaction logs if available.</textarea>
+        </div>
+        <div class="tmr-field">
+          <label class="tmr-label">Location</label>
+          <input class="tmr-input" id="tmrLocation" value="Microsoft Teams (link will be generated)" readonly style="color:#888;" />
+        </div>
+      </div>
+
+      <!-- STEP 2: Scheduling assistant / available slots -->
+      <div class="tmr-step" id="tmrStep2">
+        <p class="tmr-section-hd">Scheduling assistant - available slots</p>
+        <p class="tmr-slots-intro" id="tmrSlotsIntro">
+          Checking availability for <strong>Claudia Mazzanti</strong>, <strong>Sarah Kim</strong> and <strong>James Hartley</strong> across this week&hellip;
+        </p>
+        <div class="tmr-slots-grid" id="tmrSlotsGrid">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <!-- STEP 3: Confirm -->
+      <div class="tmr-step" id="tmrStep3">
+        <div class="tmr-success-banner">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="#107c10" stroke-width="2">
+            <circle cx="8" cy="8" r="7"/><polyline points="5,8.5 7,10.5 11,6"/>
+          </svg>
+          Meeting invite ready to send. Teams link has been generated.
+        </div>
+        <div class="tmr-confirm-card">
+          <div class="tmr-confirm-title">
+            <svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="#0f6cbd" stroke-width="1.5">
+              <rect x="1" y="2" width="14" height="13" rx="2"/><line x1="1" y1="7" x2="15" y2="7"/>
+              <line x1="5" y1="1" x2="5" y2="4"/><line x1="11" y1="1" x2="11" y2="4"/>
+            </svg>
+            <span id="tmrConfirmSubject">Follow-up: HSBC-CAS-2026-0042</span>
+          </div>
+          <div class="tmr-confirm-row">
+            <span class="tmr-confirm-lbl">When</span>
+            <span class="tmr-confirm-val" id="tmrConfirmWhen">-</span>
+          </div>
+          <div class="tmr-confirm-row">
+            <span class="tmr-confirm-lbl">Attendees</span>
+            <span class="tmr-confirm-val">Claudia Mazzanti &middot; Sarah Kim &middot; James Hartley</span>
+          </div>
+          <div class="tmr-confirm-row">
+            <span class="tmr-confirm-lbl">Location</span>
+            <span class="tmr-confirm-val">Microsoft Teams</span>
+          </div>
+          <div class="tmr-confirm-row">
+            <span class="tmr-confirm-lbl">Teams link</span>
+            <span class="tmr-confirm-val">
+              <a class="tmr-teams-link" href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZWQ1OGY2YTAtZjI3ZS00OWI4LWFlMGYtYTFhY2Q1YzViNWQz%40thread.v2/0?context=%7b%22Tid%22%3a%22a6d4e8c0-b3f2-4e9a-9d1c-77f3e2b5d6a8%22%2c%22Oid%22%3a%22c9b2f5a3-8e1d-4f7c-a2b4-6d9e3c1f8a0b%22%7d" target="_blank">
+                <svg viewBox="0 0 18 18" width="16" height="16" fill="none">
+                  <rect width="18" height="18" rx="3" fill="#5b5fc7"/>
+                  <text x="3" y="13" font-family="Segoe UI,sans-serif" font-size="11" font-weight="700" fill="#fff">T</text>
+                  <circle cx="13" cy="5" r="3" fill="#fff" opacity=".9"/>
+                </svg>
+                Join Microsoft Teams Meeting
+              </a>
+            </span>
+          </div>
+          <div class="tmr-confirm-row" style="margin-top:10px;">
+            <span class="tmr-confirm-lbl">Meeting ID</span>
+            <span class="tmr-confirm-val" style="color:#888;font-size:12px;">247 318 562 491 &nbsp;&middot;&nbsp; Passcode: HSBC42</span>
+          </div>
+        </div>
+        <div class="tmr-confirm-card" style="background:#f9f4ff;border-color:#d4c4f0;">
+          <div class="tmr-section-hd" style="color:#5b5fc7;border-color:#d4c4f0;">Invite preview</div>
+          <p style="font-size:12px;color:#424242;line-height:1.6;" id="tmrInvitePreview">
+            <!-- filled by JS -->
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /tmr-body -->
+
+    <!-- Footer -->
+    <div class="tmr-footer">
+      <button class="tmr-footer-btn secondary" id="tmrBackBtn" onclick="tmrBack()" style="display:none;">Back</button>
+      <button class="tmr-footer-btn secondary" onclick="tmrClose()">Cancel</button>
+      <button class="tmr-footer-btn primary" id="tmrNextBtn" onclick="tmrNext()">Find available slots</button>
+    </div>
+
+  </div><!-- /tmr-modal -->
+</div><!-- /tmr-backdrop -->
 
 </body>
 </html>
