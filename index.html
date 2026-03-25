@@ -357,6 +357,7 @@ input,textarea{font-family:inherit;}
   display:flex;flex-direction:column;
   overflow:hidden;
   flex-shrink:0;
+  height:100%;
 }
 .inbox-list-header{
   height:40px;min-height:40px;
@@ -373,7 +374,7 @@ input,textarea{font-family:inherit;}
 }
 .ilh-icon:hover{background:#f5f5f5;}
 .ilh-icon svg{width:14px;height:14px;}
-.inbox-list-body{overflow-y:auto;flex:1;}
+.inbox-list-body{overflow-y:auto;flex:1;min-height:0;}
 /* CIN group header */
 .cin-group-hdr{
   display:flex;align-items:center;gap:6px;
