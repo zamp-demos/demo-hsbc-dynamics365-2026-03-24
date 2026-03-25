@@ -4923,7 +4923,7 @@ function closeEmailInline(e) {
         isAccepted: true
       });
       showToast('Mateo Segovia accepted the meeting invite', '#107c10');
-    }, 8000);
+    }, 3000);
   };
 
   function tmrSetStep(n){
@@ -5028,7 +5028,7 @@ function closeEmailInline(e) {
 
 /* showToast defined above */
 
-function injectInboxRow(opts) {
+window.injectInboxRow = function injectInboxRow(opts) {
   /* opts: { id, avatar, avatarBg, sender, time, subject, preview,
              badgeClass, badgeText, priority, isAccepted } */
   var container = document.querySelector('#inboxView .cin-group-rows:last-of-type');
@@ -5084,7 +5084,7 @@ function injectInboxRow(opts) {
   }
 }
 
-function sendEmailReply() {
+window.sendEmailReply = function sendEmailReply() {
   var input = document.getElementById('commInput');
   var body = input ? input.value.trim() : '';
   if (!body) { showToast('Please type a message before sending.', '#8a8a8a'); return; }
@@ -5117,7 +5117,7 @@ function sendEmailReply() {
       priority: false
     });
     showToast('New reply from Mateo Segovia', '#0f6cbd');
-  }, 8000);
+  }, 3000);
 }
 
 
