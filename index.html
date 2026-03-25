@@ -2621,6 +2621,78 @@ kbd{
               </div>
             </div>
 
+
+            <!-- CIN GROUP DLA -->
+            <div class="cin-group-hdr" onclick="toggleCinGroup(this)">
+              <svg class="cin-chevron open" viewBox="0 0 12 12"><polyline points="4,2 9,6 4,10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span class="cin-group-name">DLA-ES-CC-0089 &mdash; DLA Piper Spain S.L.P</span>
+              <span class="cin-group-count unread">4</span>
+            </div>
+            <div class="cin-group-rows">
+              <div class="inbox-email-row unread" ondblclick="openEmailInline('dla1')" onclick="selectEmailRow(this,'dla1')" title="Double-click to open">
+                <div class="unread-dot"></div>
+                <div class="ier-av" style="background:#6b3fa0;">MS</div>
+                <div class="ier-body">
+                  <div class="ier-top">
+                    <span class="ier-sender">Mateo Segovia (PA)</span>
+                    <span class="ier-time">22 Mar 09:14</span>
+                  </div>
+                  <div class="ier-subject">Solicitud de actualizaci&oacute;n masiva &mdash; DLA-ES-CC-0089</div>
+                  <div class="ier-preview">Estimado equipo de HSBC, les escribo para solicitar varias actualizaciones...</div>
+                  <div class="ier-meta">
+                    <span class="ier-case">DLA-ES-CC-0089</span>
+                    <span class="ier-badge ier-badge-rx">Received</span>
+                    <span class="ier-badge ier-badge-high">High</span>
+                  </div>
+                </div>
+              </div>
+              <div class="inbox-email-row" ondblclick="openEmailInline('dla2')" onclick="selectEmailRow(this,'dla2')" title="Double-click to open">
+                <div class="ier-av" style="background:#0f6cbd;">DM</div>
+                <div class="ier-body">
+                  <div class="ier-top">
+                    <span class="ier-sender">David Mensah (SM)</span>
+                    <span class="ier-time">22 Mar 09:35</span>
+                  </div>
+                  <div class="ier-subject">Meeting Request &mdash; DLA Piper Spain Programme Review</div>
+                  <div class="ier-preview">Dear Mateo, I hope this finds you well. Following your request, I would like to schedule...</div>
+                  <div class="ier-meta">
+                    <span class="ier-case">DLA-ES-CC-0089</span>
+                    <span class="ier-badge ier-badge-tx">Sent</span>
+                  </div>
+                </div>
+              </div>
+              <div class="inbox-email-row" ondblclick="openEmailInline('dla3')" onclick="selectEmailRow(this,'dla3')" title="Double-click to open">
+                <div class="ier-av" style="background:#0f6cbd;">DM</div>
+                <div class="ier-body">
+                  <div class="ier-top">
+                    <span class="ier-sender">David Mensah (SM)</span>
+                    <span class="ier-time">22 Mar 14:55</span>
+                  </div>
+                  <div class="ier-subject">Post-Meeting Summary &mdash; DLA Piper Spain (22 Mar 2026)</div>
+                  <div class="ier-preview">Estimado Mateo, siguiendo nuestra reuni&oacute;n de hoy, le confirmo los acuerdos alcanzados...</div>
+                  <div class="ier-meta">
+                    <span class="ier-case">DLA-ES-CC-0089</span>
+                    <span class="ier-badge ier-badge-tx">Sent</span>
+                  </div>
+                </div>
+              </div>
+              <div class="inbox-email-row" ondblclick="openEmailInline('dla4')" onclick="selectEmailRow(this,'dla4')" title="Double-click to open">
+                <div class="ier-av" style="background:#107c10;">AI</div>
+                <div class="ier-body">
+                  <div class="ier-top">
+                    <span class="ier-sender">Pace (Automation)</span>
+                    <span class="ier-time">22 Mar 15:10</span>
+                  </div>
+                  <div class="ier-subject">4 Cases Created &mdash; DLA Piper Spain (Assigned to Zamp)</div>
+                  <div class="ier-preview">Cases CSC-DLA-R1 through R4 created and assigned to Zamp. Bulk credit uplift, Barcelona...</div>
+                  <div class="ier-meta">
+                    <span class="ier-case">CSC-2026-0322-DLA-0193</span>
+                    <span class="ier-badge" style="background:#e8f5e9;color:#107c10;">Automated</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div><!-- /inbox-list-body -->
           <div style="padding:6px 12px;font-size:11px;color:#888;border-top:1px solid #e0e0e0;flex-shrink:0;">
             6 items &bull; Last updated at <span id="inboxTimestamp">10:45 AM</span>
@@ -3576,6 +3648,16 @@ kbd{
         <label class="modal-label">Description</label>
         <textarea class="modal-input" id="nc-desc" rows="3" placeholder="Describe the issue..." style="resize:none;"></textarea>
       </div>
+      <div class="modal-field">
+        <label class="modal-label">Case Assigned To</label>
+        <select class="modal-input" id="nc-assigned">
+          <option value="Unassigned">-- Unassigned --</option>
+          <option value="Sarah Kim">Sarah Kim</option>
+          <option value="David Mensah">David Mensah</option>
+          <option value="Priya Nair">Priya Nair</option>
+          <option value="Zamp">Zamp (AI Operations)</option>
+        </select>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="modal-btn primary" onclick="submitNewCase()">Save &amp; Open</button>
@@ -3754,32 +3836,30 @@ function handleSearch(val) {
   const v = val.toLowerCase();
   if (v.includes('james') || v.includes('hartley')) {
     setStep(2);
-    r.innerHTML = `
-      <div class="sb-section-lbl">Contacts</div>
-      <div class="sb-item hl" onclick="selectContact()" style="cursor:pointer;">
-        <div class="sb-av">JH</div>
-        <div class="sb-info">
-          <div class="sb-name">James Hartley</div>
-          <div class="sb-meta">Director of Finance &bull; Hartley &amp; Associates Ltd &bull; HART-CAS-2026-0112</div>
-        </div>
-        <span class="sb-type">Contact</span>
-      </div>
-      <div class="sb-section-lbl">Cases</div>
-      <div class="sb-item" onclick="selectContact()" style="cursor:pointer;">
-        <div class="sb-av" style="background:#a80000;font-size:9px;">!</div>
-        <div class="sb-info">
-          <div class="sb-name">HART-CAS-2026-0112</div>
-          <div class="sb-meta">Unauthorised Transaction Query -- FX Account &bull; High</div>
-        </div>
-        <span class="sb-type">Case</span>
-      </div>`;
+    r.innerHTML = '<div class="sb-section-lbl">Contacts</div>'
+      + '<div class="sb-item hl" onclick="selectContact()" style="cursor:pointer;">'
+      + '<div class="sb-av">JH</div>'
+      + '<div class="sb-info"><div class="sb-name">James Hartley</div>'
+      + '<div class="sb-meta">Director of Finance &bull; Hartley &amp; Associates Ltd &bull; HART-CAS-2026-0112</div></div>'
+      + '<span class="sb-type">Contact</span></div>'
+      + '<div class="sb-section-lbl">Cases</div>'
+      + '<div class="sb-item" onclick="selectContact()" style="cursor:pointer;">'
+      + '<div class="sb-av" style="background:#a80000;font-size:9px;">!</div>'
+      + '<div class="sb-info"><div class="sb-name">HART-CAS-2026-0112</div>'
+      + '<div class="sb-meta">Unauthorised Transaction Query -- FX Account &bull; High</div></div>'
+      + '<span class="sb-type">Case</span></div>';
   } else if (!val) {
-    r.innerHTML = `
-      <div class="sb-section-lbl">Recent</div>
-      <div class="sb-item"><div class="sb-av" style="background:#5c2d91;">MF</div><div class="sb-info"><div class="sb-name">Michael Foster</div><div class="sb-meta">Contact &bull; HSBC Premier Banking</div></div><span class="sb-type">Contact</span></div>
-      <div class="sb-item"><div class="sb-av" style="background:#107c10;">LW</div><div class="sb-info"><div class="sb-name">Laura Webb</div><div class="sb-meta">Contact &bull; HSBC Business Banking</div></div><span class="sb-type">Contact</span></div>`;
+    r.innerHTML = '<div class="sb-section-lbl">Recent</div>'
+      + '<div class="sb-item"><div class="sb-av" style="background:#5c2d91;">MF</div>'
+      + '<div class="sb-info"><div class="sb-name">Michael Foster</div>'
+      + '<div class="sb-meta">Contact &bull; HSBC Premier Banking</div></div>'
+      + '<span class="sb-type">Contact</span></div>'
+      + '<div class="sb-item"><div class="sb-av" style="background:#107c10;">LW</div>'
+      + '<div class="sb-info"><div class="sb-name">Laura Webb</div>'
+      + '<div class="sb-meta">Contact &bull; HSBC Business Banking</div></div>'
+      + '<span class="sb-type">Contact</span></div>';
   } else {
-    r.innerHTML = `<div style="padding:16px;text-align:center;font-size:12px;color:#888;">Type "James Hartley" to find the contact</div>`;
+    r.innerHTML = '<div style="padding:16px;text-align:center;font-size:12px;color:#888;">Type &quot;James Hartley&quot; to find the contact</div>';
   }
 }
 
@@ -3949,6 +4029,48 @@ const EMAIL_DATA = {
     to: 'hsbc.commercial@hsbc.com',
     time: '20 Jan 2026, 3:30 PM',
     body: '<p>Dear HSBC Commercial Banking,</p><p>Please find attached the updated financial statements for the annual review of our commercial lending facility (limit: <strong>\u00a32.5M</strong>). Documents enclosed: audited accounts FY2025, 12-month cash flow forecast, updated asset schedule, and director\'s confirmation letter.</p><p>Please let us know if any additional documentation is required.</p><p>Sarah Ravenscroft | Finance Director, Falmouth Export Co.</p>'
+  }
+};
+
+  dla1: {
+    subject: 'Solicitud de actualización masiva — DLA-ES-CC-0089',
+    priority: 'High', status: 'Open',
+    cin: 'CIN-99283741', caseNo: 'DLA-ES-CC-0089',
+    avBg: '#6b3fa0', avInit: 'MS',
+    from: 'Mateo Segovia', fromEmail: 'mateo.segovia@dlapiper.com',
+    to: 'hsbc.commercial@hsbc.com',
+    time: '22 Mar 2026, 09:14',
+    body: '<p>Estimado equipo de HSBC Commercial Banking,</p><p>Me dirijo a ustedes en nombre de <strong>DLA Piper Spain S.L.P.</strong> (CIN: <strong>CIN-99283741</strong>, ref. cuenta: <strong>DLA-ES-CC-0089</strong>) para solicitar formalmente varias actualizaciones en nuestras cuentas corporativas con carácter urgente.</p><p>Las solicitudes son las siguientes:</p><ol style="padding-left:20px;margin:8px 0;line-height:2;"><li><strong>Actualización de límite de crédito:</strong> Solicitamos un incremento del límite de crédito en nuestra cuenta de Madrid (ES12 0049 1234 9876 5432 1), elevando el límite actual de <strong>EUR 2.000.000</strong> a <strong>EUR 3.500.000</strong> con efecto inmediato.</li><li><strong>Alta de nueva oficina en Barcelona:</strong> Nuestro despacho de Barcelona (Av. Diagonal 640) ha formalizado la apertura de su ejercicio fiscal. Solicitamos la incorporación de esta entidad al CIN grupal y la apertura de una cuenta operativa vinculada.</li><li><strong>Actualización de red VCN — Indra:</strong> Solicitamos la actualización de los parámetros de nuestra red de cobros virtuales (VCN) para incluir a <strong>Indra Sistemas S.A.</strong> como nuevo beneficiario aprobado.</li></ol><p>Adjunto la documentación de soporte requerida (escrituras notariales, poderes de representación y documentación KYC actualizada). Quedamos a su disposición para una reunión telefónica o virtual si fuera necesario para agilizar los trámites.</p><p>Quedo a su disposición para cualquier consulta adicional.</p><p>Atentamente,<br/><strong>Mateo Segovia</strong><br/>Personal Assistant to Managing Partner<br/>DLA Piper Spain S.L.P. | Tel: +34 91 788 7000</p>'
+  },
+  dla2: {
+    subject: 'Meeting Request — DLA Piper Spain Programme Review',
+    priority: 'Normal', status: 'Open',
+    cin: 'CIN-99283741', caseNo: 'DLA-ES-CC-0089',
+    avBg: '#0f6cbd', avInit: 'DM',
+    from: 'David Mensah', fromEmail: 'd.mensah@hsbc.com',
+    to: 'mateo.segovia@dlapiper.com',
+    time: '22 Mar 2026, 09:35',
+    body: '<p>Dear Mateo,</p><p>Thank you for reaching out. I have reviewed your request and would like to schedule a call to discuss the three workstreams in detail before we proceed with the updates.</p><p>Could you please confirm your availability for one of the following slots?</p><ul style="padding-left:18px;margin:8px 0;line-height:2;"><li>Monday 25 March, 10:00 – 10:30 CET</li><li>Tuesday 26 March, 14:00 – 14:30 CET</li><li>Wednesday 27 March, 09:00 – 09:30 CET</li></ul><p>The agenda will cover: (1) Madrid credit limit uplift and required authorisation documentation, (2) Barcelona entity onboarding and KYC requirements, (3) VCN parameter update for Indra Sistemas.</p><p>Kind regards,<br/><strong>David Mensah</strong><br/>Senior Relationship Manager, HSBC Commercial Banking<br/>d.mensah@hsbc.com | +44 207 991 8820</p>'
+  },
+  dla3: {
+    subject: 'Post-Meeting Summary — DLA Piper Spain (22 Mar 2026)',
+    priority: 'Normal', status: 'In Progress',
+    cin: 'CIN-99283741', caseNo: 'DLA-ES-CC-0089',
+    avBg: '#0f6cbd', avInit: 'DM',
+    from: 'David Mensah', fromEmail: 'd.mensah@hsbc.com',
+    to: 'mateo.segovia@dlapiper.com',
+    time: '22 Mar 2026, 14:55',
+    body: '<p>Estimado Mateo,</p><p>Siguiendo nuestra reunión telefónica de hoy, le confirmo los acuerdos y próximos pasos:</p><table style="width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;"><thead><tr style="background:#f3f9ff;"><th style="padding:6px 10px;text-align:left;border:1px solid #dde1e6;">Workstream</th><th style="padding:6px 10px;text-align:left;border:1px solid #dde1e6;">Acción acordada</th><th style="padding:6px 10px;text-align:left;border:1px solid #dde1e6;">Responsable</th><th style="padding:6px 10px;text-align:left;border:1px solid #dde1e6;">Fecha límite</th></tr></thead><tbody><tr><td style="padding:6px 10px;border:1px solid #dde1e6;">Madrid — Límite de crédito</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Subida a EUR 3.5M previa verificación de documentación</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Zamp (Zamp)</td><td style="padding:6px 10px;border:1px solid #dde1e6;">28 Mar 2026</td></tr><tr style="background:#fafafa;"><td style="padding:6px 10px;border:1px solid #dde1e6;">Barcelona — Onboarding</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Apertura de cuenta vinculada al CIN grupal</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Zamp (Zamp)</td><td style="padding:6px 10px;border:1px solid #dde1e6;">31 Mar 2026</td></tr><tr><td style="padding:6px 10px;border:1px solid #dde1e6;">Indra — VCN Update</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Añadir Indra Sistemas S.A. como beneficiario VCN</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Zamp (Zamp)</td><td style="padding:6px 10px;border:1px solid #dde1e6;">26 Mar 2026</td></tr></tbody></table><p>He procedido a la apertura de 4 casos de gestión en el sistema CRM, todos asignados al equipo <strong>Zamp</strong> para su procesamiento. Recibirá las referencias de los casos en breve.</p><p>Quedo a su disposición para cualquier aclaración.</p><p>Atentamente,<br/><strong>David Mensah</strong><br/>Senior Relationship Manager, HSBC Commercial Banking</p>'
+  },
+  dla4: {
+    subject: '4 Cases Created — DLA Piper Spain (Assigned to Zamp)',
+    priority: 'Normal', status: 'Open',
+    cin: 'CIN-99283741', caseNo: 'CSC-2026-0322-DLA-0193',
+    avBg: '#107c10', avInit: 'PA',
+    from: 'Pace (Automation)', fromEmail: 'pace-automation@hsbc-internal.com',
+    to: 'david.mensah@hsbc.com; mateo.segovia@dlapiper.com',
+    time: '22 Mar 2026, 15:10',
+    body: '<p>This is an automated notification from <strong>Pace</strong>, HSBC's AI operations layer.</p><p>Following the programme review meeting for <strong>DLA Piper Spain S.L.P.</strong> (CIN: CIN-99283741), the following 4 cases have been created and assigned to the <strong>Zamp</strong> processing queue:</p><table style="width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;"><thead><tr style="background:#e8f5e9;"><th style="padding:6px 10px;text-align:left;border:1px solid #dde1e6;">Case ID</th><th style="padding:6px 10px;text-align:left;border:1px solid #dde1e6;">Title</th><th style="padding:6px 10px;text-align:left;border:1px solid #dde1e6;">Priority</th><th style="padding:6px 10px;text-align:left;border:1px solid #dde1e6;">Assigned To</th></tr></thead><tbody><tr><td style="padding:6px 10px;border:1px solid #dde1e6;">CSC-DLA-R1</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Madrid Credit Limit Uplift — EUR 3.5M</td><td style="padding:6px 10px;border:1px solid #dde1e6;">High</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Zamp</td></tr><tr style="background:#fafafa;"><td style="padding:6px 10px;border:1px solid #dde1e6;">CSC-DLA-R2</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Barcelona Entity Onboarding — New Account</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Normal</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Zamp</td></tr><tr><td style="padding:6px 10px;border:1px solid #dde1e6;">CSC-DLA-R3</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Indra VCN Beneficiary Update</td><td style="padding:6px 10px;border:1px solid #dde1e6;">High</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Zamp</td></tr><tr style="background:#fafafa;"><td style="padding:6px 10px;border:1px solid #dde1e6;">CSC-DLA-R4</td><td style="padding:6px 10px;border:1px solid #dde1e6;">KYC Documentation Review — Group CIN</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Normal</td><td style="padding:6px 10px;border:1px solid #dde1e6;">Zamp</td></tr></tbody></table><p>All cases are now visible in the CRM under parent record <strong>CSC-2026-0322-DLA-0193</strong>. SLA timers have been started.</p><p style="color:#666;font-size:11px;">Pace Automation | HSBC Operations AI Layer | This message was generated automatically.</p>'
   }
 };
 
@@ -4203,6 +4325,8 @@ function openNewCaseModal() {
   document.getElementById('nc-origin').value = 'Email';
   document.getElementById('nc-product').value = '';
   document.getElementById('nc-desc').value = '';
+  var ncAssigned = document.getElementById('nc-assigned');
+  if (ncAssigned) ncAssigned.value = 'Unassigned';
   document.getElementById('newCaseModal').style.display = 'flex';
   setTimeout(() => document.getElementById('nc-title').focus(), 50);
 }
@@ -4223,24 +4347,30 @@ function submitNewCase() {
   // Generate case number
   const caseNum = 'CAS-' + Math.floor(40000 + Math.random()*9999) + '-' + Math.random().toString(36).substring(2,7).toUpperCase();
   const priority = document.getElementById('nc-priority').value;
+  const assignedEl = document.getElementById('nc-assigned');
+  const assigned = assignedEl ? assignedEl.value : 'Unassigned';
+  const assignedLabel = assigned === 'Zamp' ? 'Zamp (AI Operations)' : assigned;
 
   // Add to cases list (This week group)
   const rows = document.querySelector('.cl-group-rows');
   if (rows) {
-    const initials = customer.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    const initials = customer.split(' ').map(function(w){ return w[0]; }).join('').substring(0,2).toUpperCase();
     const colors = ['#0f6cbd','#5c2d91','#107c10','#d83b01','#004e8c'];
     const color = colors[Math.floor(Math.random()*colors.length)];
     const div = document.createElement('div');
     div.className = 'cl-case-row';
-    div.setAttribute('onclick', `openCaseFromList('${caseNum}','${title}','${customer}','${priority}','Active')`);
-    div.innerHTML = `
-      <div class="cl-case-av" style="background:${color};">${initials}</div>
-      <div class="cl-case-body">
-        <div class="cl-case-title">${title}</div>
-        <div class="cl-case-num">${caseNum}</div>
-        <div class="cl-case-meta">Customer: ${customer}</div>
-        <div class="cl-case-meta"><span class="cl-status-dot active"></span>Active &bull; ${priority} &bull; Just now</div>
-      </div>`;
+    div.setAttribute('onclick', 'openCaseFromList(' + JSON.stringify(caseNum) + ',' + JSON.stringify(title) + ',' + JSON.stringify(customer) + ',' + JSON.stringify(priority) + ',' + JSON.stringify('Active') + ')');
+    var assignBadge = '';
+    if (assigned === 'Zamp') {
+      assignBadge = '<span style="display:inline-block;background:#e8f5e9;color:#107c10;border:1px solid #a8d5b5;border-radius:3px;font-size:10px;padding:1px 5px;margin-left:4px;">Zamp</span>';
+    }
+    div.innerHTML = '<div class="cl-case-av" style="background:' + color + ';">' + initials + '</div>'
+      + '<div class="cl-case-body">'
+      + '<div class="cl-case-title">' + title + '</div>'
+      + '<div class="cl-case-num">' + caseNum + '</div>'
+      + '<div class="cl-case-meta">Customer: ' + customer + '</div>'
+      + '<div class="cl-case-meta"><span class="cl-status-dot active"></span>Active &bull; ' + priority + ' &bull; Assigned: ' + assignedLabel + assignBadge + ' &bull; Just now</div>'
+      + '</div>';
     rows.insertBefore(div, rows.firstChild);
     // Update count
     const countEl = rows.previousElementSibling.querySelector('.cl-count');
@@ -4250,11 +4380,13 @@ function submitNewCase() {
   closeNewCaseModalBtn();
   // Open the new case in detail view
   showCasesView();
-  setTimeout(() => {
+  setTimeout(function() {
     const newRow = document.querySelector('.cl-group-rows .cl-case-row:first-child');
     if (newRow) newRow.click();
   }, 50);
-  showToast('Case ' + caseNum + ' created successfully', '#107c10');
+  var toastMsg = 'Case ' + caseNum + ' created';
+  if (assigned === 'Zamp') { toastMsg += ' — Assigned to Zamp'; }
+  showToast(toastMsg, '#107c10');
 }
 
 // -- RESOLVE CASE MODAL -----------------------------------------
