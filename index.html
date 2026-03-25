@@ -4245,6 +4245,15 @@ function closeEmailInline(e) {
   var weekOffset = 0;
   var miniOffset = 0; // months from anchor month (Mar 2026)
 
+  // ── EARLY GLOBAL EXPORTS (hoisting-safe) ─────────────────────────────────
+  window.openCalendar  = function(){ _calOpen(); };
+  window.closeCalendar = function(){ _calClose(); };
+  window.calNav        = function(d){ _calNav(d); };
+  window.calGoToday    = function(){ _calGoToday(); };
+  window.calMiniNav    = function(d){ _calMiniNav(d); };
+  // ─────────────────────────────────────────────────────────────────────────
+
+
   /* ── HSBC events (dayOffset 0=Mon … 6=Sun, times 24h) ── */
   var EVENTS = [
     {d:0,sh:9, sm:0, eh:10,em:0,  c:'blue',   t:'Weekly Team Standup',                  loc:'Teams'},
@@ -4372,27 +4381,27 @@ function closeEmailInline(e) {
     }
   }
 
-  window.openCalendar = function(){
+  function _calOpen(){
     document.getElementById('calOverlay').classList.add('open');
     var irb=document.getElementById('irCalBtn'); if(irb) irb.classList.add('active');
     renderWeek();
-  };
-  window.closeCalendar = function(){
+  }
+  function _calClose(){
     document.getElementById('calOverlay').classList.remove('open');
     var irb=document.getElementById('irCalBtn'); if(irb) irb.classList.remove('active');
-  };
-  window.calNav = function(dir){
+  }
+  function _calNav(dir){
     weekOffset+=dir;
     renderWeek();
-  };
-  window.calGoToday = function(){
+  }
+  function _calGoToday(){
     weekOffset=0;
     renderWeek();
-  };
-  window.calMiniNav = function(dir){
+  }
+  function _calMiniNav(dir){
     miniOffset+=dir;
     renderMini();
-  };
+  }
 })();
 
 </script>
