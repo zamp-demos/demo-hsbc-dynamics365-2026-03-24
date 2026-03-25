@@ -3317,7 +3317,7 @@ kbd{
                   </div>
                   <div class="form-row">
                     <span class="form-label">Subject</span>
-                    <div class="form-input-wrap"><input class="form-input" value="Bulk Programme Update — DLA-ES-CC-0089"/></div>
+                    <div class="form-input-wrap"><input class="form-input" id="cld-subject" value="Credit Limit Uplift — Madrid Cards (x47) — DLA-ES-CC-0089"/></div>
                   </div>
                   <div class="form-row">
                     <span class="form-label">Priority</span>
@@ -3345,13 +3345,27 @@ kbd{
                     <span class="form-label">Product</span>
                     <div class="form-input-wrap" style="display:flex;align-items:center;gap:4px;">
                       <svg width="12" height="12" style="color:#0f6cbd;flex-shrink:0;"><use href="#ic-sparkle"/></svg>
-                      <a href="#" style="font-size:12px;color:#0f6cbd;">HSBC Corporate Card Programme</a>
+                      <a href="#" style="font-size:12px;color:#0f6cbd;" id="cld-product">HSBC Corporate Card Programme</a>
                       <span style="color:#888;cursor:pointer;">&times;</span>
                     </div>
                   </div>
                   <div class="form-row">
+                    <span class="form-label">Owner</span>
+                    <div class="form-input-wrap" style="display:flex;align-items:center;gap:4px;">
+                      <div class="tl-av av-blue" style="width:16px;height:16px;font-size:8px;">DM</div>
+                      <input class="form-input" id="cld-owner-field" value="David Mensah" style="flex:1;" readonly/>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <span class="form-label">Assigned To</span>
+                    <div class="form-input-wrap" style="display:flex;align-items:center;gap:4px;">
+                      <div class="tl-av" style="width:16px;height:16px;font-size:8px;background:#5c2d91;">ZP</div>
+                      <input class="form-input" id="cld-assigned-field" value="Zamp" style="flex:1;" readonly/>
+                    </div>
+                  </div>
+                  <div class="form-row">
                     <span class="form-label">Description</span>
-                    <div class="form-input-wrap"><textarea class="form-input" rows="3" style="resize:none;">Customer reports unrecognised FX debit of £14,200 on 14 Jan 2026. Requests investigation and potential reversal.</textarea></div>
+                    <div class="form-input-wrap"><textarea class="form-input" id="cld-desc" rows="3" style="resize:none;">Bulk amendment of 47 corporate cards in the Madrid Litigation pool to EUR 5,000 credit limit. Programme: DLA-ES-CC-0089. 46 cards processed via BATCH-INL-2026-0322. 1 card held: Alejandro Vargas (•••∢5521) — Fraud Ops 72h watch (SAL-2026-0322-5521). HITL: SM David Mensah selected Option B.</textarea></div>
                   </div>
                 </div>
 
@@ -4262,6 +4276,10 @@ function openDLACase(rowEl) {
 
   var descEl = document.querySelector('#cld-tab-summary textarea.form-input');
   if (descEl) descEl.value = 'Bulk programme update for DLA-ES-CC-0089 initiated by PA Mateo Segovia (22 Mar 2026). R1: Credit limit uplift x47 Madrid cards to EUR 5,000 - 46 completed (BATCH-INL-2026-0322), 1 held pending Fraud Ops 72h watch (SAL-2026-0322-5521). R2: 8 new Barcelona joiners KYC-cleared, dispatched via Inlogik (INL-DLA-ES-0822). R3: EUR 14,000 VCN settlement for Indra Sistemas S.A. confirmed settled 2026-03-18 (STL-2026-0318-VC0298). HITL: SM David Mensah selected Option B.';
+  var subjEl = document.getElementById('cld-subject'); if (subjEl) subjEl.value = 'Bulk Programme Update — DLA-ES-CC-0089';
+  var descId = document.getElementById('cld-desc'); if (descId) descId.value = 'Bulk programme update for DLA-ES-CC-0089 initiated by PA Mateo Segovia (22 Mar 2026). R1: Credit limit uplift x47 Madrid cards to EUR 5,000. R2: 8 Barcelona joiners KYC-cleared. R3: EUR 14,000 VCN settlement for Indra Sistemas S.A. HITL: SM David Mensah selected Option B.';
+  var ownerFld = document.getElementById('cld-owner-field'); if (ownerFld) ownerFld.value = 'David Mensah';
+  var assignFld = document.getElementById('cld-assigned-field'); if (assignFld) assignFld.value = 'Zamp';
 
   var sumEl = document.querySelector('#cld-tab-summary .summary-panel p');
   if (sumEl) sumEl.innerHTML = 'Programme Administrator <strong>Mateo Segovia</strong> (DLA-ES-CC-0089) submitted a bulk update on 22 Mar 2026 across three workstreams. R1: Credit uplift for 47 Madrid cards &mdash; <strong>46 processed</strong> to EUR 5,000 (BATCH-INL-2026-0322); cardholder Alejandro Vargas (&#x2022;&#x2022;&#x2022;&#x2022;5521) held on <strong>Fraud Ops 72-hour watch</strong> (SAL-2026-0322-5521) following cross-provincial spend anomaly. R2: 8 Barcelona joiners KYC-cleared and queued (INL-DLA-ES-0822), dispatch within 5 working days. R3: EUR 14,000 VCN payment for Indra Sistemas S.A. confirmed settled 2026-03-18 (STL-2026-0318-VC0298). HITL invoked &mdash; SM <strong>David Mensah</strong> selected Option B; Fraud Ops referral active.';
@@ -4336,6 +4354,10 @@ function openDLACaseR1(rowEl) {
 
   var descEl = document.querySelector('#cld-tab-summary textarea.form-input');
   if (descEl) descEl.value = 'Bulk amendment of 47 corporate cards in the Madrid Litigation pool to EUR 5,000 credit limit. Programme: DLA-ES-CC-0089. 46 cards processed via BATCH-INL-2026-0322. 1 card held: Alejandro Vargas (•••∢5521) — Fraud Ops 72-hour watch (SAL-2026-0322-5521) following cross-provincial spend anomaly. HITL: SM David Mensah selected Option B.';
+  var subjEl = document.getElementById('cld-subject'); if (subjEl) subjEl.value = 'Credit Limit Uplift — Madrid Cards (x47) — DLA-ES-CC-0089';
+  var descId = document.getElementById('cld-desc'); if (descId) descId.value = 'Bulk amendment of 47 corporate cards in the Madrid Litigation pool to EUR 5,000 credit limit. Programme: DLA-ES-CC-0089. 46 cards processed via BATCH-INL-2026-0322. 1 card held: Alejandro Vargas (•••∢5521) — Fraud Ops 72h watch (SAL-2026-0322-5521). HITL: SM David Mensah selected Option B.';
+  var ownerFld = document.getElementById('cld-owner-field'); if (ownerFld) ownerFld.value = 'David Mensah';
+  var assignFld = document.getElementById('cld-assigned-field'); if (assignFld) assignFld.value = 'Zamp';
   var sumEl = document.querySelector('#cld-tab-summary .summary-panel p');
   if (sumEl) sumEl.innerHTML = 'Bulk credit limit uplift for <strong>47 Madrid Litigation pool cards</strong> to EUR 5,000. <strong>46 cards processed</strong> via Inlogik batch (BATCH-INL-2026-0322). Cardholder <strong>Alejandro Vargas (•••∢5521)</strong> held on <strong>Fraud Ops 72-hour watch</strong> (SAL-2026-0322-5521) following cross-provincial spend anomaly. HITL invoked — SM <strong>David Mensah</strong> selected Option B; Fraud Ops referral active.';
 
@@ -4379,6 +4401,10 @@ function openDLACaseR2(rowEl) {
 
   var descEl = document.querySelector('#cld-tab-summary textarea.form-input');
   if (descEl) descEl.value = 'Onboarding of 8 new cardholders at Barcelona office (Av. Diagonal 640). Programme: DLA-ES-CC-0089. KYC checks cleared for all 8 joiners. Bulk submitted to Inlogik (INL-DLA-ES-0822). Estimated card dispatch within 5 working days.';
+  var subjEl = document.getElementById('cld-subject'); if (subjEl) subjEl.value = 'New Card Issuance — Barcelona Joiners (x8) — DLA-ES-CC-0089';
+  var descId = document.getElementById('cld-desc'); if (descId) descId.value = 'Onboarding of 8 new cardholders at DLA Piper Spain Barcelona office (Av. Diagonal 640). Programme: DLA-ES-CC-0089. All 8 joiners KYC-cleared. Bulk submitted to Inlogik (INL-DLA-ES-0822). Estimated dispatch within 5 working days.';
+  var ownerFld = document.getElementById('cld-owner-field'); if (ownerFld) ownerFld.value = 'David Mensah';
+  var assignFld = document.getElementById('cld-assigned-field'); if (assignFld) assignFld.value = 'Zamp';
   var sumEl = document.querySelector('#cld-tab-summary .summary-panel p');
   if (sumEl) sumEl.innerHTML = 'Onboarding of <strong>8 new cardholders</strong> at DLA Piper Spain’s Barcelona office (Av. Diagonal 640). All 8 joiners <strong>KYC-cleared</strong> and bulk-submitted to Inlogik (Ref: INL-DLA-ES-0822). Cards estimated for dispatch within <strong>5 working days</strong>. Owner: David Mensah | Assigned: <strong>Zamp</strong>.';
 
@@ -4421,6 +4447,10 @@ function openDLACaseR3(rowEl) {
 
   var descEl = document.querySelector('#cld-tab-summary textarea.form-input');
   if (descEl) descEl.value = 'Verification and confirmation of EUR 14,000 VCN payment to Indra Sistemas S.A. D&B verification passed. Settlement confirmed 2026-03-18 (STL-2026-0318-VC0298). Indra Sistemas S.A. added as authorised VCN beneficiary under DLA-ES-CC-0089.';
+  var subjEl = document.getElementById('cld-subject'); if (subjEl) subjEl.value = 'VCN Payment Settlement — Indra Sistemas S.A. — EUR 14,000';
+  var descId = document.getElementById('cld-desc'); if (descId) descId.value = 'Verification and confirmation of EUR 14,000 VCN payment to Indra Sistemas S.A. D&B verification passed. Settlement confirmed 2026-03-18 (STL-2026-0318-VC0298). Indra Sistemas S.A. added as authorised VCN beneficiary under programme DLA-ES-CC-0089.';
+  var ownerFld = document.getElementById('cld-owner-field'); if (ownerFld) ownerFld.value = 'David Mensah';
+  var assignFld = document.getElementById('cld-assigned-field'); if (assignFld) assignFld.value = 'Zamp';
   var sumEl = document.querySelector('#cld-tab-summary .summary-panel p');
   if (sumEl) sumEl.innerHTML = 'EUR 14,000 VCN payment to <strong>Indra Sistemas S.A.</strong> verified and confirmed settled on 2026-03-18 (Ref: STL-2026-0318-VC0298). D&amp;B verification passed. Indra Sistemas S.A. <strong>added as authorised VCN beneficiary</strong> under programme DLA-ES-CC-0089. Case <strong>resolved</strong>. Owner: David Mensah | Assigned: <strong>Zamp</strong>.';
 
