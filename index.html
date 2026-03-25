@@ -5030,10 +5030,8 @@ function closeEmailInline(e) {
 
 window.injectInboxRow = function injectInboxRow(opts) {
   /* opts: { id, avatar, avatarBg, sender, time, subject, preview,
-             badgeClass, badgeText, priority, isAccepted } */
+             badgeClass, badgeText, priority, isAccepted, fullBody } */
   var container = document.querySelector('#inboxView .cin-group-rows:last-of-type');
-  /* prefer DLA group rows */
-  var dlaHdr = document.querySelector('.cin-group-name');
   var groups = document.querySelectorAll('.cin-group-rows');
   groups.forEach(function(g) {
     var hdr = g.previousElementSibling;
@@ -5041,7 +5039,37 @@ window.injectInboxRow = function injectInboxRow(opts) {
   });
   if (!container) return;
 
-  var calIcon = opts.isAccepted
+  /* Register in EMAIL_DATA so openEmailInline can open it */
+  var isSent = opts.badgeClass === 'ier-badge-tx';
+  var isAccepted = opts.isAccepted;
+  var fullBody = opts.fullBody || ('<p>' + opts.preview + '</p>');
+  var fromName  = isSent ? 'David Mensah' : 'Mateo Segovia';
+  var fromEmail = isSent ? 'd.mensah@hsbc.com' : 'mateo.segovia@dlapiper.com';
+  var toEmail   = isSent ? 'mateo.segovia@dlapiper.com' : 'spain.commercial@hsbc.com';
+
+  if (isAccepted) {
+    fullBody = '<p><strong>Mateo Segovia</strong> ha aceptado la invitación de reunión.</p>'+
+      '<p style="color:#107c10;font-weight:600;">'+
+      '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><circle cx="8" cy="8" r="7"/><polyline points="5,8.5 7,10.5 11,6"/></svg>'+
+      'Aceptado</p>'+
+      '<p style="color:#616161;font-size:12px;">La reunión ha sido añadida al calendario de Mateo Segovia.<br/>'+
+      'Caso de referencia: <strong>CSC-2026-0322-DLA-0193</strong></p>';
+  }
+
+  EMAIL_DATA[opts.id] = {
+    subject: opts.subject,
+    priority: opts.priority ? 'High' : 'Normal',
+    status: isSent ? 'Sent' : 'Received',
+    cin: 'CIN-99283741', caseNo: 'CSC-2026-0322-DLA-0193',
+    avBg: opts.avatarBg, avInit: opts.avatar,
+    from: fromName, fromEmail: fromEmail,
+    to: toEmail,
+    time: opts.time === 'Just now' ? 'Today, ' + new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) : opts.time,
+    body: fullBody,
+    attachments: opts.attachments || []
+  };
+
+  var calIcon = isAccepted
     ? '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" width="11" height="11" style="margin-right:3px;vertical-align:middle;"><rect x="1" y="2" width="12" height="11" rx="1"/><line x1="4" y1="1" x2="4" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><polyline points="3,8 6,10.5 11,6.5"/></svg>'
     : '';
 
@@ -5069,14 +5097,13 @@ window.injectInboxRow = function injectInboxRow(opts) {
       '</div>'+
     '</div>';
 
-  /* click to mark read */
-  row.addEventListener('click', function() { row.classList.remove('unread'); updateCinBadges(); });
+  /* click = select, dblclick = open */
+  row.addEventListener('click', function() { selectEmailRow(row, opts.id); });
+  row.addEventListener('dblclick', function() { openEmailInline(opts.id); });
 
-  /* prepend so it appears at top of group */
   container.insertBefore(row, container.firstChild);
   updateCinBadges();
 
-  /* update footer count */
   var footer = document.querySelector('#inboxView .inbox-list-body ~ div');
   if (footer) {
     var rows = document.querySelectorAll('.inbox-email-row').length;
@@ -5110,11 +5137,12 @@ window.sendEmailReply = function sendEmailReply() {
       id: 'replyBack_'+Date.now(),
       avatar: 'MS', avatarBg: '#6b3fa0',
       sender: 'Mateo Segovia (PA)',
-      time: '5 min ago',
+      time: 'Just now',
       subject: 'RE: Urgente: Solicitud de reunión para actualizaciones masivas',
       preview: 'Gracias David. Confirmamos disponibilidad para la llamada. Por favor envínos la invitación de calendario.',
       badgeClass: 'ier-badge-rx', badgeText: 'Received',
-      priority: false
+      priority: false,
+      fullBody: '<p>Hola David,</p><p>Gracias por tu rápida respuesta. Confirmamos disponibilidad para la llamada y estamos listos para avanzar con los tres puntos del programa.</p><p>Por favor, envínos la invitación de calendario con el enlace de Teams cuando puedas.</p><p>Quedamos a la espera.</p><p>Atentamente,<br/><strong>Mateo Segovia</strong><br/>DLA Piper Spain S.L.P</p>'
     });
     showToast('New reply from Mateo Segovia', '#0f6cbd');
   }, 3000);
