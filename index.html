@@ -3326,13 +3326,28 @@ kbd{
     </div>
     <!-- Calendar icon — opens full-screen calendar -->
     <div class="ir-btn" id="irCalBtn" onclick="openCalendar()" title="My Calendar">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <rect x="1"   y="1"   width="6.5" height="6.5" rx=".8" fill="#0078d4"/>
-        <rect x="8.5" y="1"   width="6.5" height="6.5" rx=".8" fill="#d83b01"/>
-        <rect x="1"   y="8.5" width="6.5" height="6.5" rx=".8" fill="#107c10"/>
-        <rect x="8.5" y="8.5" width="6.5" height="6.5" rx=".8" fill="#ffb900"/>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Blue header bar -->
+        <rect x="1" y="1" width="14" height="4" rx="1.5" fill="#0078d4"/>
+        <!-- Calendar body -->
+        <rect x="1" y="5" width="14" height="10" rx="1" fill="#e8f4ff" stroke="#0078d4" stroke-width=".8"/>
+        <!-- Grid dots: 3 cols x 2 rows -->
+        <rect x="3.5" y="7.5" width="2" height="2" rx=".4" fill="#0078d4"/>
+        <rect x="7"   y="7.5" width="2" height="2" rx=".4" fill="#0078d4"/>
+        <rect x="10.5" y="7.5" width="2" height="2" rx=".4" fill="#0078d4"/>
+        <rect x="3.5" y="11" width="2" height="2" rx=".4" fill="#0078d4"/>
+        <rect x="7"   y="11" width="2" height="2" rx=".4" fill="#0078d4"/>
+        <rect x="10.5" y="11" width="2" height="2" rx=".4" fill="#0078d4"/>
       </svg>
     </div>
+  </div><!-- /icon-rail -->
+
+<!-- ══ NEW CASE MODAL ══════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="newCaseModal" style="display:none;" onclick="closeNewCaseModal(event)">
+  <div class="modal-box" style="width:480px;">
+    <div class="modal-header">
+      <span class="modal-title">New Case</span>
+      <button class="modal-close" onclick="closeNewCaseModalBtn()">&#10005;</button>
     </div>
     <div class="modal-body">
       <div class="modal-field">
