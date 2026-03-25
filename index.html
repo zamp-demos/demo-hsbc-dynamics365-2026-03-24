@@ -1074,6 +1074,195 @@ input,textarea{font-family:inherit;}
 .cp-title-text{
   font-size:15px; font-weight:700; color:#242424; letter-spacing:-.01em;
 }
+/* ══ FULL-SCREEN CALENDAR OVERLAY ═══════════════════════════════════════════ */
+.cal-overlay{
+  position:fixed;inset:0;z-index:600;
+  background:#fff;display:none;flex-direction:column;
+  font-family:inherit;
+}
+.cal-overlay.open{ display:flex; }
+
+/* Top bar */
+.cal-topbar{
+  height:44px;min-height:44px;
+  background:#f3f2f1;border-bottom:1px solid #d0d0d0;
+  display:flex;align-items:center;gap:10px;padding:0 16px;flex-shrink:0;
+}
+.cal-topbar-logo{
+  width:28px;height:28px;border-radius:4px;
+  background:linear-gradient(135deg,#7b2fb5,#4488ee);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.cal-topbar-logo svg{ width:14px;height:14px; }
+.cal-topbar-title{ font-size:13px;font-weight:600;color:#242424;flex:1; }
+.cal-topbar-close{
+  height:28px;padding:0 10px;border:1px solid #d0d0d0;border-radius:3px;
+  background:#fff;cursor:pointer;font-size:12px;color:#424242;font-family:inherit;
+  display:flex;align-items:center;gap:5px;
+}
+.cal-topbar-close:hover{ background:#faf9f8; }
+.cal-topbar-close svg{ width:12px;height:12px; }
+
+/* Command bar */
+.cal-cmdbar{
+  height:40px;min-height:40px;
+  background:#fff;border-bottom:1px solid #e0e0e0;
+  display:flex;align-items:center;gap:8px;padding:0 14px;flex-shrink:0;
+}
+.cal-cmd-btn{
+  height:26px;padding:0 10px;border:1px solid #d0d0d0;border-radius:2px;
+  background:#fff;cursor:pointer;font-size:12px;color:#424242;font-family:inherit;
+  display:flex;align-items:center;gap:4px;white-space:nowrap;
+}
+.cal-cmd-btn:hover{ background:#f5f5f5; }
+.cal-cmd-btn.primary{ background:#0f6cbd;color:#fff;border-color:#0f6cbd; }
+.cal-cmd-btn.primary:hover{ background:#115ea3; }
+.cal-cmd-sep{ width:1px;height:20px;background:#e0e0e0;margin:0 2px; }
+.cal-cmd-label{ font-size:11px;color:#888;margin-left:4px; }
+.cal-view-group{ display:flex;border:1px solid #d0d0d0;border-radius:2px;overflow:hidden; }
+.cal-vg-btn{
+  height:26px;padding:0 10px;font-size:12px;color:#424242;
+  background:#fff;border:none;cursor:pointer;font-family:inherit;
+}
+.cal-vg-btn.active{ background:#0f6cbd;color:#fff; }
+.cal-vg-btn:hover:not(.active){ background:#f5f5f5; }
+
+/* Nav row */
+.cal-navrow{
+  height:38px;min-height:38px;
+  background:#fff;border-bottom:1px solid #e8e8e8;
+  display:flex;align-items:center;gap:8px;padding:0 16px;flex-shrink:0;
+}
+.cal-nav-arrow{
+  width:24px;height:24px;border:1px solid #d0d0d0;border-radius:2px;
+  background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:#444;
+}
+.cal-nav-arrow:hover{ background:#f5f5f5; }
+.cal-nav-arrow svg{ width:11px;height:11px; }
+.cal-nav-today{
+  height:24px;padding:0 10px;border:1px solid #d0d0d0;border-radius:2px;
+  background:#fff;color:#424242;font-size:12px;font-family:inherit;cursor:pointer;
+}
+.cal-nav-today:hover{ background:#f5f5f5; }
+.cal-nav-period{ font-size:14px;font-weight:600;color:#242424;margin-left:4px;flex:1; }
+
+/* Body: mini-calendar sidebar + main grid */
+.cal-body{
+  flex:1;display:flex;overflow:hidden;
+}
+
+/* Mini-calendar sidebar */
+.cal-sidebar{
+  width:200px;min-width:200px;border-right:1px solid #e0e0e0;
+  padding:12px 10px;overflow-y:auto;background:#fafafa;
+}
+.cal-mini-header{ display:flex;align-items:center;margin-bottom:6px; }
+.cal-mini-month{ font-size:12px;font-weight:600;color:#242424;flex:1;text-align:center; }
+.cal-mini-nav{ cursor:pointer;color:#888;font-size:14px;padding:0 3px; }
+.cal-mini-nav:hover{ color:#242424; }
+.cal-mini-grid{ display:grid;grid-template-columns:repeat(7,1fr);gap:1px; }
+.cal-mini-dow{ font-size:9px;color:#888;text-align:center;padding:2px 0;text-transform:uppercase; }
+.cal-mini-day{
+  font-size:11px;text-align:center;padding:3px 0;cursor:pointer;
+  border-radius:50%;color:#424242;width:22px;height:22px;
+  display:flex;align-items:center;justify-content:center;margin:0 auto;
+}
+.cal-mini-day:hover{ background:#f0f0f0; }
+.cal-mini-day.other-month{ color:#c0c0c0; }
+.cal-mini-day.today{ background:#0f6cbd;color:#fff; }
+.cal-mini-day.selected{ background:#eff6fc;color:#0f6cbd;font-weight:600; }
+.cal-sidebar-section{ margin-top:14px; }
+.cal-sidebar-section-title{ font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px; }
+.cal-cal-toggle{ display:flex;align-items:center;gap:6px;font-size:11px;color:#424242;margin-bottom:4px;cursor:pointer; }
+.cal-cal-dot{ width:10px;height:10px;border-radius:2px;flex-shrink:0; }
+
+/* Main weekly grid */
+.cal-main{ flex:1;display:flex;flex-direction:column;overflow:hidden; }
+.cal-week-hdr{
+  display:grid;grid-template-columns:52px repeat(7,1fr);
+  border-bottom:1px solid #e0e0e0;flex-shrink:0;background:#fafafa;
+}
+.cal-wh-gutter{ border-right:1px solid #eee; }
+.cal-wh-day{
+  padding:6px 8px;border-right:1px solid #eee;
+}
+.cal-wh-dayname{ font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.3px; }
+.cal-wh-daynum{
+  font-size:22px;font-weight:300;color:#242424;line-height:1.1;
+  width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.cal-wh-daynum.today{ background:#0f6cbd;color:#fff;font-weight:600; }
+.cal-wh-day.weekend .cal-wh-dayname,
+.cal-wh-day.weekend .cal-wh-daynum{ color:#a0a0a0; }
+
+/* All-day row */
+.cal-allday-row{
+  display:grid;grid-template-columns:52px repeat(7,1fr);
+  border-bottom:1px solid #e0e0e0;flex-shrink:0;min-height:30px;
+}
+.cal-allday-gutter{ font-size:9px;color:#aaa;padding:8px 4px 0;text-align:right;border-right:1px solid #eee; }
+.cal-allday-cell{ border-right:1px solid #eee;padding:2px 3px; }
+.cal-allday-evt{
+  background:#fff3cd;border-left:3px solid #d08000;
+  color:#7a5000;font-size:10px;font-weight:600;
+  padding:2px 5px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* Scrollable time area */
+.cal-time-area{ flex:1;overflow-y:auto;position:relative; }
+.cal-time-grid{
+  display:grid;grid-template-columns:52px repeat(7,1fr);
+  position:relative;
+}
+.cal-tg-label{
+  font-size:10px;color:#aaa;text-align:right;padding:0 6px;
+  height:56px;display:flex;align-items:flex-start;padding-top:2px;
+  border-right:1px solid #eee;
+}
+.cal-tg-cell{
+  height:56px;border-right:1px solid #eee;border-top:1px solid #f2f2f2;
+  position:relative;
+}
+.cal-tg-cell.weekend{ background:#fafafa; }
+.cal-tg-cell:hover{ background:rgba(15,108,189,0.03); }
+
+/* Current time line */
+.cal-now-line{
+  position:absolute;left:0;right:0;height:2px;
+  background:#d92929;z-index:2;pointer-events:none;
+}
+.cal-now-dot{
+  position:absolute;left:-4px;top:-3px;
+  width:8px;height:8px;border-radius:50%;background:#d92929;
+}
+
+/* Events */
+.cal-evt{
+  position:absolute;left:2px;right:3px;border-radius:3px;
+  padding:2px 5px;font-size:11px;cursor:pointer;overflow:hidden;
+  border-left:3px solid;z-index:1;
+}
+.cal-evt:hover{ filter:brightness(.96);z-index:2; }
+.cal-evt-title{ font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.cal-evt-time{ font-size:10px;opacity:.75;white-space:nowrap; }
+.cal-evt.blue{   background:#e8f2ff;border-color:#0f6cbd;color:#0f6cbd; }
+.cal-evt.red{    background:#fde8e8;border-color:#c50000;color:#a00; }
+.cal-evt.green{  background:#e8f5e8;border-color:#107c10;color:#107c10; }
+.cal-evt.amber{  background:#fff5df;border-color:#ca8000;color:#8c5c00; }
+.cal-evt.purple{ background:#f3ecfb;border-color:#7b2fb5;color:#5a1a8a; }
+.cal-evt.teal{   background:#e3f5f5;border-color:#008080;color:#005f5f; }
+
+/* Calendar icon button in Copilot header */
+.cp-cal-icon-btn{
+  width:26px;height:26px;border-radius:3px;border:none;background:none;
+  cursor:pointer;color:#616161;display:flex;align-items:center;justify-content:center;
+  margin-left:auto;flex-shrink:0;
+}
+.cp-cal-icon-btn:hover{ background:#f0f0f0;color:#0f6cbd; }
+.cp-cal-icon-btn svg{ width:15px;height:15px; }
+
 .cp-sub{
   font-size:12px; color:#616161; line-height:1.45;
 }
@@ -2999,6 +3188,17 @@ kbd{
           <circle cx="14.5" cy="5.5" r="1" fill="white" opacity=".7"/>
         </svg>
         <span class="cp-title-text">Copilot</span>
+        <!-- Calendar icon — opens full-screen calendar -->
+        <button class="cp-cal-icon-btn" id="cpCalBtn" onclick="openCalendar()" title="My Calendar">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="2" width="14" height="13" rx="1.5"/>
+            <line x1="1" y1="6.5" x2="15" y2="6.5"/>
+            <line x1="5" y1="0.5" x2="5" y2="3.5"/>
+            <line x1="11" y1="0.5" x2="11" y2="3.5"/>
+            <rect x="3.5" y="9" width="2.5" height="2.5" rx=".4" fill="currentColor" stroke="none"/>
+            <rect x="9.5" y="9" width="2.5" height="2.5" rx=".4" fill="currentColor" stroke="none"/>
+          </svg>
+        </button>
       </div>
       <div class="cp-sub">Get AI-powered help with solving customer issues.</div>
     </div>
@@ -3137,44 +3337,6 @@ kbd{
     </div>
   </div><!-- /icon-rail -->
 
-
-<!-- ══ CALENDAR PANEL ══════════════════════════════════════════ -->
-<div class="cal-panel" id="calPanel">
-
-  <!-- Header -->
-  <div class="cal-header">
-    <button class="cal-nav-btn" onclick="calNav(-1)">&#8249;</button>
-    <button class="cal-nav-btn" onclick="calNav(1)">&#8250;</button>
-    <button class="cal-today-btn" onclick="calGoToday()">Today</button>
-    <span class="cal-header-title" id="calTitle">25 – 31 Mar 2026</span>
-    <div class="cal-view-tabs">
-      <button class="cal-view-tab active">Week</button>
-      <button class="cal-view-tab">Day</button>
-      <button class="cal-view-tab">Month</button>
-    </div>
-    <button class="cal-close-btn" onclick="toggleCalPanel()" title="Close">&#10005;</button>
-  </div>
-
-  <!-- Day column headers -->
-  <div class="cal-grid-header" id="calDayHeaders">
-    <div class="cal-day-hdr"></div>
-    <!-- populated by JS -->
-  </div>
-
-  <!-- All-day strip -->
-  <div class="cal-allday" id="calAlldayRow">
-    <div class="cal-allday-label">all-day</div>
-    <!-- populated by JS -->
-  </div>
-
-  <!-- Scrollable time grid -->
-  <div class="cal-body" id="calBody">
-    <div class="cal-time-grid" id="calTimeGrid">
-      <!-- populated by JS -->
-    </div>
-  </div>
-
-</div><!-- /cal-panel -->
 </div><!-- /workspace -->
 
 <!-- ══ SEARCH OVERLAY ════════════════════════════════════ -->
@@ -4031,6 +4193,169 @@ function closeEmailInline(e) {
     };
   })();
 
+
+/* ══ FULL-SCREEN CALENDAR ════════════════════════════════════════════════════ */
+(function(){
+  var MONTHS   = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+  var DAYS_S   = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var DAYS_DOW = ['S','M','T','W','T','F','S']; // Sun-first for mini
+
+  // Anchor: Monday 24 Mar 2026 = week 0
+  var ANCHOR = new Date(2026,2,24).getTime();
+  var weekOffset = 0;
+  var miniOffset = 0; // months from anchor month (Mar 2026)
+
+  /* ── HSBC events (dayOffset 0=Mon … 6=Sun, times 24h) ── */
+  var EVENTS = [
+    {d:0,sh:9, sm:0, eh:10,em:0,  c:'blue',   t:'Weekly Team Standup',                  loc:'Teams'},
+    {d:0,sh:11,sm:0, eh:12,em:0,  c:'red',    t:'Fraud Review — HSBC-CAS-2026-0042',    loc:'Room 4A'},
+    {d:0,sh:14,sm:0, eh:14,em:30, c:'amber',  t:'SWIFT Delay Escalation',               loc:'Teams'},
+    {d:1,sh:9, sm:30,eh:10,em:30, c:'blue',   t:'KYC Refresh — Corporate Clients',      loc:'Room 2B'},
+    {d:1,sh:13,sm:0, eh:14,em:0,  c:'green',  t:'AML Compliance Training',              loc:'Training Hub'},
+    {d:1,sh:15,sm:0, eh:15,em:30, c:'purple', t:'Copilot Demo — Wealth Mgmt',           loc:'Teams'},
+    {d:2,sh:10,sm:0, eh:11,em:0,  c:'red',    t:'Sanctions Alert — L2 Triage',          loc:'Room 3C'},
+    {d:2,sh:14,sm:0, eh:15,em:0,  c:'blue',   t:'2FA / Digital Banking Escalations',    loc:'Teams'},
+    {d:3,sh:9, sm:0, eh:9, em:30, c:'blue',   t:'Morning Briefing',                     loc:'Teams'},
+    {d:3,sh:11,sm:0, eh:12,em:30, c:'amber',  t:'Trade Finance SLA Review',             loc:'Room 1A'},
+    {d:3,sh:14,sm:0, eh:15,em:0,  c:'green',  t:'Mortgage Dispute — Final Decision',    loc:'Room 4A'},
+    {d:4,sh:10,sm:0, eh:11,em:0,  c:'blue',   t:'Chargeback Panel — Q1 Cases',         loc:'Room 2B'},
+    {d:4,sh:13,sm:0, eh:14,em:0,  c:'purple', t:'Digital Channels Roadmap Review',      loc:'Teams'},
+    {d:4,sh:15,sm:30,eh:16,em:30, c:'red',    t:'OFAC Match Investigation Debrief',     loc:'Room 3C'},
+  ];
+  var ALL_DAY = [{d:0,t:'Bank Holiday — Good Friday',span:1,c:'amber'}];
+
+  function getMon(){ return ANCHOR + weekOffset*7*86400000; }
+  function p(n){ return n<10?'0'+n:String(n); }
+
+  function renderWeek(){
+    var mon = new Date(getMon());
+    var sun = new Date(getMon()+6*86400000);
+    var today = new Date(); today.setHours(0,0,0,0);
+
+    // Period label
+    var mSame = mon.getMonth()===sun.getMonth();
+    document.getElementById('calPeriodLabel').textContent =
+      mon.getDate()+' '+(mSame?'':MONTHS[mon.getMonth()]+' ')+MONTHS[sun.getMonth()]+' '+sun.getFullYear();
+
+    // Day headers
+    var hdr = document.getElementById('calWeekHdr');
+    hdr.innerHTML = '<div class="cal-wh-gutter"></div>';
+    for(var d=0;d<7;d++){
+      var day = new Date(getMon()+d*86400000);
+      var isToday = day.getTime()===today.getTime();
+      var wknd = d>=5 ? ' weekend':'';
+      hdr.innerHTML +=
+        '<div class="cal-wh-day'+wknd+'">'+
+        '<div class="cal-wh-dayname">'+DAYS_S[d]+'</div>'+
+        '<div class="cal-wh-daynum'+(isToday?' today':'')+'" title="'+MONTHS[day.getMonth()]+' '+day.getDate()+'">'+day.getDate()+'</div>'+
+        '</div>';
+    }
+
+    // All-day row
+    var adr = document.getElementById('calAlldayRow');
+    adr.innerHTML = '<div class="cal-allday-gutter">all&#8209;day</div>';
+    for(var d=0;d<7;d++){
+      var cell='<div class="cal-allday-cell">';
+      ALL_DAY.forEach(function(e){ if(e.d===d) cell+='<div class="cal-allday-evt">'+e.t+'</div>'; });
+      adr.innerHTML += cell+'</div>';
+    }
+
+    // Time grid: 7 AM → 8 PM
+    var H0=7, H1=20, CELL=56;
+    var grid = document.getElementById('calTimeGrid');
+    grid.innerHTML='';
+
+    for(var h=H0;h<=H1;h++){
+      var lbl = h>H0 ? (h<12?h+' AM':h===12?'12 PM':(h-12)+' PM') : '';
+      var row='<div class="cal-tg-label">'+lbl+'</div>';
+      for(var d=0;d<7;d++){
+        row+='<div class="cal-tg-cell'+(d>=5?' weekend':'')+'" id="hc-'+h+'-'+d+'"></div>';
+      }
+      grid.innerHTML+=row;
+    }
+
+    // Place events
+    EVENTS.forEach(function(e){
+      var cell=document.getElementById('hc-'+e.sh+'-'+e.d);
+      if(!cell)return;
+      var mins=(e.eh-e.sh)*60+(e.em-e.sm);
+      var topPx=(e.sm/60)*CELL;
+      var hPx=Math.max((mins/60)*CELL-3,18);
+      var el=document.createElement('div');
+      el.className='cal-evt '+e.c;
+      el.style.top=topPx+'px';
+      el.style.height=hPx+'px';
+      el.innerHTML='<div class="cal-evt-title">'+e.t+'</div>'+
+        '<div class="cal-evt-time">'+p(e.sh)+':'+p(e.sm)+'&ndash;'+p(e.eh)+':'+p(e.em)+
+        (e.loc?' &middot; '+e.loc:'')+
+        '</div>';
+      cell.appendChild(el);
+    });
+
+    // Current time line (only if viewing current week)
+    var now=new Date();
+    var todayDow=(now.getDay()+6)%7; // 0=Mon
+    var todayCol=document.getElementById('hc-'+now.getHours()+'-'+todayDow);
+    if(todayCol && now.getHours()>=H0 && now.getHours()<=H1){
+      var line=document.createElement('div');
+      line.className='cal-now-line';
+      line.style.top=((now.getMinutes()/60)*CELL)+'px';
+      line.innerHTML='<div class="cal-now-dot"></div>';
+      todayCol.appendChild(line);
+    }
+
+    // Scroll to 8 AM
+    var ta=document.getElementById('calTimeArea');
+    if(ta) ta.scrollTop=(8-H0)*CELL;
+
+    renderMini();
+  }
+
+  function renderMini(){
+    var base=new Date(2026,2,1); // March 2026
+    var mn=new Date(base.getFullYear(), base.getMonth()+miniOffset, 1);
+    document.getElementById('calMiniMonthLabel').textContent=MONTHS[mn.getMonth()]+' '+mn.getFullYear();
+    var grid=document.getElementById('calMiniGrid');
+    grid.innerHTML='';
+    ['S','M','T','W','T','F','S'].forEach(function(d){
+      grid.innerHTML+='<div class="cal-mini-dow">'+d+'</div>';
+    });
+    var firstDow=mn.getDay(); // 0=Sun
+    for(var i=0;i<firstDow;i++) grid.innerHTML+='<div class="cal-mini-day other-month"></div>';
+    var daysInMonth=new Date(mn.getFullYear(),mn.getMonth()+1,0).getDate();
+    var today=new Date(); today.setHours(0,0,0,0);
+    for(var d=1;d<=daysInMonth;d++){
+      var dt=new Date(mn.getFullYear(),mn.getMonth(),d);
+      var cls='cal-mini-day';
+      if(dt.getTime()===today.getTime()) cls+=' today';
+      grid.innerHTML+='<div class="'+cls+'" onclick="void(0)">'+d+'</div>';
+    }
+  }
+
+  window.openCalendar = function(){
+    document.getElementById('calOverlay').classList.add('open');
+    document.getElementById('cpCalBtn').style.color='#0f6cbd';
+    renderWeek();
+  };
+  window.closeCalendar = function(){
+    document.getElementById('calOverlay').classList.remove('open');
+    document.getElementById('cpCalBtn').style.color='';
+  };
+  window.calNav = function(dir){
+    weekOffset+=dir;
+    renderWeek();
+  };
+  window.calGoToday = function(){
+    weekOffset=0;
+    renderWeek();
+  };
+  window.calMiniNav = function(dir){
+    miniOffset+=dir;
+    renderMini();
+  };
+})();
+
 </script>
 
 <!-- ══ NEW CASE MODAL ══════════════════════════════════════════ -->
@@ -4112,6 +4437,101 @@ function closeEmailInline(e) {
     </div>
   </div>
 </div>
+
+
+<!-- ══ FULL-SCREEN CALENDAR OVERLAY ══════════════════════════════════════════ -->
+<div class="cal-overlay" id="calOverlay">
+
+  <!-- Top bar (mimics D365 topnav) -->
+  <div class="cal-topbar">
+    <div class="cal-topbar-logo">
+      <svg viewBox="0 0 14 14" fill="none"><path d="M7 1.5l1 3L11.5 6l-3.5 1L7 10.5 6 7.5 2.5 6 6 5Z" fill="white"/></svg>
+    </div>
+    <span class="cal-topbar-title">My Calendar &mdash; Customer Service workspace</span>
+    <button class="cal-topbar-close" onclick="closeCalendar()">
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg>
+      Close calendar
+    </button>
+  </div>
+
+  <!-- Command bar -->
+  <div class="cal-cmdbar">
+    <button class="cal-cmd-btn primary" onclick="void(0)">
+      <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
+      New event
+    </button>
+    <button class="cal-cmd-btn" onclick="void(0)">New meeting request</button>
+    <div class="cal-cmd-sep"></div>
+    <button class="cal-cmd-btn" onclick="void(0)">Share calendar</button>
+    <button class="cal-cmd-btn" onclick="void(0)">Open in Exchange</button>
+    <div class="cal-cmd-sep"></div>
+    <span class="cal-cmd-label">View</span>
+    <div class="cal-view-group">
+      <button class="cal-vg-btn" onclick="void(0)">Day</button>
+      <button class="cal-vg-btn active" id="calWeekBtn">Week</button>
+      <button class="cal-vg-btn" onclick="void(0)">Month</button>
+    </div>
+  </div>
+
+  <!-- Nav row -->
+  <div class="cal-navrow">
+    <button class="cal-nav-today" onclick="calGoToday()">Today</button>
+    <button class="cal-nav-arrow" onclick="calNav(-1)">
+      <svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="7,2 4,5.5 7,9"/></svg>
+    </button>
+    <button class="cal-nav-arrow" onclick="calNav(1)">
+      <svg viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 7,5.5 4,9"/></svg>
+    </button>
+    <span class="cal-nav-period" id="calPeriodLabel">25 Mar – 31 Mar 2026</span>
+  </div>
+
+  <!-- Body: sidebar + weekly grid -->
+  <div class="cal-body">
+
+    <!-- Mini-calendar sidebar -->
+    <div class="cal-sidebar">
+      <div class="cal-mini-header">
+        <span class="cal-mini-nav" onclick="calMiniNav(-1)">&#8249;</span>
+        <span class="cal-mini-month" id="calMiniMonthLabel">March 2026</span>
+        <span class="cal-mini-nav" onclick="calMiniNav(1)">&#8250;</span>
+      </div>
+      <div class="cal-mini-grid" id="calMiniGrid"><!-- populated by JS --></div>
+
+      <!-- My calendars -->
+      <div class="cal-sidebar-section">
+        <div class="cal-sidebar-section-title">My calendars</div>
+        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#0f6cbd;"></div> James Hartley</div>
+        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#107c10;"></div> Compliance Tasks</div>
+        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#7b2fb5;"></div> Team Meetings</div>
+      </div>
+      <!-- Other calendars -->
+      <div class="cal-sidebar-section">
+        <div class="cal-sidebar-section-title">Other calendars</div>
+        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#c50000;"></div> HSBC Fraud Alerts</div>
+        <div class="cal-cal-toggle"><div class="cal-cal-dot" style="background:#ca8000;"></div> SWIFT / Trade Finance</div>
+      </div>
+    </div>
+
+    <!-- Main weekly view -->
+    <div class="cal-main">
+      <!-- Day column headers -->
+      <div class="cal-week-hdr" id="calWeekHdr">
+        <div class="cal-wh-gutter"></div>
+        <!-- populated by JS -->
+      </div>
+      <!-- All-day strip -->
+      <div class="cal-allday-row" id="calAlldayRow">
+        <div class="cal-allday-gutter">all&#8209;day</div>
+        <!-- populated by JS -->
+      </div>
+      <!-- Time area -->
+      <div class="cal-time-area" id="calTimeArea">
+        <div class="cal-time-grid" id="calTimeGrid"><!-- populated by JS --></div>
+      </div>
+    </div>
+
+  </div><!-- /cal-body -->
+</div><!-- /cal-overlay -->
 
 </body>
 </html>
