@@ -4516,9 +4516,17 @@ function showAssignedConversations(el) {
   // Update list header title
   var titleEl = document.querySelector('#inboxView .inbox-list-title');
   if (titleEl) titleEl.textContent = 'Inbox';
-  // Hide embedded cases panel if present
-  var embedded = document.getElementById('embeddedCasesPanel');
-  if (embedded) embedded.style.display = 'none';
+  // Move casesListView back out of inboxDetailPane to its original container
+  var clv = document.getElementById('casesListView');
+  var origParent = document.getElementById('mainArea');
+  if (clv && origParent && clv.parentNode !== origParent) {
+    clv.style.display = 'none';
+    clv.classList.add('hidden');
+    origParent.appendChild(clv);
+  } else if (clv) {
+    clv.style.display = 'none';
+    clv.classList.add('hidden');
+  }
   // Show inbox detail empty state
   document.getElementById('inboxDetailEmpty').style.display = 'flex';
   document.getElementById('inboxDetailContent').style.display = 'none';
@@ -4530,7 +4538,43 @@ function showAssignedConversations(el) {
 function showCasesViewFromNav(el) {
   document.querySelectorAll('.inbox-nav-item').forEach(i => i.classList.remove('active'));
   if (el) el.classList.add('active');
-  showCasesView();
+
+  // Keep inboxView (left nav + email list) visible
+  var iv = document.getElementById('inboxView');
+  if (iv) { iv.style.display = 'flex'; iv.classList.remove('hidden'); }
+
+  // Hide inbox detail content and empty state
+  var ide = document.getElementById('inboxDetailEmpty');
+  if (ide) ide.style.display = 'none';
+  var idc = document.getElementById('inboxDetailContent');
+  if (idc) idc.style.display = 'none';
+
+  // Move casesListView into inboxDetailPane if not already there
+  var pane = document.getElementById('inboxDetailPane');
+  var clv = document.getElementById('casesListView');
+  if (clv && pane) {
+    clv.style.display = 'flex';
+    clv.style.flex = '1';
+    clv.style.height = '100%';
+    clv.style.overflow = 'auto';
+    clv.classList.remove('hidden');
+    // Only move if not already inside pane
+    if (clv.parentNode !== pane) {
+      pane.appendChild(clv);
+    }
+  }
+
+  // Hide all other main views
+  ['homePlaceholder','contactView','caseView','emailView'].forEach(function(vid) {
+    var v = document.getElementById(vid);
+    if (v) { v.style.display = 'none'; v.classList.add('hidden'); }
+  });
+
+  // Session tab: activate Cases tab
+  var clt = document.getElementById('casesListSessionTab');
+  if (clt) { clt.classList.remove('hidden'); clt.style.display = ''; }
+  document.querySelectorAll('.sb-tab').forEach(function(t) { t.classList.remove('active'); });
+  if (clt) clt.classList.add('active');
 }
 
 function switchInboxView(el, view) {
