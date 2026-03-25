@@ -4628,7 +4628,6 @@ function closeEmailInline(e) {
     selectedSlot=null;
     tmrSetStep(1);
     document.getElementById('tmrBackdrop').classList.add('open');
-    document.getElementById('tmrSendBtn').disabled=true;
   };
 
   window.tmrClose = function(){
@@ -4697,16 +4696,11 @@ function closeEmailInline(e) {
     }
     var backBtn=document.getElementById('tmrBackBtn');
     var nextBtn=document.getElementById('tmrNextBtn');
-    var sendBtn=document.getElementById('tmrSendBtn');
     if(backBtn) backBtn.style.display=n>1?'block':'none';
     if(nextBtn){
-      if(n===1) nextBtn.textContent='Find available slots';
-      else if(n===2) nextBtn.textContent='Confirm selection';
-      else nextBtn.style.display='none';
-    }
-    if(sendBtn){
-      sendBtn.disabled=(n<3);
-      sendBtn.style.opacity=(n<3)?'0.5':'1';
+      if(n===1){ nextBtn.textContent='Next'; nextBtn.style.display='block'; }
+      else if(n===2){ nextBtn.textContent='Next'; nextBtn.style.display='block'; }
+      else { nextBtn.textContent='Send'; nextBtn.style.display='block'; }
     }
     if(n===2){
       /* animate slot appearance */
@@ -4805,13 +4799,6 @@ function closeEmailInline(e) {
 
     <!-- Ribbon -->
     <div class="tmr-ribbon">
-      <button class="tmr-ribbon-btn primary" onclick="tmrSend()" id="tmrSendBtn">
-        <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6">
-          <line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/>
-        </svg>
-        Send
-      </button>
-      <div class="tmr-ribbon-sep"></div>
       <button class="tmr-ribbon-btn" onclick="tmrClose()">Discard</button>
       <div class="tmr-ribbon-sep"></div>
       <button class="tmr-ribbon-btn" id="tmrFindSlotsBtn" onclick="tmrGoSlots()">
@@ -4979,7 +4966,7 @@ Please bring updated transaction logs if available.</textarea>
     <div class="tmr-footer">
       <button class="tmr-footer-btn secondary" id="tmrBackBtn" onclick="tmrBack()" style="display:none;">Back</button>
       <button class="tmr-footer-btn secondary" onclick="tmrClose()">Cancel</button>
-      <button class="tmr-footer-btn primary" id="tmrNextBtn" onclick="tmrNext()">Find available slots</button>
+      <button class="tmr-footer-btn primary" id="tmrNextBtn" onclick="tmrNext()">Next</button>
     </div>
 
   </div><!-- /tmr-modal -->
