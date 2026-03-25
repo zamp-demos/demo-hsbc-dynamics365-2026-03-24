@@ -2999,7 +2999,7 @@ kbd{
             <div class="cl-group-hdr" onclick="toggleClGroup(this)">
               <svg class="cl-chev open" viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
               <span>This week</span>
-              <span class="cl-count">2</span>
+              <span class="cl-count">3</span>
             </div>
             <div class="cl-group-rows">
               <div class="cl-case-row active" onclick="openCaseFromList('HART-CAS-2026-0112','Unauthorised FX Transaction — £14,200 Debit','James Hartley','High','Active')">
@@ -3018,6 +3018,15 @@ kbd{
                   <div class="cl-case-num">MERC-CAS-2026-0088</div>
                   <div class="cl-case-meta"><span>Customer: David Mercer</span></div>
                   <div class="cl-case-meta"><span class="cl-status-dot"></span>In Progress &bull; High &bull; Today 9:15 AM</div>
+                </div>
+              </div>
+              <div class="cl-case-row" onclick="openDLACase()">
+                <div class="cl-case-av" style="background:#6b3fa0;">DL</div>
+                <div class="cl-case-body">
+                  <div class="cl-case-title">Bulk Programme Update &mdash; DLA Piper Spain</div>
+                  <div class="cl-case-num">CSC-2026-0322-DLA-0193</div>
+                  <div class="cl-case-meta"><span>Programme: DLA-ES-CC-0089</span></div>
+                  <div class="cl-case-meta"><span class="cl-status-dot" style="background:#f0a500;"></span>HITL Escalated &bull; High &bull; 22 Mar 2026</div>
                 </div>
               </div>
             </div>
@@ -3279,7 +3288,7 @@ kbd{
                     </div>
 
                     <!-- Recent entries -->
-                    <div style="padding:4px 12px;font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.3px;">Recent</div>
+                    <div id="cld-tl-recent-label" style="padding:4px 12px;font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.3px;">Recent</div>
                     <div class="tl-entry" style="padding:6px 12px;">
                       <div class="tl-av av-blue" style="width:22px;height:22px;font-size:9px;margin-top:1px;">SK</div>
                       <div class="tl-body">
@@ -4052,6 +4061,104 @@ function closeCasesListTab(event) {
   if (clt) { clt.classList.add('hidden'); }
   // Return to home
   document.getElementById('homePlaceholder').style.display = 'flex';
+}
+
+function openDLACase() {
+  // Highlight row
+  document.querySelectorAll('.cl-case-row').forEach(r => r.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+
+  // Header fields
+  const titleEl = document.getElementById('cld-title');
+  if (titleEl) titleEl.innerHTML = 'Bulk Programme Update &mdash; DLA Piper Spain S.L.P <span style="font-size:13px;color:#888;font-weight:400;">- Saved</span>';
+  const numEl = document.getElementById('cld-num');
+  if (numEl) numEl.textContent = 'CSC-2026-0322-DLA-0193';
+  const fieldTitle = document.getElementById('cld-field-title');
+  if (fieldTitle) fieldTitle.value = 'Bulk Programme Update — DLA Piper Spain S.L.P';
+  const custEl = document.getElementById('cld-customer');
+  if (custEl) custEl.textContent = 'DLA Piper Spain S.L.P';
+  const priEl = document.getElementById('cld-priority');
+  if (priEl) priEl.value = 'High';
+  const statEl = document.getElementById('cld-status');
+  if (statEl) statEl.value = 'In Progress';
+
+  // Description
+  const descEl = document.querySelector('#cld-tab-summary textarea.form-input');
+  if (descEl) descEl.value = 'Bulk programme update for DLA-ES-CC-0089 initiated by PA Mateo Segovia (22 Mar 2026). Three workstreams: (R1) Credit limit uplift x47 Madrid cards to EUR 5,000 — 46 completed, 1 held (Alejandro Vargas ••••5521) pending Fraud Ops 72h watch (SAL-2026-0322-5521). (R2) 8 new card onboardings for Barcelona — KYC cleared, dispatched via INL-DLA-ES-0822. (R3) EUR 14,000 VCN settlement for Indra Sistemas S.A. confirmed settled 2026-03-18 (STL-2026-0318-VC0298). HITL invoked for SM David Mensah — Option B selected.';
+
+  // AI Summary
+  const sumEl = document.querySelector('#cld-tab-summary .summary-panel p');
+  if (sumEl) sumEl.innerHTML = 'Programme Administrator <strong>Mateo Segovia</strong> (DLA-ES-CC-0089) submitted a bulk update request on 22 Mar 2026 covering three workstreams. Credit limit uplift for 47 Madrid cards: <strong>46 processed</strong> to EUR 5,000 (BATCH-INL-2026-0322); cardholder Alejandro Vargas (••••5521) held for <strong>Fraud Ops 72-hour watch</strong> (SAL-2026-0322-5521) following cross-provincial spend anomaly. Barcelona onboarding: 8 joiners KYC-cleared and queued (INL-DLA-ES-0822). VCN settlement EUR 14,000 for Indra Sistemas S.A. confirmed as settled 2026-03-18. HITL escalation actioned by SM <strong>David Mensah</strong> — Option B selected; Fraud Ops referral active.';
+
+  // Timeline
+  const tlBody = document.getElementById('cld-tl-recent-label') ? document.getElementById('cld-tl-recent-label').parentElement : null;
+  if (tlBody) {
+    tlBody.innerHTML = \`
+      <div class="tl-date-group">22 Mar 2026</div>
+      <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+        <div class="tl-av av-blue" style="width:24px;height:24px;font-size:10px;flex-shrink:0;margin-top:1px;">PA</div>
+        <div style="flex:1;min-width:0;">
+          <div class="tl-item-title"><a href="#">Inbound Request — MSD CRM</a> <span style="font-size:10.5px;color:#888;">09:14</span></div>
+          <div class="tl-item-sub">Mateo Segovia (PA) &bull; Programme DLA-ES-CC-0089</div>
+          <div class="tl-item-body">Bulk update request received via Microsoft Dynamics. Three workstreams identified: R1 credit limit uplifts (Madrid x47), R2 new card onboarding (Barcelona x8), R3 VCN settlement (Indra Sistemas EUR 14,000).</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+        <div class="tl-av" style="width:24px;height:24px;font-size:10px;flex-shrink:0;margin-top:1px;background:#107c10;">AI</div>
+        <div style="flex:1;min-width:0;">
+          <div class="tl-item-title"><a href="#">R1: SAS Batch Scan — 47 Cards</a> <span style="font-size:10.5px;color:#888;">09:22</span></div>
+          <div class="tl-item-sub">Pace &bull; Automated &bull; Programme headroom: 46.1% &rarr; 49.8%</div>
+          <div class="tl-item-body">Headroom validated. SAS scan completed for all 47 Madrid cards. <strong>Anomaly detected:</strong> Alejandro Vargas (••••5521) flagged for cross-provincial spend in Barcelona (Catalonia) without travel pre-approval.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+        <div class="tl-av" style="width:24px;height:24px;font-size:10px;flex-shrink:0;margin-top:1px;background:#f0a500;">!</div>
+        <div style="flex:1;min-width:0;">
+          <div class="tl-item-title"><a href="#">HITL Escalation — SAL-2026-0322-5521</a> <span style="font-size:10.5px;color:#888;">09:31</span></div>
+          <div class="tl-item-sub">David Mensah (SM) &bull; HITL Decision Required</div>
+          <div class="tl-item-note"><strong>Option B (Recommended) selected:</strong> Hold limit uplift for ••••5521, escalate to Fraud Ops (72h watch). Release remaining 46 clean cards immediately. Ref: SAL-2026-0322-5521.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+        <div class="tl-av av-blue" style="width:24px;height:24px;font-size:10px;flex-shrink:0;margin-top:1px;">AI</div>
+        <div style="flex:1;min-width:0;">
+          <div class="tl-item-title"><a href="#">R1: Batch Uplift Completed — 46 Cards</a> <span style="font-size:10.5px;color:#888;">09:38</span></div>
+          <div class="tl-item-sub">Pace &bull; Ref: BATCH-INL-2026-0322</div>
+          <div class="tl-item-body">46 cards uplifted to EUR 5,000. Card ••••5521 (Vargas) held pending Fraud Ops outcome. Batch ref BATCH-INL-2026-0322 confirmed.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+        <div class="tl-av av-blue" style="width:24px;height:24px;font-size:10px;flex-shrink:0;margin-top:1px;">AI</div>
+        <div style="flex:1;min-width:0;">
+          <div class="tl-item-title"><a href="#">R2: Barcelona Onboarding — 8 Cards</a> <span style="font-size:10.5px;color:#888;">10:05</span></div>
+          <div class="tl-item-sub">Pace &bull; KYC Pre-verified &bull; Ref: INL-DLA-ES-0822</div>
+          <div class="tl-item-body">Manifest DLA_ES_Barcelona_Joiners.xlsx ingested and translated. KYC pre-verification passed for all 8 applicants. Bulk submission to Inlogik complete. Est. dispatch: 5 working days.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+        <div class="tl-av av-blue" style="width:24px;height:24px;font-size:10px;flex-shrink:0;margin-top:1px;">AI</div>
+        <div style="flex:1;min-width:0;">
+          <div class="tl-item-title"><a href="#">R3: VCN Settlement Confirmed — EUR 14,000</a> <span style="font-size:10.5px;color:#888;">10:18</span></div>
+          <div class="tl-item-sub">Pace &bull; Indra Sistemas S.A. &bull; Ref: STL-2026-0318-VC0298</div>
+          <div class="tl-item-body">Taulia gateway confirmed settlement (STL-2026-0318-VC0298). D&amp;B Global Registry verification passed for Indra Sistemas Alcobendas office. PO-2026-0298 settled 2026-03-18.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;padding:8px 0;">
+        <div class="tl-av" style="width:24px;height:24px;font-size:10px;flex-shrink:0;margin-top:1px;background:#0f6cbd;">AI</div>
+        <div style="flex:1;min-width:0;">
+          <div class="tl-item-title"><a href="#">POCA Closure Email Drafted &mdash; Spanish (es-ES)</a> <span style="font-size:10.5px;color:#888;">10:44</span></div>
+          <div class="tl-item-sub">Pace &bull; For Mateo Segovia (PA) &bull; POCA-Compliant</div>
+          <div class="tl-item-body">Closure communication drafted in Spanish. Vargas card referenced with neutral "internal review" language per POCA tipping-off provisions. R1, R2, R3 confirmations included. Awaiting SM sign-off.</div>
+        </div>
+      </div>
+    \`;
+  }
+
+  // Switch to summary tab and show detail
+  switchCasesTab(document.querySelector('#casesDetailContent .rec-tab'), 'summary');
+  document.getElementById('casesDetailEmpty').style.display = 'none';
+  const dc = document.getElementById('casesDetailContent');
+  dc.style.display = 'flex';
 }
 
 function openCaseFromList(caseNum, caseTitle, customer, priority, status) {
